@@ -12,6 +12,7 @@
 	var heBush = document.querySelector('.he_bush');
 	var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	var wrap = document.getElementById('wrap');
+	var shade = document.querySelector('.jg_shade');
 	var veils = document.querySelectorAll('[data-veil]');
 	var tones = document.querySelectorAll('[data-tone]');
 	var depthNav = document.getElementById('depth');
@@ -63,16 +64,25 @@
 	var veilP = [];
 	var veilLast = 0;
 
+	/* --p 를 섹션에 쓰면 섹션 전체(수백 개 노드)의 상속 변수가 매 프레임 무효화되어
+	   스크롤이 버벅인다. 실제로 움직이는 좌우 풀숲에만 쓴다. */
+	var veilSides = [];
+
 	function veilTarget(el) {
 		var t = 1 - (el.getBoundingClientRect().top / window.innerHeight);
 		return t < 0 ? 0 : t > 1 ? 1 : t;
 	}
+	function veilWrite(i, v) {
+		var sides = veilSides[i], j;
+		for (j = 0; j < sides.length; j++) { sides[j].style.setProperty('--p', v.toFixed(4)); }
+	}
 	/* 첫 프레임에 현재 스크롤 위치에 맞는 값을 반드시 한 번 써 준다.
 	   (안 쓰면 --p 가 비어 있어 CSS 기본값 1 = 열린 상태로 시작해 버림) */
 	for (var vi = 0; vi < veils.length; vi++) {
+		veilSides.push(veils[vi].querySelectorAll('.svv_side'));
 		var t0 = reduce ? 1 : veilTarget(veils[vi]);
 		veilP.push(t0);
-		veils[vi].style.setProperty('--p', t0.toFixed(4));
+		veilWrite(vi, t0);
 	}
 
 	function veilLoop(ts) {
@@ -86,7 +96,11 @@
 			var next = Math.abs(diff) <= step ? target : cur + (diff > 0 ? step : -step);
 			if (next !== cur) {
 				veilP[i] = next;
-				veils[i].style.setProperty('--p', next.toFixed(4));
+				veilWrite(i, next);
+				/* 움직이는 동안에만 합성 레이어로 올린다 (상시 승격은 GPU 메모리 낭비) */
+				if (!veils[i].classList.contains('moving')) { veils[i].classList.add('moving'); }
+			} else if (veils[i].classList.contains('moving')) {
+				veils[i].classList.remove('moving');
 			}
 		}
 		window.requestAnimationFrame(veilLoop);
@@ -97,8 +111,9 @@
 		var vh = window.innerHeight;
 		var i;
 		/* 아래로 갈수록 짙어지는 숲 그늘 */
+		/* #wrap 에 커스텀 속성을 쓰면 문서 전체가 무효화되므로, 자식이 없는 전용 레이어에 직접 쓴다 */
 		var max = document.documentElement.scrollHeight - vh;
-		if (wrap) { wrap.style.setProperty('--depth', max > 0 ? (sy / max).toFixed(3) : 0); }
+		if (shade) { shade.style.opacity = max > 0 ? (sy / max * 0.62).toFixed(3) : 0; }
 		/* 지금 몇 번째 층인지 */
 		var active = -1, tone = 'dark';
 		for (i = 0; i < tones.length; i++) {

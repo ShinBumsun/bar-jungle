@@ -17,8 +17,9 @@ images/         (비어 있음) 실제 사진 투입 위치
 ```
 
 ## 스크롤 구조 : 정글을 헤쳐나가기
-- `html { scroll-snap-type: y mandatory }` + `.sec { min-height:100svh; scroll-snap-align:start }`
-  → 휠·트랙패드·키보드·터치 모두 네이티브로 동작하는 풀페이지 스크롤 (스크롤 가로채기 없음)
+- `html { scroll-snap-type: y proximity }` + `.sec { min-height:100svh; scroll-snap-align:start }`
+  → 관성 스크롤을 그대로 두고, 섹션 근처에서만 부드럽게 자리를 잡음 (스크롤 가로채기 없음)
+- `scroll-snap-stop: always` 는 쓰지 않음. 관성을 매번 끊어서 스크롤이 걸리는 느낌을 줌
 - 섹션마다 `.sv_veil` (좌우 풀숲)이 깔려 있고, JS가 진입 진행도를 `--p` (0~1)로 계산해
   `.svv_side` 를 `translateX(calc(var(--p) * var(--vshift)))` 로 밀어냄 → 스크롤할수록 풀숲이 갈라짐
 - 잎은 **한 장씩 개별 `<svg>`** 로 배치 (`.svl.n1` ~ `.svl.n22`, 좌우 22장씩)
@@ -37,6 +38,13 @@ images/         (비어 있음) 실제 사진 투입 위치
 - `#wrap::before` 비네트가 전체 스크롤 진행도(`--depth`)에 비례해 짙어짐
 - 우측 `#depth` 인디케이터가 현재 층(01~06)을 표시, 밝은/어두운 섹션에 따라 색 반전
 - `--p` 기본값은 `1`(열림) — JS가 죽어도 콘텐츠가 가려지지 않음
+
+### 스크롤 성능 주의점
+매 프레임 갱신되는 값은 **자식이 적은 요소에만** 써야 합니다. 커스텀 속성은 상속되므로,
+쓰는 순간 그 요소의 하위 트리 전체가 스타일 재계산 대상이 됩니다.
+- 숲 그늘은 `#wrap` 의 `--depth` 가 아니라, 자식 없는 `.jg_shade` 의 `opacity` 로 직접 제어
+- 풀숲 진행도 `--p` 는 섹션이 아니라 실제로 움직이는 `.svv_side` 두 개에만 기록
+- `will-change:transform` 은 상시가 아니라 `.sv_veil.moving` 일 때만 (레이어 10개 상시 승격 방지)
 - 1024px 이하 `proximity`, 768px 이하 스냅 해제 / `prefers-reduced-motion` 시 전부 해제
 
 ## 히어로 연출 순서
