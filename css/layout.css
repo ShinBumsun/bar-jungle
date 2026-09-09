@@ -114,13 +114,37 @@ html {scroll-snap-type:y mandatory;}
 #header.open .h_toggle i:nth-child(3) {transform:translateY(-9px) rotate(-45deg);}
 /* Header E */
 
-/* Jungle Veil S : 섹션마다 풀숲을 헤치고 들어감 */
-.sec > .sv_veil {position:absolute; left:0; top:0; width:100%; max-width:none; height:100svh; margin:0; z-index:5; overflow:hidden; pointer-events:none;}
-.svv_leaf {position:absolute; top:-2%; height:104%; width:58%; will-change:transform;}
-.svv_l {left:-6%; transform-origin:0% 50%; transform:translateX(calc(var(--p,1) * -88%)) rotate(calc(var(--p,1) * -5deg));}
-.svv_r {right:-6%; transform-origin:100% 50%; transform:translateX(calc(var(--p,1) * 88%)) rotate(calc(var(--p,1) * 5deg));}
-.lfcA {fill:var(--v1,#1a4a30);}
-.lfcB {fill:var(--v2,#2f7346);}
+/* Jungle Veil S : 섹션마다 풀숲을 헤치고 들어감
+   잎을 큰 SVG 하나에 몰아넣지 않고 개별 배치 → 박스에 잘린 단면이 생기지 않음
+   --lsc 잎 크기 배율 / --vshift 다 열렸을 때 밀려나는 거리 */
+.sec > .sv_veil {position:absolute; left:0; top:0; width:100%; max-width:none; height:100svh; margin:0; z-index:5; overflow:hidden; pointer-events:none; --lsc:1; --vshift:-135%;}
+.svv_side {position:absolute; top:0; width:58%; height:100%; will-change:transform;}
+.svv_l {left:-4%; transform:translateX(calc(var(--p,1) * var(--vshift)));}
+.svv_r {right:-4%; top:-9%; transform:scaleX(-1) translateX(calc(var(--p,1) * var(--vshift)));}
+.svl {position:absolute; height:auto; overflow:visible; width:calc(var(--lw,20) * var(--lsc) * 1vw); fill:var(--v1,#1a4a30);}
+.svl.b {fill:var(--v2,#2f7346);}
+.svl.n1 {left:-24%; top:-18%; --lw:23.1; transform:rotate(112deg);}
+.svl.n2 {left:10%; top:-16%; --lw:22.6; transform:rotate(74deg);}
+.svl.n3 {left:44%; top:-10%; --lw:20.7; transform:rotate(96deg);}
+.svl.n4 {left:-20%; top:12%; --lw:23.9; transform:rotate(132deg);}
+.svl.n5 {left:14%; top:20%; --lw:21.9; transform:rotate(80deg);}
+.svl.n6 {left:48%; top:26%; --lw:21.4; transform:rotate(108deg);}
+.svl.n7 {left:-22%; top:42%; --lw:23.1; transform:rotate(118deg);}
+.svl.n8 {left:12%; top:50%; --lw:22.6; transform:rotate(70deg);}
+.svl.n9 {left:46%; top:56%; --lw:20.7; transform:rotate(100deg);}
+.svl.n10 {left:-18%; top:70%; --lw:23.9; transform:rotate(140deg);}
+.svl.n11 {left:14%; top:78%; --lw:21.9; transform:rotate(84deg);}
+.svl.n12 {left:46%; top:84%; --lw:21.4; transform:rotate(104deg);}
+.svl.n19 {left:28%; top:2%; --lw:21.3; transform:rotate(148deg);}
+.svl.n20 {left:-4%; top:32%; --lw:23.2; transform:rotate(92deg);}
+.svl.n21 {left:30%; top:64%; --lw:21.3; transform:rotate(144deg);}
+.svl.n22 {left:22%; top:36%; --lw:20.7; transform:rotate(122deg);}
+.svl.n13 {left:-6%; top:6%; --lw:24.0; transform:rotate(122deg);}
+.svl.n14 {left:28%; top:16%; --lw:15.2; transform:rotate(88deg);}
+.svl.n15 {left:0%; top:40%; --lw:24.0; transform:rotate(134deg);}
+.svl.n16 {left:32%; top:54%; --lw:15.2; transform:rotate(78deg);}
+.svl.n17 {left:-4%; top:68%; --lw:24.0; transform:rotate(118deg);}
+.svl.n18 {left:30%; top:86%; --lw:15.2; transform:rotate(100deg);}
 #about {--v1:#2f7346; --v2:#4b9553;}
 #signature {--v1:#235b39; --v2:#3f8a4c;}
 #menu {--v1:#1a4a30; --v2:#2f7346;}
@@ -334,8 +358,8 @@ html {scroll-snap-type:y mandatory;}
 	*, *::before, *::after {animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
 	.fade {opacity:1 !important; transform:none !important;}
 	html {scroll-snap-type:none !important;}
-	.svv_l {transform:translateX(-88%) rotate(-5deg) !important;}
-	.svv_r {transform:translateX(88%) rotate(5deg) !important;}
+	.svv_l {transform:translateX(-215%) !important;}
+	.svv_r {transform:scaleX(-1) translateX(-215%) !important;}
 	#wrap::before {opacity:0 !important;}
 }
 /* Motion 최소화 대응 E */
@@ -436,6 +460,7 @@ html {scroll-snap-type:y mandatory;}
 	#visit {padding:100px 0;}
 	.a_deco {display:none;}
 	html {scroll-snap-type:y proximity;}
+	.sec > .sv_veil {--lsc:1.6; --vshift:-165%;}
 	.sec, #hero {scroll-snap-stop:normal;}
 	.sec {padding:108px 0 88px;}
 	.m_wrap {gap:40px;}
@@ -472,6 +497,7 @@ html {scroll-snap-type:y mandatory;}
 	.sli_pic {aspect-ratio:16/10;}
 	.sli_pic svg {width:38%;}
 	html {scroll-snap-type:none;}
+	.sec > .sv_veil {--lsc:2.4; --vshift:-215%;}
 	#depth {display:none;}
 	.m_body {grid-template-columns:1fr; gap:34px;}
 	.mgl_item {flex-wrap:wrap; align-items:baseline;}

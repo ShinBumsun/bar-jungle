@@ -20,7 +20,13 @@ images/         (비어 있음) 실제 사진 투입 위치
 - `html { scroll-snap-type: y mandatory }` + `.sec { min-height:100svh; scroll-snap-align:start }`
   → 휠·트랙패드·키보드·터치 모두 네이티브로 동작하는 풀페이지 스크롤 (스크롤 가로채기 없음)
 - 섹션마다 `.sv_veil` (좌우 풀숲)이 깔려 있고, JS가 진입 진행도를 `--p` (0~1)로 계산해
-  `transform:translateX(calc(var(--p) * -88%))` 로 연동 → 스크롤할수록 풀숲이 갈라짐
+  `.svv_side` 를 `translateX(calc(var(--p) * var(--vshift)))` 로 밀어냄 → 스크롤할수록 풀숲이 갈라짐
+- 잎은 **한 장씩 개별 `<svg>`** 로 배치 (`.svl.n1` ~ `.svl.n22`, 좌우 22장씩)
+  - 큰 SVG 하나에 몰아넣고 `preserveAspectRatio="slice"` 로 자르면 화면 한가운데
+    직선으로 잘린 단면이 보이므로 쓰지 않음
+  - 각 `<svg>` 는 잎 모양에 딱 맞는 viewBox + `overflow:visible` → 잘리는 곳이 없음
+  - 크기는 잎의 긴 쪽 길이(vw) 기준으로 계산, `--lsc` 배율로 화면 크기에 대응
+  - 오른쪽은 `scaleX(-1)` 로 미러링하고 `top:-9%` 로 어긋나게 해 대칭 티를 없앰
 - 갈라지는 속도에는 **상한**이 있음 (`VEIL_DUR = 1200ms`, `js/lib.js`)
   - 천천히 스크롤 → 스크롤을 1:1로 따라옴 (손으로 헤치는 느낌)
   - 스냅으로 화면이 확 넘어가도 1.2초에 걸쳐 등속으로 갈라짐 (지수 감쇠 아님 — 초반이 빨라지지 않도록)
