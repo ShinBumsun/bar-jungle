@@ -54,6 +54,21 @@ images/         (비어 있음) 실제 사진 투입 위치
 - **모먼트 사진** — `#moment` 의 `.gli_thumb` 에 `background-image:url("./images/pic_moment_01.jpg")`
   를 지정하고 내부 `<svg>` 플레이스홀더를 삭제
 
+## 링크 미리보기(오픈그래프) 갱신
+`tools/og-template.html` 을 1200x630 크기로 캡처해 `images/og.jpg` 로 덮어쓰면 됩니다.
+```
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
+  --window-size=1200,630 --virtual-time-budget=9000 \
+  --screenshot=og.png tools/og-template.html
+sips -s format jpeg -s formatOptions 82 og.png --out images/og.jpg && rm og.png
+```
+문구를 바꾸려면 템플릿의 `.txt` 블록을, 사진을 바꾸려면 `images/og_tiger.jpg` 를 교체합니다.
+카카오톡·페이스북은 미리보기를 캐시하므로, 바꾼 뒤에는 각 플랫폼의 디버거에서 캐시를 비워야 반영됩니다.
+
+## 파비콘
+`images/favicon.svg` 는 林 을 폰트가 아닌 패스로 그렸습니다. CJK 폰트가 없는 환경에서도
+동일하게 나옵니다. PNG(32/192/512)와 애플 터치 아이콘은 이 SVG 를 캡처해 만든 것입니다.
+
 ## 컨벤션
 - CSS 한 줄 압축형, `property:value` (콜론 뒤 공백 없음), 큰따옴표, 탭 들여쓰기
 - 계층적 약어 클래스: `#header` → `.h_*`, `.h_gnb` → `.hg_*` → `.hgl_*`

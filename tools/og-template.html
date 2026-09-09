@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap">
+<style>
+*{margin:0; padding:0; box-sizing:border-box;}
+body{width:1200px; height:630px; overflow:hidden; background-color:#17422a; font-family:"Gowun Batang",serif;}
+.og{position:relative; width:1200px; height:630px; overflow:hidden; background:radial-gradient(ellipse at 34% 46%, #3d6f47 0%, #204a30 44%, #0f2e1d 100%);}
+.og::after{content:""; position:absolute; inset:0; z-index:9; opacity:0.4; mix-blend-mode:multiply; background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='320'%20height='320'%3E%3Cfilter%20id='pg'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.85'%20numOctaves='4'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20type='saturate'%20values='0'/%3E%3C/filter%3E%3Crect%20width='320'%20height='320'%20filter='url(%23pg)'/%3E%3C/svg%3E"); background-size:320px 320px;}
+.leaf{position:absolute; z-index:1;}
+.l1{left:-90px; top:-70px; width:340px;}
+.l2{left:-60px; bottom:-120px; width:300px;}
+.l3{right:-70px; top:-90px; width:320px;}
+.l4{right:-40px; bottom:-110px; width:280px;}
+.txt{position:absolute; left:78px; top:50%; transform:translateY(-50%); z-index:5; width:600px;}
+.eyebrow{display:flex; align-items:center; gap:14px; font-family:"Anton",sans-serif; font-size:19px; letter-spacing:0.3em; color:#e8b13a;}
+.eyebrow i{display:block; width:46px; height:1px; background:rgba(232,177,58,0.65);}
+.logo{margin-top:20px; font-family:"Anton",sans-serif; color:#f7efdd; text-shadow:0 10px 34px rgba(0,0,0,0.42);}
+.logo span{display:block; font-size:24px; letter-spacing:0.62em; text-indent:0.62em; opacity:0.82;}
+.logo em{display:block; font-size:132px; line-height:0.92; font-style:normal;}
+.sub{margin-top:26px; font-size:25px; line-height:1.55; color:#f7efdd; opacity:0.92;}
+.hand{margin-top:10px; font-family:"Nanum Pen Script",cursive; font-size:31px; color:#e8b13a;}
+.card{position:absolute; right:84px; top:50%; margin-top:-186px; z-index:6; width:340px; height:372px; padding:16px 16px 58px; background-color:#f7efdd; border:3px solid #241f18; box-shadow:16px 16px 0 rgba(13,35,23,0.55); transform:rotate(-3deg);}
+.card img{display:block; width:100%; height:298px; object-fit:cover; image-rendering:auto;}
+.card b{position:absolute; left:0; right:0; bottom:16px; text-align:center; font-family:"Nanum Pen Script",cursive; font-weight:400; font-size:26px; color:#241f18;}
+</style></head><body>
+<!-- 이 파일을 1200x630 으로 캡처해 images/og.jpg 로 저장하면 링크 미리보기 이미지가 갱신됩니다 -->
+<div class="og">
+<svg class="svg_defs" aria-hidden="true" focusable="false">
+	<defs>
+		<path id="lf_blade" d="M-7,0 Q-3,-52 0,-100 Q3,-52 7,0 Z"></path>
+		<g id="lf_palm">
+			<use href="#lf_blade" transform="rotate(-54) scale(0.86)"></use>
+			<use href="#lf_blade" transform="rotate(-36) scale(0.94)"></use>
+			<use href="#lf_blade" transform="rotate(-18)"></use>
+			<use href="#lf_blade"></use>
+			<use href="#lf_blade" transform="rotate(18)"></use>
+			<use href="#lf_blade" transform="rotate(36) scale(0.94)"></use>
+			<use href="#lf_blade" transform="rotate(54) scale(0.86)"></use>
+		</g>
+		<g id="lf_oval">
+			<path d="M0,0 C-27,-24 -31,-72 0,-106 C31,-72 27,-24 0,0 Z"></path>
+			<path d="M0,-8 L0,-94" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="2.5" stroke-linecap="round"></path>
+			<path d="M0,-34 L-16,-52 M0,-34 L16,-52 M0,-58 L-13,-74 M0,-58 L13,-74" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="2" stroke-linecap="round"></path>
+		</g>
+		<g id="lf_frond">
+			<path d="M-2.5,4 L-2.5,-118 L2.5,-118 L2.5,4 Z"></path>
+			<use href="#lf_blade" transform="translate(0,-22) rotate(68) scale(0.44)"></use>
+			<use href="#lf_blade" transform="translate(0,-22) rotate(-68) scale(0.44)"></use>
+			<use href="#lf_blade" transform="translate(0,-48) rotate(70) scale(0.4)"></use>
+			<use href="#lf_blade" transform="translate(0,-48) rotate(-70) scale(0.4)"></use>
+			<use href="#lf_blade" transform="translate(0,-72) rotate(72) scale(0.34)"></use>
+			<use href="#lf_blade" transform="translate(0,-72) rotate(-72) scale(0.34)"></use>
+			<use href="#lf_blade" transform="translate(0,-94) rotate(74) scale(0.26)"></use>
+			<use href="#lf_blade" transform="translate(0,-94) rotate(-74) scale(0.26)"></use>
+			<use href="#lf_blade" transform="translate(0,-112) scale(0.2)"></use>
+		</g>
+		<g id="lf_split">
+			<path d="M0,0 C-30,-26 -34,-78 0,-112 C34,-78 30,-26 0,0 Z"></path>
+			<path d="M-2,-14 L-24,-30 M2,-14 L24,-30 M-2,-44 L-27,-58 M2,-44 L27,-58 M-2,-72 L-21,-84 M2,-72 L21,-84" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="4" stroke-linecap="round"></path>
+		</g>
+	</defs>
+</svg>
+<svg class="leaf l1" viewBox="-76 -104 152 108" fill="#123b26"><use href="#lf_palm"/></svg>
+<svg class="leaf l2" viewBox="-50 -137 100 145" fill="#1a4a30"><use href="#lf_frond"/></svg>
+<svg class="leaf l3" viewBox="-35 -111 70 115" fill="#123b26"><use href="#lf_oval"/></svg>
+<svg class="leaf l4" viewBox="-38 -117 76 121" fill="#1a4a30"><use href="#lf_split"/></svg>
+<div class="txt">
+	<p class="eyebrow"><i></i>SEOUL · IKSEON-DONG</p>
+	<h1 class="logo"><span>BAR</span><em>JUNGLE</em></h1>
+	<p class="sub">풀숲을 헤치면, 도심 한가운데 정글</p>
+	<p class="hand">칵테일 맛집 · 매일 밤 7시부터</p>
+</div>
+<div class="card"><img src="../images/og_tiger.jpg" alt=""><b>오늘도 정글은 열려 있습니다</b></div>
+</div></body></html>
