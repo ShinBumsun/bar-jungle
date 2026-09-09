@@ -55,14 +55,47 @@
 		ticking = false;
 	}
 
-	/* 정글 헤쳐나가기 : 섹션 진입 진행도(0~1)에 맞춰 풀숲이 갈라짐 */
+	/* 정글 헤쳐나가기 : 풀숲이 갈라지는 속도에 상한을 둠
+	   - 천천히 스크롤하면 손으로 헤치듯 스크롤을 1:1로 따라옴
+	   - 스냅으로 화면이 확 넘어가도 아래 시간에 걸쳐 천천히 갈라짐
+	   VEIL_DUR 을 키우면 더 느려짐 (ms) */
+	var VEIL_DUR = 1200;
+	var veilP = [];
+	var veilLast = 0;
+
+	function veilTarget(el) {
+		var t = 1 - (el.getBoundingClientRect().top / window.innerHeight);
+		return t < 0 ? 0 : t > 1 ? 1 : t;
+	}
+	/* 첫 프레임에 현재 스크롤 위치에 맞는 값을 반드시 한 번 써 준다.
+	   (안 쓰면 --p 가 비어 있어 CSS 기본값 1 = 열린 상태로 시작해 버림) */
+	for (var vi = 0; vi < veils.length; vi++) {
+		var t0 = reduce ? 1 : veilTarget(veils[vi]);
+		veilP.push(t0);
+		veils[vi].style.setProperty('--p', t0.toFixed(4));
+	}
+
+	function veilLoop(ts) {
+		var dt = veilLast ? Math.min(ts - veilLast, 64) : 16;
+		veilLast = ts;
+		var step = dt / VEIL_DUR;
+		for (var i = 0; i < veils.length; i++) {
+			var target = veilTarget(veils[i]);
+			var cur = veilP[i];
+			var diff = target - cur;
+			var next = Math.abs(diff) <= step ? target : cur + (diff > 0 ? step : -step);
+			if (next !== cur) {
+				veilP[i] = next;
+				veils[i].style.setProperty('--p', next.toFixed(4));
+			}
+		}
+		window.requestAnimationFrame(veilLoop);
+	}
+	if (!reduce) { window.requestAnimationFrame(veilLoop); }
+
 	function updateJungle(sy) {
 		var vh = window.innerHeight;
-		var i, p;
-		for (i = 0; i < veils.length; i++) {
-			p = 1 - (veils[i].getBoundingClientRect().top / vh);
-			veils[i].style.setProperty('--p', (p < 0 ? 0 : p > 1 ? 1 : p).toFixed(3));
-		}
+		var i;
 		/* 아래로 갈수록 짙어지는 숲 그늘 */
 		var max = document.documentElement.scrollHeight - vh;
 		if (wrap) { wrap.style.setProperty('--depth', max > 0 ? (sy / max).toFixed(3) : 0); }

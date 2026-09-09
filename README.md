@@ -20,7 +20,12 @@ images/         (비어 있음) 실제 사진 투입 위치
 - `html { scroll-snap-type: y mandatory }` + `.sec { min-height:100svh; scroll-snap-align:start }`
   → 휠·트랙패드·키보드·터치 모두 네이티브로 동작하는 풀페이지 스크롤 (스크롤 가로채기 없음)
 - 섹션마다 `.sv_veil` (좌우 풀숲)이 깔려 있고, JS가 진입 진행도를 `--p` (0~1)로 계산해
-  `transform:translateX(calc(var(--p) * -88%))` 로 실시간 연동 → 스크롤할수록 풀숲이 갈라짐
+  `transform:translateX(calc(var(--p) * -88%))` 로 연동 → 스크롤할수록 풀숲이 갈라짐
+- 갈라지는 속도에는 **상한**이 있음 (`VEIL_DUR = 1200ms`, `js/lib.js`)
+  - 천천히 스크롤 → 스크롤을 1:1로 따라옴 (손으로 헤치는 느낌)
+  - 스냅으로 화면이 확 넘어가도 1.2초에 걸쳐 등속으로 갈라짐 (지수 감쇠 아님 — 초반이 빨라지지 않도록)
+  - 더 느리게 하려면 `VEIL_DUR` 값을 키우면 됨
+- `scroll-snap-stop: always` 로 한 번의 휠/스와이프에 한 섹션만 넘어감 (1024px 이하는 해제)
 - 배경색이 위에서 아래로 점점 깊어짐:
   `#f2e9d8` → `#e5d5b6` → `#26603c` → `#17422a` → `#0d2c1c` → `#241f18`
 - `#wrap::before` 비네트가 전체 스크롤 진행도(`--depth`)에 비례해 짙어짐
