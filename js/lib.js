@@ -11,6 +11,11 @@
 	var heTitle = document.querySelector('.he_title');
 	var heBush = document.querySelector('.he_bush');
 	var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	var wrap = document.getElementById('wrap');
+	var veils = document.querySelectorAll('[data-veil]');
+	var tones = document.querySelectorAll('[data-tone]');
+	var depthNav = document.getElementById('depth');
+	var depthItems = document.querySelectorAll('.dl_item');
 
 	/* 히어로 오픈 : 풀숲이 열리며 동물 등장 */
 	function openHero() {
@@ -46,7 +51,31 @@
 				heTitle.style.opacity = Math.max(0, 1 - sy / (window.innerHeight * 0.62));
 			}
 		}
+		updateJungle(sy);
 		ticking = false;
+	}
+
+	/* 정글 헤쳐나가기 : 섹션 진입 진행도(0~1)에 맞춰 풀숲이 갈라짐 */
+	function updateJungle(sy) {
+		var vh = window.innerHeight;
+		var i, p;
+		for (i = 0; i < veils.length; i++) {
+			p = 1 - (veils[i].getBoundingClientRect().top / vh);
+			veils[i].style.setProperty('--p', (p < 0 ? 0 : p > 1 ? 1 : p).toFixed(3));
+		}
+		/* 아래로 갈수록 짙어지는 숲 그늘 */
+		var max = document.documentElement.scrollHeight - vh;
+		if (wrap) { wrap.style.setProperty('--depth', max > 0 ? (sy / max).toFixed(3) : 0); }
+		/* 지금 몇 번째 층인지 */
+		var active = -1, tone = 'dark';
+		for (i = 0; i < tones.length; i++) {
+			var r = tones[i].getBoundingClientRect();
+			if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) { active = i; tone = tones[i].getAttribute('data-tone'); }
+		}
+		if (depthNav) { depthNav.classList.toggle('light', tone === 'light'); }
+		for (i = 0; i < depthItems.length; i++) {
+			depthItems[i].classList.toggle('on', i === active);
+		}
 	}
 	window.addEventListener('scroll', function () {
 		if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
