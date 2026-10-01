@@ -13,7 +13,6 @@ $g5['jungle_tabs'] = array(
 	'signature' => 'SIGNATURE',
 	'bottle'    => 'BOTTLE',
 	'wine'      => 'WINE',
-	'shot'      => 'SHOT',
 	'highball'  => 'HIGHBALL',
 	'gin'       => 'GIN &amp; TONIC',
 	'tropical'  => 'TROPICAL',
@@ -21,6 +20,7 @@ $g5['jungle_tabs'] = array(
 	'milkshot'  => 'MILKY',
 	'nonalc'    => 'NON-ALCOHOL',
 	'beer'      => 'BEER &amp; SNACK',
+	'shot'      => 'SHOT',
 );
 
 /**
