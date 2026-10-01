@@ -20,6 +20,7 @@ MAP = [
     ('gnuboard/theme/bar-jungle', '/www/theme/bar-jungle'),
     ('gnuboard/adm',              '/www/adm'),
     ('gnuboard/extend',           '/www/extend'),
+    ('gnuboard/_deploy',          '/www/_deploy'),
 ]
 MANIFEST = '/www/data/.deploy-manifest.json'
 SKIP_NAMES = {'.DS_Store', 'Thumbs.db'}
