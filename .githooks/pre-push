@@ -1,0 +1,22 @@
+#!/bin/sh
+# push 할 때 카페24에 함께 반영합니다.
+# 건너뛰려면 : SKIP_DEPLOY=1 git push
+if [ "$SKIP_DEPLOY" = "1" ]; then
+	echo "[배포] SKIP_DEPLOY=1 이라 건너뜁니다."
+	exit 0
+fi
+
+ROOT=$(git rev-parse --show-toplevel)
+if [ ! -f "$ROOT/.deploy.env" ]; then
+	echo "[배포] .deploy.env 가 없어 건너뜁니다. (DEPLOY.md 참고)"
+	exit 0
+fi
+
+echo "[배포] 카페24에 반영 중..."
+if python3 "$ROOT/tools/deploy_ftp.py"; then
+	echo "[배포] 완료"
+	exit 0
+else
+	echo "[배포] 실패 — push 를 중단합니다. 건너뛰려면 SKIP_DEPLOY=1 git push"
+	exit 1
+fi

@@ -20,7 +20,6 @@ MAP = [
     ('gnuboard/theme/bar-jungle', '/www/theme/bar-jungle'),
     ('gnuboard/adm',              '/www/adm'),
     ('gnuboard/extend',           '/www/extend'),
-    ('gnuboard/_deploy',          '/www/_deploy'),
 ]
 MANIFEST = '/www/data/.deploy-manifest.json'
 SKIP_NAMES = {'.DS_Store', 'Thumbs.db'}
@@ -32,6 +31,23 @@ def sha1(path):
         for chunk in iter(lambda: f.read(65536), b''):
             h.update(chunk)
     return h.hexdigest()
+
+
+def load_env_file():
+    """저장소 루트의 .deploy.env 에서 접속 정보를 읽습니다. (git 에 올라가지 않는 파일)"""
+    path = os.path.join(ROOT, '.deploy.env')
+    if not os.path.isfile(path):
+        return
+    with open(path, encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            k, v = line.split('=', 1)
+            k = k.strip()
+            v = v.strip().strip('\'"')
+            if k and k not in os.environ:
+                os.environ[k] = v
 
 
 def collect():
@@ -72,11 +88,13 @@ def ensure_dirs(ftp, remote_path, made):
 
 
 def main():
+    load_env_file()
     host = os.environ.get('FTP_HOST')
     user = os.environ.get('FTP_USER')
     pw = os.environ.get('FTP_PASSWORD')
     if not (host and user and pw):
-        print('FTP_HOST / FTP_USER / FTP_PASSWORD 환경변수가 필요합니다.')
+        print('접속 정보가 없습니다. 저장소 루트에 .deploy.env 를 두거나')
+        print('FTP_HOST / FTP_USER / FTP_PASSWORD 환경변수를 지정해 주세요.')
         return 1
 
     force = os.environ.get('DEPLOY_FORCE') == '1'
