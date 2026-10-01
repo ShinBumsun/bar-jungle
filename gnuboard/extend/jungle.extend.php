@@ -23,6 +23,41 @@ $g5['jungle_tabs'] = array(
 	'shot'      => 'SHOT',
 );
 
+// 시그니처 카드에 쓸 잔 그림과 배경색 (관리자 선택지)
+$g5['jungle_card_icons'] = array(
+	'ck1' => '마티니 잔',
+	'ck2' => '온더락 잔',
+	'ck3' => '크림/티키 잔',
+	'ck4' => '하이볼 잔',
+	'ck5' => '샷 잔',
+	'ck6' => '쿠페 잔',
+);
+$g5['jungle_card_colors'] = array(
+	'c1' => '초록',
+	'c2' => '진초록',
+	'c3' => '주황',
+	'c4' => '베리',
+	'c5' => '청록',
+	'c6' => '머스타드',
+);
+
+/**
+ * 시그니처 섹션에 띄울 카드 목록.
+ * 메뉴판과 같은 표를 쓰므로 가격·도수·3개 국어가 자동으로 따라옵니다.
+ */
+if (!function_exists('jungle_signature_cards')) {
+	function jungle_signature_cards()
+	{
+		$out = array();
+		$res = sql_query(" SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
+		                    WHERE jm_card = 1 AND jm_use = 1
+		                    ORDER BY jm_order ASC, jm_id ASC ", false);
+		if (!$res) return $out;
+		while ($row = sql_fetch_array($res)) $out[] = $row;
+		return $out;
+	}
+}
+
 /**
  * 메뉴판 전체를 탭 → 소분류 → 항목 순으로 묶어 돌려줍니다.
  * 노출(jm_use=1) 항목만 가져옵니다.

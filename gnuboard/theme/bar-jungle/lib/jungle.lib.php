@@ -85,3 +85,44 @@ if (!function_exists('jungle_menu_item')) {
 		return $html;
 	}
 }
+
+// 시그니처 카드 한 장
+if (!function_exists('jungle_card_item')) {
+	function jungle_card_item($c, $i)
+	{
+		$esc = function ($v) { return htmlspecialchars($v, ENT_QUOTES, 'UTF-8'); };
+
+		$ko = $c['jm_name_ko']; $en = $c['jm_name_en']; $ja = $c['jm_name_ja'];
+		$d_ko = $c['jm_desc_ko']; $d_en = $c['jm_desc_en']; $d_ja = $c['jm_desc_ja'];
+		$icon  = $c['jm_card_icon'] ? $c['jm_card_icon'] : 'ck1';
+		$color = $c['jm_card_color'] ? $c['jm_card_color'] : 'c1';
+		$delay = array('', ' f_delay03', ' f_delay06', ' f_delay09', ' f_delay12');
+		$dly = $delay[min($i, 4)];
+
+		$attr = ' data-jm="'.(int)$c['jm_id'].'" data-card="1"';
+		$attr .= ' data-nm-ko="'.$esc($ko).'"';
+		if ($ja !== '')   $attr .= ' data-nm-ja="'.$esc($ja).'"';
+		if ($en !== '')   $attr .= ' data-nm-en="'.$esc($en).'"';
+		if ($d_ko !== '') $attr .= ' data-ds-ko="'.$esc($d_ko).'"';
+		if ($d_en !== '') $attr .= ' data-ds-en="'.$esc($d_en).'"';
+		if ($d_ja !== '') $attr .= ' data-ds-ja="'.$esc($d_ja).'"';
+
+		$h  = '<li class="sl_item '.$esc($color).' fade f_up'.$dly.'"'.$attr.'>'."\n";
+		$h .= "\t".'<div class="sli_pic">'."\n";
+		$h .= "\t\t".'<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#'.$esc($icon).'"></use></svg>'."\n";
+		$h .= "\t".'</div>'."\n";
+		$h .= "\t".'<div class="sli_txt">'."\n";
+		$h .= "\t\t".'<em class="font">'.sprintf('%02d', $i + 1).'</em>'."\n";
+		$h .= "\t\t".'<strong class="sli_name">'.$esc($en !== '' ? $en : $ko);
+		if ($en !== '' && $ko !== '') $h .= ' <span>'.$esc($ko).'</span>';
+		$h .= '</strong>'."\n";
+		$h .= "\t\t".'<p class="sli_meta">'.jungle_alc($c['jm_alc']).'<b class="font">'.$esc($c['jm_price']).'</b></p>'."\n";
+		if ($d_ko !== '' || $d_en !== '' || $d_ja !== '') {
+			$hidden = ($d_ko === '') ? ' hidden' : '';
+			$h .= "\t\t".'<p class="sli_note"'.$hidden.'>'.$esc($d_ko).'</p>'."\n";
+		}
+		$h .= "\t".'</div>'."\n";
+		$h .= '</li>'."\n";
+		return $h;
+	}
+}

@@ -10,7 +10,8 @@ $jm_id = isset($_GET['jm_id']) ? (int)$_GET['jm_id'] : 0;
 $jm = array('jm_id'=>0,'jm_tab'=>'signature','jm_cat'=>'','jm_order'=>0,
 	'jm_name_ko'=>'','jm_name_en'=>'','jm_name_ja'=>'',
 	'jm_desc_ko'=>'','jm_desc_en'=>'','jm_desc_ja'=>'',
-	'jm_price'=>'','jm_alc'=>0,'jm_vol'=>'','jm_note'=>'','jm_meter'=>'','jm_use'=>1);
+	'jm_price'=>'','jm_alc'=>0,'jm_vol'=>'','jm_note'=>'','jm_meter'=>'','jm_use'=>1,
+	'jm_card'=>0,'jm_card_icon'=>'ck1','jm_card_color'=>'c1');
 
 if ($w === 'u') {
 	$row = sql_fetch(" SELECT * FROM ".G5_JUNGLE_MENU_TABLE." WHERE jm_id = '$jm_id' ");
@@ -131,6 +132,34 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		<td>
 			<input type="text" name="jm_order" value="<?php echo (int)$jm['jm_order'] ?>" id="jm_order" class="frm_input" size="5">
 			<span class="frm_info">숫자가 작을수록 위에 나옵니다.</span>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="jm_card">시그니처 카드</label></th>
+		<td>
+			<input type="checkbox" name="jm_card" value="1" id="jm_card"<?php echo $jm['jm_card'] ? ' checked' : '' ?>>
+			<label for="jm_card">메인 화면 시그니처 섹션에 카드로 띄우기</label>
+			<span class="frm_info">분류가 SIGNATURE 인 항목에 씁니다. 순서는 아래 '순서' 값을 따릅니다.</span>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="jm_card_icon">카드 잔 그림</label></th>
+		<td>
+			<select name="jm_card_icon" id="jm_card_icon">
+				<?php foreach ($g5['jungle_card_icons'] as $k => $label) { ?>
+				<option value="<?php echo $k ?>"<?php echo $jm['jm_card_icon'] === $k ? ' selected' : '' ?>><?php echo $label ?></option>
+				<?php } ?>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="jm_card_color">카드 배경색</label></th>
+		<td>
+			<select name="jm_card_color" id="jm_card_color">
+				<?php foreach ($g5['jungle_card_colors'] as $k => $label) { ?>
+				<option value="<?php echo $k ?>"<?php echo $jm['jm_card_color'] === $k ? ' selected' : '' ?>><?php echo $label ?></option>
+				<?php } ?>
+			</select>
 		</td>
 	</tr>
 	<tr>

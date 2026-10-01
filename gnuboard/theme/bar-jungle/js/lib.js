@@ -254,7 +254,13 @@
 					nameEl.appendChild(sv);
 				}
 			}
-			var d = li.querySelector('.mgli_desc');
+			/* 시그니처 카드는 영문명이 크게, 그 아래 한글명(일본어일 땐 일본어명)이 붙는다 */
+			var sub = li.querySelector('.sli_name span');
+			if (sub) {
+				var ja2 = li.getAttribute('data-nm-ja');
+				sub.textContent = (lang === 'ja' && ja2) ? ja2 : (li.getAttribute('data-nm-ko') || '');
+			}
+			var d = li.querySelector('.mgli_desc') || li.querySelector('.sli_note');
 			if (d) {
 				var txt = li.getAttribute('data-ds-' + lang) || '';
 				d.textContent = txt;

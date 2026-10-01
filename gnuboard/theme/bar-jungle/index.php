@@ -3,7 +3,8 @@ if (!defined('_INDEX_')) define('_INDEX_', true);
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 $jungle_site = include(G5_THEME_PATH.'/data/site.php');
-$jungle_menu = jungle_menu_tree();   // 관리자 > 정글 사이트 > 메뉴판 관리
+$jungle_menu  = jungle_menu_tree();      // 관리자 > 정글 사이트 > 메뉴판 관리
+$jungle_cards = jungle_signature_cards();  // 시그니처 섹션에 띄울 카드
 
 include_once(G5_PATH.'/head.php');
 ?>
@@ -392,50 +393,7 @@ include_once(G5_PATH.'/head.php');
 			<p class="s_eyebrow fade f_up" data-i18n="sig.eyebrow"><span class="font">SIGNATURE</span> 오직, 정글에서만</p>
 			<h2 class="s_title title t2 cm font2 fade f_up f_delay03" data-i18n="sig.title">시그니처 <mark class="cr">칵테일</mark></h2>
 			<ul class="s_list">
-				<li class="sl_item t1 fade f_up f_delay03">
-					<div class="sli_pic">
-						<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck4"></use></svg>
-					</div>
-					<div class="sli_txt">
-						<em class="font">01</em>
-						<strong class="sli_name">JUNGLE JUICE <span>정글쥬스</span></strong>
-						<p class="sli_meta"><span class="mgli_alc" title="도수 3/5"><span class="blind">도수 3단계</span><b></b><b></b><b></b><b class="off"></b><b class="off"></b></span><b class="font">13,000</b></p>
-						<p class="sli_note" data-i18n="sig.note1">데킬라, 진과 더불어 오렌지향이 가득한 정글의 에메랄드 빛 트로피컬 시그니처 칵테일</p>
-					</div>
-				</li>
-				<li class="sl_item t2 fade f_up f_delay06">
-					<div class="sli_pic">
-						<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck1"></use></svg>
-					</div>
-					<div class="sli_txt">
-						<em class="font">02</em>
-						<strong class="sli_name">JUNGLE MONSTER <span>정글몬스터</span></strong>
-						<p class="sli_meta"><span class="mgli_alc" title="도수 4/5"><span class="blind">도수 4단계</span><b></b><b></b><b></b><b></b><b class="off"></b></span><b class="font">14,000</b></p>
-						<p class="sli_note" data-i18n="sig.note2">포도 레몬맛이 매력적인, 다섯 가지 술이 들어간 위험이 도사리는 정글의 강력한 한방</p>
-					</div>
-				</li>
-				<li class="sl_item t3 fade f_up f_delay09">
-					<div class="sli_pic">
-						<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck3"></use></svg>
-					</div>
-					<div class="sli_txt">
-						<em class="font">03</em>
-						<strong class="sli_name">CREAM DALAE <span>크림달래</span></strong>
-						<p class="sli_meta"><span class="mgli_alc" title="도수 1/5"><span class="blind">도수 1단계</span><b></b><b class="off"></b><b class="off"></b><b class="off"></b><b class="off"></b></span><b class="font">16,000</b></p>
-						<p class="sli_note" data-i18n="sig.note3">새콤한 청포도향과 메론맛 미도리 스파클링 위에 바닐라 아이스크림 한 스쿱이 통째로</p>
-					</div>
-				</li>
-				<li class="sl_item t4 fade f_up f_delay12">
-					<div class="sli_pic">
-						<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck2"></use></svg>
-					</div>
-					<div class="sli_txt">
-						<em class="font">04</em>
-						<strong class="sli_name">TREASURE <span>트레져</span></strong>
-						<p class="sli_meta"><span class="mgli_alc" title="도수 5/5"><span class="blind">도수 5단계</span><b></b><b></b><b></b><b></b><b></b></span><b class="font">22,000</b></p>
-						<p class="sli_note" data-i18n="sig.note4">여기까지 오셨다면, 정글 속 보물을 가져갈 자격이 있습니다. 버번위스키를 향긋하게 재해석한 맛</p>
-					</div>
-				</li>
+<?php foreach ($jungle_cards as $ci => $jc) echo jungle_card_item($jc, $ci); ?>
 			</ul>
 			<p class="s_soon fade f_up f_delay15" data-i18n="sig.soon">시그니처 칵테일 10종 전체는 아래 메뉴에서 보실 수 있어요</p>
 		</div>

@@ -62,6 +62,7 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		<th scope="col">가격</th>
 		<th scope="col">도수</th>
 		<th scope="col">설명(한/영/일)</th>
+		<th scope="col">카드</th>
 		<th scope="col">순서</th>
 		<th scope="col">노출</th>
 		<th scope="col">관리</th>
@@ -96,6 +97,7 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 			echo $mark;
 			?>
 		</td>
+		<td class="td_num"><?php echo $row['jm_card'] ? '<b style="color:#2f7346">O</b>' : '-' ?></td>
 		<td class="td_num"><input type="text" name="jm_order[<?php echo $i ?>]" value="<?php echo $row['jm_order'] ?>" class="frm_input" size="3"></td>
 		<td class="td_chk"><input type="checkbox" name="jm_use[<?php echo $i ?>]" value="1"<?php echo $row['jm_use'] ? ' checked' : '' ?>></td>
 		<td class="td_mng td_mng_s">
@@ -105,7 +107,7 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 	<?php
 		$i++;
 	}
-	if ($i === 0) echo '<tr><td colspan="12" class="empty_table">등록된 항목이 없습니다.</td></tr>';
+	if ($i === 0) echo '<tr><td colspan="13" class="empty_table">등록된 항목이 없습니다.</td></tr>';
 	?>
 	</tbody>
 	</table>

@@ -256,25 +256,27 @@ html {scroll-snap-type:y proximity;}
 .s_eyebrow {justify-content:center;}
 .s_eyebrow::before {display:none;}
 .s_title {margin-bottom:48px;}
-.s_list {display:grid; grid-template-columns:repeat(4, 1fr); gap:30px;}
+.s_list {display:grid; grid-template-columns:repeat(5, 1fr); gap:22px;}
 .sl_item {background-color:#f7efdd; border:2px solid #241f18; box-shadow:10px 10px 0 rgba(36,31,24,0.9); text-align:left; overflow:hidden; transition:opacity 0.9s ease, transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease;}
 .sec.on .sl_item:hover {transform:translate(-6px,-6px); box-shadow:17px 17px 0 rgba(36,31,24,0.9);}
 .sli_pic {position:relative; width:100%; aspect-ratio:4/3; border-bottom:2px solid #241f18; display:flex; align-items:center; justify-content:center;}
 .sli_pic svg {width:62%; height:auto; filter:drop-shadow(0 10px 14px rgba(0,0,0,0.18));}
-.sl_item.t1 .sli_pic {background-color:#2f7346;}
-.sl_item.t2 .sli_pic {background-color:#17422a;}
-.sl_item.t3 .sli_pic {background-color:#d9622b;}
-.sl_item.t4 .sli_pic {background-color:#c94f5c;}
-.sli_txt {padding:28px 26px 32px;}
-.sli_txt > em {display:block; font-size:15px; letter-spacing:0.16em; color:#d9622b; margin-bottom:12px;}
-.sli_name {display:block; font-family:"Anton", sans-serif; font-size:24px; line-height:1.2; color:#1f4a35; margin-bottom:10px;}
-.sli_name span {display:block; margin-top:6px; font-family:"Gowun Batang", serif; font-size:15px; font-weight:700; color:#241f18; opacity:0.7;}
+.sl_item.c1 .sli_pic {background-color:#2f7346;}
+.sl_item.c2 .sli_pic {background-color:#17422a;}
+.sl_item.c3 .sli_pic {background-color:#d9622b;}
+.sl_item.c4 .sli_pic {background-color:#c94f5c;}
+.sl_item.c5 .sli_pic {background-color:#1c7a87;}
+.sl_item.c6 .sli_pic {background-color:#e8b13a;}
+.sli_txt {padding:20px 18px 22px;}
+.sli_txt > em {display:block; font-size:13px; letter-spacing:0.16em; color:#d9622b; margin-bottom:9px;}
+.sli_name {display:block; font-family:"Anton", sans-serif; font-size:17px; line-height:1.24; color:#1f4a35; margin-bottom:8px; word-break:break-word;}
+.sli_name span {display:block; margin-top:5px; font-family:"Gowun Batang", serif; font-size:13px; font-weight:700; color:#241f18; opacity:0.7;}
 .sli_meta {display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px;}
 .sli_meta .mgli_alc {margin:0;}
 .sli_meta .mgli_alc b {background-color:#d9622b;}
 .sli_meta .mgli_alc b.off {background-color:rgba(36,31,24,0.18);}
-.sli_meta b.font {font-size:17px; letter-spacing:0.03em; color:#1f4a35;}
-.sli_note {margin-top:14px; padding-top:14px; border-top:1px dashed rgba(36,31,24,0.3); font-family:"Nanum Pen Script", cursive; font-size:20px; line-height:1.5; color:#241f18; opacity:0.85;}
+.sli_meta b.font {font-size:15px; letter-spacing:0.03em; color:#1f4a35;}
+.sli_note {margin-top:12px; padding-top:12px; border-top:1px dashed rgba(36,31,24,0.3); font-family:"Nanum Pen Script", cursive; font-size:17px; line-height:1.45; color:#241f18; opacity:0.85;}
 /* Signature E */
 
 /* Menu S */
@@ -450,7 +452,7 @@ html {scroll-snap-type:y proximity;}
 	.a_point {gap:20px;}
 	.m_wrap {gap:76px;}
 	.v_wrap {gap:80px;}
-	.s_list {gap:24px;}
+	.s_list {gap:18px;}
 	.g_list {gap:28px;}
 }
 
@@ -516,7 +518,7 @@ html {scroll-snap-type:y proximity;}
 	.hea_item.snake {width:17vw; margin-left:-8.5vw;}
 	.a_point {flex-wrap:wrap; gap:18px;}
 	.ap_item {flex:0 0 calc(50% - 9px); max-width:none;}
-	.s_list {grid-template-columns:repeat(2, 1fr); gap:22px;}
+	.s_list {grid-template-columns:repeat(4, 1fr); gap:18px;}
 
 	#depth {right:18px;}
 	.v_wrap {gap:48px;}
@@ -608,7 +610,7 @@ html {scroll-snap-type:y proximity;}
 	.he_front {height:26%;}
 	.a_point {flex-direction:column; gap:14px;}
 	.ap_item {flex:none; width:100%; padding:28px 22px; box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
-	.s_list {grid-template-columns:1fr; gap:20px;}
+	.s_list {grid-template-columns:repeat(2, 1fr); gap:16px;}
 	.sl_item {box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
 	.sli_pic {aspect-ratio:16/10;}
 	.sli_pic svg {width:38%;}
@@ -645,7 +647,8 @@ html {scroll-snap-type:y proximity;}
 	.hea_item.monkey {width:31vw; margin-left:-15.5vw; left:76%; bottom:30%;}
 	.hea_item.toucan {width:24vw; margin-left:-12vw; left:81%; bottom:42%;}
 	.hea_item.snake {width:26vw; margin-left:-13vw; bottom:38%;}
-	.sli_note, .gli_cap, .m_hand, .v_hand {font-size:18px;}
+	.sli_note, .gli_cap, .m_hand, .v_hand {font-size:17px;}
+	.s_list {grid-template-columns:1fr;}
 	.f_logo img {height:38px;}
 }
 /* Responsive E */

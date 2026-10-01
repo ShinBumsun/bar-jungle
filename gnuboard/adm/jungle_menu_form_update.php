@@ -35,6 +35,13 @@ foreach ($f as $col => $val) $set[] = " $col = '".sql_escape_string($val)."' ";
 $set[] = " jm_alc   = '".(int)$_POST['jm_alc']."' ";
 $set[] = " jm_order = '".(int)$_POST['jm_order']."' ";
 $set[] = " jm_use   = '".(isset($_POST['jm_use']) ? 1 : 0)."' ";
+$set[] = " jm_card  = '".(isset($_POST['jm_card']) ? 1 : 0)."' ";
+$icon = isset($_POST['jm_card_icon']) ? $_POST['jm_card_icon'] : '';
+$color = isset($_POST['jm_card_color']) ? $_POST['jm_card_color'] : '';
+if (!isset($g5['jungle_card_icons'][$icon]))  $icon = 'ck1';
+if (!isset($g5['jungle_card_colors'][$color])) $color = 'c1';
+$set[] = " jm_card_icon  = '".sql_escape_string($icon)."' ";
+$set[] = " jm_card_color = '".sql_escape_string($color)."' ";
 $sets = implode(',', $set);
 
 if ($w === 'u') {
