@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* BAR JUNGLE - 로그인 화면 */
+
+/* Login S */
+html, body {height:100%;}
+body {min-height:100%; background-color:#0d2317;}
+#jg_login {position:relative; display:flex; align-items:center; justify-content:center; min-height:100vh; min-height:100svh; padding:40px 20px; background:radial-gradient(ellipse at 50% 46%, #47764c 0%, #22492e 42%, #0d2317 100%); overflow:hidden;}
+#jg_login::after {content:""; position:absolute; left:0; top:0; width:100%; height:100%; z-index:1; pointer-events:none; opacity:0.42; mix-blend-mode:multiply; background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='320'%20height='320'%3E%3Cfilter%20id='pg'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.85'%20numOctaves='4'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20type='saturate'%20values='0'/%3E%3C/filter%3E%3Crect%20width='320'%20height='320'%20filter='url(%23pg)'/%3E%3C/svg%3E"); background-size:320px 320px;}
+
+.jgl_leaf {position:absolute; z-index:1; height:auto;}
+.jgl_l1 {left:-5vw; top:-6vh; width:40vw; max-width:420px; fill:#1a4a30; transform:rotate(142deg);}
+.jgl_l2 {right:-4vw; top:-4vh; width:26vw; max-width:260px; fill:#235b39; transform:rotate(196deg);}
+.jgl_l3 {left:-3vw; bottom:-8vh; width:24vw; max-width:240px; fill:#235b39; transform:rotate(-24deg);}
+.jgl_l4 {right:-6vw; bottom:-6vh; width:38vw; max-width:400px; fill:#1a4a30; transform:rotate(-132deg);}
+
+.jgl_box {position:relative; z-index:3; width:100%; max-width:420px; padding:44px 38px 36px; background-color:#f7efdd; border:2px solid #241f18; box-shadow:12px 12px 0 rgba(13,35,23,0.55); text-align:center;}
+.jgl_logo {display:block; margin:0 auto 26px; line-height:0;}
+.jgl_logo img {display:block; width:170px; height:auto; margin:0 auto;}
+.jgl_tit {margin-bottom:28px; font-family:"Black Han Sans", "Apple SD Gothic Neo", sans-serif; font-size:27px; letter-spacing:-0.01em; color:#1f4a35;}
+.jgl_fs {border:0; padding:0; margin:0;}
+
+.jgl_input {display:block; width:100%; height:52px; margin-bottom:12px; padding:0 16px; background-color:#fffaf0; border:2px solid #241f18; border-radius:0; font-family:"Gowun Batang", serif; font-size:16px; color:#241f18; transition:0.2s;}
+.jgl_input::placeholder {color:#241f18; opacity:0.38;}
+.jgl_input:focus {outline:none; border-color:#1f4a35; box-shadow:4px 4px 0 rgba(31,74,53,0.22);}
+
+.jgl_submit {display:block; width:100%; height:54px; margin-top:6px; background-color:#e8b13a; border:2px solid #241f18; font-size:17px; letter-spacing:0.14em; color:#241f18; cursor:pointer; transition:0.25s;}
+.jgl_submit:hover {background-color:#1f4a35; color:#f7efdd;}
+
+.jgl_auto {display:flex; align-items:center; justify-content:center; margin-top:18px;}
+.jgl_auto input {position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0,0,0,0);}
+.jgl_auto label {display:inline-flex; align-items:center; gap:9px; font-size:14px; color:#241f18; opacity:0.72; cursor:pointer;}
+.jgl_auto label i {display:block; width:18px; height:18px; border:2px solid #241f18; background-color:#fffaf0; transition:0.2s;}
+.jgl_auto input:checked + label i {background-color:#1f4a35; box-shadow:inset 0 0 0 3px #fffaf0;}
+.jgl_auto input:focus-visible + label i {outline:2px solid #1f4a35; outline-offset:2px;}
+
+.jgl_home {display:inline-block; margin-top:26px; padding-top:20px; border-top:1px dashed rgba(36,31,24,0.26); width:100%; font-size:14px; color:#241f18; opacity:0.6; transition:0.2s;}
+.jgl_home:hover {opacity:1; color:#1f4a35;}
+
+@media all and (max-width:480px) {
+	#jg_login {padding:28px 16px;}
+	.jgl_box {padding:34px 24px 28px; box-shadow:8px 8px 0 rgba(13,35,23,0.55);}
+	.jgl_logo img {width:140px;}
+	.jgl_tit {font-size:24px; margin-bottom:22px;}
+	.jgl_input {height:48px; font-size:15px;}
+	.jgl_submit {height:50px; font-size:16px;}
+}
+
+@media (prefers-reduced-motion:reduce) {
+	.jgl_input, .jgl_submit, .jgl_home, .jgl_auto label i {transition:none;}
+}
+/* Login E */
