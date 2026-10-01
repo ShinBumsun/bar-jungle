@@ -153,4 +153,61 @@
 		});
 	});
 
+	/* 언어 전환 : KOR / ENG / JPN
+	   한국어 원문은 HTML 에 그대로 있고, 처음 로드될 때 보관해 두었다가 되돌린다. */
+	var DICT = window.JUNGLE_I18N || {};
+	var langBtns = document.querySelectorAll('.hl_btn');
+	var i18nEls = document.querySelectorAll('[data-i18n]');
+	var koHtml = [];
+	for (var ki = 0; ki < i18nEls.length; ki++) { koHtml.push(i18nEls[ki].innerHTML); }
+
+	function setLang(lang) {
+		if (!DICT[lang]) { lang = 'ko'; }
+		var dict = DICT[lang] || {}, i, key;
+		for (i = 0; i < i18nEls.length; i++) {
+			key = i18nEls[i].getAttribute('data-i18n');
+			i18nEls[i].innerHTML = (lang === 'ko' || !dict[key]) ? koHtml[i] : dict[key];
+		}
+		document.documentElement.setAttribute('lang', lang);
+		/* 일본어 제목용 서체는 용량이 커서, 일본어를 고를 때만 불러온다 */
+		if (lang === 'ja' && !document.getElementById('ja_font')) {
+			var fl = document.createElement('link');
+			fl.id = 'ja_font';
+			fl.rel = 'stylesheet';
+			fl.href = 'https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap';
+			document.head.appendChild(fl);
+		}
+		for (i = 0; i < langBtns.length; i++) {
+			langBtns[i].classList.toggle('on', langBtns[i].getAttribute('data-lang') === lang);
+		}
+		try { localStorage.setItem('jungle_lang', lang); } catch (e) {}
+	}
+	for (var li = 0; li < langBtns.length; li++) {
+		langBtns[li].addEventListener('click', function () { setLang(this.getAttribute('data-lang')); });
+	}
+	(function () {
+		var saved = null;
+		try { saved = localStorage.getItem('jungle_lang'); } catch (e) {}
+		if (!saved) {
+			var nav = (navigator.language || 'ko').toLowerCase();
+			saved = nav.indexOf('ja') === 0 ? 'ja' : (nav.indexOf('ko') === 0 ? 'ko' : 'en');
+		}
+		if (saved !== 'ko') { setLang(saved); }
+	})();
+
+	/* 메뉴 탭 : 항목이 많아 분류별로 나눠 보여 줌 */
+	var tabBtns = document.querySelectorAll('.mt_btn');
+	var tabPanels = document.querySelectorAll('.mp_panel');
+	for (var ti = 0; ti < tabBtns.length; ti++) {
+		tabBtns[ti].addEventListener('click', function () {
+			var id = 'pn_' + this.getAttribute('data-panel'), i;
+			for (i = 0; i < tabBtns.length; i++) {
+				var on = tabBtns[i] === this;
+				tabBtns[i].classList.toggle('on', on);
+				tabBtns[i].setAttribute('aria-selected', on ? 'true' : 'false');
+			}
+			for (i = 0; i < tabPanels.length; i++) { tabPanels[i].classList.toggle('on', tabPanels[i].id === id); }
+		});
+	}
+
 })();

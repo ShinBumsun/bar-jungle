@@ -63,6 +63,39 @@
 			<path d="M0,0 C-30,-26 -34,-78 0,-112 C34,-78 30,-26 0,0 Z"></path>
 			<path d="M-2,-14 L-24,-30 M2,-14 L24,-30 M-2,-44 L-27,-58 M2,-44 L27,-58 M-2,-72 L-21,-84 M2,-72 L21,-84" fill="none" stroke="rgba(0,0,0,0.15)" stroke-width="4" stroke-linecap="round"></path>
 		</g>
+		<g id="ck1">
+<path d="M34,54 L126,54 L84,118 Z" fill="#f7efdd"></path>
+							<path d="M46,66 L114,66 L84,110 Z" fill="#e2762c"></path>
+							<rect x="77" y="116" width="14" height="48" rx="3" fill="#f7efdd"></rect>
+							<rect x="52" y="164" width="64" height="12" rx="6" fill="#f7efdd"></rect>
+							<circle cx="118" cy="58" r="15" fill="#c94f5c"></circle>
+							<path d="M118,43 L118,73" stroke="#f7efdd" stroke-width="3"></path>
+							<path d="M40,40 L40,26 M34,32 L46,32" stroke="#f7efdd" stroke-width="3" stroke-linecap="round"></path>
+		</g>
+		<g id="ck2">
+<path d="M42,62 L118,62 L112,172 C112,180 106,184 98,184 L62,184 C54,184 48,180 48,172 Z" fill="#f7efdd"></path>
+							<path d="M50,104 L110,104 L106,168 C106,174 102,177 96,177 L64,177 C58,177 54,174 54,168 Z" fill="#c07a2c"></path>
+							<rect x="62" y="112" width="38" height="38" rx="6" transform="rotate(-12 81 131)" fill="#f7efdd" opacity="0.85"></rect>
+							<path d="M120,70 C140,64 148,80 138,92" fill="none" stroke="#e8b13a" stroke-width="6" stroke-linecap="round"></path>
+							<circle cx="80" cy="52" r="9" fill="#a3562a"></circle>
+		</g>
+		<g id="ck3">
+<path d="M46,66 C34,108 42,158 58,182 L102,182 C118,158 126,108 114,66 Z" fill="#f7efdd"></path>
+							<path d="M52,96 C44,130 50,160 60,176 L100,176 C110,160 116,130 108,96 Z" fill="#e5c98c"></path>
+							<ellipse cx="80" cy="66" rx="34" ry="10" fill="#f7efdd"></ellipse>
+							<path d="M96,60 L120,20" stroke="#c94f5c" stroke-width="7" stroke-linecap="round"></path>
+							<path d="M44,54 L64,32 L84,54 Z" fill="#4d8442"></path>
+							<circle cx="64" cy="30" r="7" fill="#e8b13a"></circle>
+		</g>
+		<g id="ck4">
+<rect x="52" y="46" width="56" height="140" rx="10" fill="#f7efdd"></rect>
+							<path d="M58,86 L102,86 L102,174 C102,178 99,180 95,180 L65,180 C61,180 58,178 58,174 Z" fill="#e8b13a"></path>
+							<path d="M58,120 L102,120 L102,150 L58,150 Z" fill="#d9622b"></path>
+							<path d="M58,150 L102,150 L102,174 C102,178 99,180 95,180 L65,180 C61,180 58,178 58,174 Z" fill="#c94f5c"></path>
+							<path d="M92,50 L112,14" stroke="#4d8442" stroke-width="7" stroke-linecap="round"></path>
+							<circle cx="46" cy="62" r="17" fill="#e2762c"></circle>
+							<circle cx="46" cy="62" r="9" fill="#f7efdd"></circle>
+		</g>
 	</defs>
 </svg>
 <!-- SVG Defs E -->
@@ -73,17 +106,24 @@
 
 	<!-- Header S -->
 	<header id="header">
-		<h1 class="h_logo"><a href="#hero" title="BAR JUNGLE_메인으로"><span class="font">BAR</span> <em class="font">JUNGLE</em></a></h1>
+		<h1 class="h_logo"><a href="#hero" title="BAR JUNGLE_메인으로"><img src="./images/logo_jungle.png" alt="BAR JUNGLE 정글"></a></h1>
 		<nav class="h_gnb">
 			<ul class="hg_list">
-				<li class="hgl_item"><a href="#about" title="Menu_소개">소개</a></li>
-				<li class="hgl_item"><a href="#signature" title="Menu_시그니처">시그니처</a></li>
-				<li class="hgl_item"><a href="#menu" title="Menu_메뉴">메뉴</a></li>
-				<li class="hgl_item"><a href="#moment" title="Menu_모먼트">모먼트</a></li>
-				<li class="hgl_item"><a href="#visit" title="Menu_오시는 길">오시는 길</a></li>
+				<li class="hgl_item"><a href="#about" title="Menu_소개"><span data-i18n="nav.about">소개</span></a></li>
+				<li class="hgl_item"><a href="#signature" title="Menu_시그니처"><span data-i18n="nav.signature">시그니처</span></a></li>
+				<li class="hgl_item"><a href="#menu" title="Menu_메뉴"><span data-i18n="nav.menu">메뉴</span></a></li>
+				<li class="hgl_item"><a href="#moment" title="Menu_모먼트"><span data-i18n="nav.moment">모먼트</span></a></li>
+				<li class="hgl_item"><a href="#visit" title="Menu_오시는 길"><span data-i18n="nav.visit">오시는 길</span></a></li>
 			</ul>
 		</nav>
-		<a href="https://www.instagram.com/jungle_seoul/" class="h_book" target="_blank" rel="noopener" title="Reserve_인스타그램 DM 예약">예약 DM<i></i></a>
+		<div class="h_util">
+			<div class="h_lang" role="group" aria-label="Language">
+				<button type="button" class="hl_btn on" data-lang="ko" title="Language_한국어">KOR</button>
+				<button type="button" class="hl_btn" data-lang="en" title="Language_English">ENG</button>
+				<button type="button" class="hl_btn" data-lang="ja" title="Language_日本語">JPN</button>
+			</div>
+			<a href="https://www.instagram.com/jungle_seoul/" class="h_book" target="_blank" rel="noopener" title="Reserve_인스타그램 DM 예약"><span data-i18n="nav.book">예약 DM</span><i></i></a>
+		</div>
 		<button type="button" class="h_toggle" title="Menu_모바일 메뉴 열기"><i></i><i></i><i></i><span class="blind">메뉴 열기</span></button>
 	</header>
 	<!-- Header E -->
@@ -210,15 +250,33 @@
 				</svg>
 			</div>
 
+
+			<div class="hea_drink d1"><svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck1"></use></svg></div>
+			<div class="hea_drink d2"><svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck4"></use></svg></div>
+			<div class="hea_drink d3"><svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck3"></use></svg></div>
+			<div class="hea_drink d4"><svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck2"></use></svg></div>
 		</div>
 		<!-- 동물 등장 E -->
 
 		<!-- 히어로 타이틀 S -->
 		<div class="he_title">
 			<p class="het_eyebrow"><i></i><span>SEOUL · IKSEON-DONG</span><i></i></p>
-			<h2 class="het_logo font"><span>BAR</span><em>JUNGLE</em></h2>
-			<p class="het_sub">풀숲을 헤치면, 도심 한가운데 정글</p>
-			<p class="het_hand">칵테일 맛집 · 매일 밤 7시부터</p>
+			<h2 class="het_logo"><img src="./images/logo_jungle.png" alt="BAR JUNGLE 정글"></h2>
+			<p class="het_sub" data-i18n="hero.sub">풀숲을 헤치면, 도심 한가운데 정글</p>
+			<p class="het_pride">
+				<svg class="hp_bow" viewBox="0 0 38 21" aria-hidden="true">
+					<g fill="none" stroke-width="2.4" stroke-linecap="round">
+						<path d="M3,19.5 A16,16 0 0 1 35,19.5" stroke="#e2524a"></path>
+						<path d="M5.6,19.5 A13.4,13.4 0 0 1 32.4,19.5" stroke="#e8923a"></path>
+						<path d="M8.2,19.5 A10.8,10.8 0 0 1 29.8,19.5" stroke="#e8c93a"></path>
+						<path d="M10.8,19.5 A8.2,8.2 0 0 1 27.2,19.5" stroke="#5aa85a"></path>
+						<path d="M13.4,19.5 A5.6,5.6 0 0 1 24.6,19.5" stroke="#3f7fd0"></path>
+						<path d="M16,19.5 A3,3 0 0 1 22,19.5" stroke="#8f55c8"></path>
+					</g>
+				</svg>
+				<span class="font">PRIDE MEMBERSHIP BAR</span>
+			</p>
+			<a href="https://www.instagram.com/jungle_seoul/" class="het_ig font" target="_blank" rel="noopener" title="Instagram_인스타그램">@JUNGLE_SEOUL</a>
 		</div>
 		<!-- 히어로 타이틀 E -->
 
@@ -382,17 +440,28 @@
 					</g>
 				</svg>
 			</div>
-			<p class="a_eyebrow fade f_up"><span class="font">ABOUT</span> 정글 안내문</p>
-			<h2 class="a_title title t2 cm font2 fade f_up f_delay03">도심의 소음을 헤치고<br><mark class="cr">초록빛 아지트</mark>로.</h2>
+			<p class="a_eyebrow fade f_up" data-i18n="about.eyebrow"><span class="font">ABOUT</span> 정글 안내문</p>
+			<h2 class="a_title title t2 cm font2 fade f_up f_delay03" data-i18n="about.title">도심의 소음을 헤치고<br><mark class="cr">초록빛 아지트</mark>로</h2>
 			<div class="a_txt fade f_up f_delay06">
-				<p class="txt ch">익선동 좁은 골목을 몇 번 꺾어 들어오면, 낮에는 보이지 않던 풀숲이 열립니다.<br>낡은 한옥의 나무 결과 종이처럼 바랜 벽 사이, 바 정글은 그 안쪽에 숨어 있어요.</p>
-				<p class="txt ch">우리는 매일 밤 제철 과일과 허브를 손질하고, 잔 하나에 계절을 담습니다.<br>혼자여도 좋고 둘이어도 좋은 자리. 편하게 앉아 오늘 하루를 내려놓으세요.</p>
+				<p class="txt ch" data-i18n="about.p1">익선동 좁은 골목을 몇 번 꺾어 들어오면, 낮에는 보이지 않던 풀숲<br>그 안쪽에 바 정글이 숨어있어요.</p>
+				<p class="txt ch" data-i18n="about.p2">우리는 매일 신선한 재료를 손질하고, 잔 하나에 계절을 담습니다.<br>혼자여도 좋고 여럿이도 좋은 자리, 오늘 하루를 정글에 새로 담아보세요.</p>
 			</div>
-			<ul class="a_point fade f_up f_delay09">
-				<li class="ap_item"><em class="font cs">01</em><strong>제철 재료</strong><span class="txt small ch">매주 바뀌는 과일과 직접 만든 시럽</span></li>
-				<li class="ap_item"><em class="font cs">02</em><strong>10석의 바</strong><span class="txt small ch">바텐더와 눈높이를 맞춘 작은 공간</span></li>
-				<li class="ap_item"><em class="font cs">03</em><strong>늦은 밤까지</strong><span class="txt small ch">새벽 3시, 마지막 잔이 비워질 때까지</span></li>
-			</ul>
+			<!-- 함께하는 공간 안내 S -->
+			<div class="a_notice fade f_up f_delay09">
+				<svg class="an_bow" viewBox="0 0 38 21" aria-hidden="true">
+					<g fill="none" stroke-width="2.4" stroke-linecap="round">
+						<path d="M3,19.5 A16,16 0 0 1 35,19.5" stroke="#e2524a"></path>
+						<path d="M5.6,19.5 A13.4,13.4 0 0 1 32.4,19.5" stroke="#e8923a"></path>
+						<path d="M8.2,19.5 A10.8,10.8 0 0 1 29.8,19.5" stroke="#e8c93a"></path>
+						<path d="M10.8,19.5 A8.2,8.2 0 0 1 27.2,19.5" stroke="#5aa85a"></path>
+						<path d="M13.4,19.5 A5.6,5.6 0 0 1 24.6,19.5" stroke="#3f7fd0"></path>
+						<path d="M16,19.5 A3,3 0 0 1 22,19.5" stroke="#8f55c8"></path>
+					</g>
+				</svg>
+				<strong class="an_tit" data-i18n="about.notice_tit">모두를 위한 자리입니다</strong>
+				<p class="an_txt txt normal ch" data-i18n="about.notice">이 바는 소수자분들이 함께하는 공간입니다.<br>모두가 즐거운 시간을 보낼 수 있도록 공간에 대한 배려를 부탁드립니다.</p>
+			</div>
+			<!-- 함께하는 공간 안내 E -->
 		</div>
 	</section>
 	<!-- About E -->
@@ -453,21 +522,13 @@
 		<!-- 정글 베일 E -->
 
 		<div class="s_wrap">
-			<p class="s_eyebrow fade f_up"><span class="font">SIGNATURE</span> 정글의 얼굴들</p>
-			<h2 class="s_title title t2 cm font2 fade f_up f_delay03">네 마리의 <mark class="cr">시그니처</mark></h2>
+			<p class="s_eyebrow fade f_up" data-i18n="sig.eyebrow"><span class="font">SIGNATURE</span> 오직, 정글에서만</p>
+			<h2 class="s_title title t2 cm font2 fade f_up f_delay03" data-i18n="sig.title">시그니처 <mark class="cr">칵테일</mark></h2>
 			<ul class="s_list">
 
 				<li class="sl_item t1 fade f_up f_delay03">
 					<div class="sli_pic">
-						<svg viewBox="0 0 160 200" aria-hidden="true">
-							<path d="M34,54 L126,54 L84,118 Z" fill="#f7efdd"></path>
-							<path d="M46,66 L114,66 L84,110 Z" fill="#e2762c"></path>
-							<rect x="77" y="116" width="14" height="48" rx="3" fill="#f7efdd"></rect>
-							<rect x="52" y="164" width="64" height="12" rx="6" fill="#f7efdd"></rect>
-							<circle cx="118" cy="58" r="15" fill="#c94f5c"></circle>
-							<path d="M118,43 L118,73" stroke="#f7efdd" stroke-width="3"></path>
-							<path d="M40,40 L40,26 M34,32 L46,32" stroke="#f7efdd" stroke-width="3" stroke-linecap="round"></path>
-						</svg>
+						<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck1"></use></svg>
 					</div>
 					<div class="sli_txt">
 						<em class="font">01</em>
@@ -479,13 +540,7 @@
 
 				<li class="sl_item t2 fade f_up f_delay06">
 					<div class="sli_pic">
-						<svg viewBox="0 0 160 200" aria-hidden="true">
-							<path d="M42,62 L118,62 L112,172 C112,180 106,184 98,184 L62,184 C54,184 48,180 48,172 Z" fill="#f7efdd"></path>
-							<path d="M50,104 L110,104 L106,168 C106,174 102,177 96,177 L64,177 C58,177 54,174 54,168 Z" fill="#c07a2c"></path>
-							<rect x="62" y="112" width="38" height="38" rx="6" transform="rotate(-12 81 131)" fill="#f7efdd" opacity="0.85"></rect>
-							<path d="M120,70 C140,64 148,80 138,92" fill="none" stroke="#e8b13a" stroke-width="6" stroke-linecap="round"></path>
-							<circle cx="80" cy="52" r="9" fill="#a3562a"></circle>
-						</svg>
+						<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck2"></use></svg>
 					</div>
 					<div class="sli_txt">
 						<em class="font">02</em>
@@ -497,14 +552,7 @@
 
 				<li class="sl_item t3 fade f_up f_delay09">
 					<div class="sli_pic">
-						<svg viewBox="0 0 160 200" aria-hidden="true">
-							<path d="M46,66 C34,108 42,158 58,182 L102,182 C118,158 126,108 114,66 Z" fill="#f7efdd"></path>
-							<path d="M52,96 C44,130 50,160 60,176 L100,176 C110,160 116,130 108,96 Z" fill="#e5c98c"></path>
-							<ellipse cx="80" cy="66" rx="34" ry="10" fill="#f7efdd"></ellipse>
-							<path d="M96,60 L120,20" stroke="#c94f5c" stroke-width="7" stroke-linecap="round"></path>
-							<path d="M44,54 L64,32 L84,54 Z" fill="#4d8442"></path>
-							<circle cx="64" cy="30" r="7" fill="#e8b13a"></circle>
-						</svg>
+						<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck3"></use></svg>
 					</div>
 					<div class="sli_txt">
 						<em class="font">03</em>
@@ -516,15 +564,7 @@
 
 				<li class="sl_item t4 fade f_up f_delay12">
 					<div class="sli_pic">
-						<svg viewBox="0 0 160 200" aria-hidden="true">
-							<rect x="52" y="46" width="56" height="140" rx="10" fill="#f7efdd"></rect>
-							<path d="M58,86 L102,86 L102,174 C102,178 99,180 95,180 L65,180 C61,180 58,178 58,174 Z" fill="#e8b13a"></path>
-							<path d="M58,120 L102,120 L102,150 L58,150 Z" fill="#d9622b"></path>
-							<path d="M58,150 L102,150 L102,174 C102,178 99,180 95,180 L65,180 C61,180 58,178 58,174 Z" fill="#c94f5c"></path>
-							<path d="M92,50 L112,14" stroke="#4d8442" stroke-width="7" stroke-linecap="round"></path>
-							<circle cx="46" cy="62" r="17" fill="#e2762c"></circle>
-							<circle cx="46" cy="62" r="9" fill="#f7efdd"></circle>
-						</svg>
+						<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#ck4"></use></svg>
 					</div>
 					<div class="sli_txt">
 						<em class="font">04</em>
@@ -535,6 +575,7 @@
 				</li>
 
 			</ul>
+			<p class="s_soon fade f_up f_delay15" data-i18n="sig.soon">상세한 칵테일 설명과 사진은 준비 중입니다</p>
 		</div>
 	</section>
 	<!-- Signature E -->
@@ -596,42 +637,42 @@
 
 		<div class="m_wrap">
 			<div class="m_head">
-				<p class="m_eyebrow fade f_up"><span class="font">MENU</span> 오늘의 목록</p>
-				<h2 class="m_title title t2 cw font2 fade f_up f_delay03">잔 하나에<br>계절을 담아</h2>
-				<p class="m_hand fade f_up f_delay06">* 계절과 수급에 따라 메뉴는 조금씩 바뀝니다</p>
+				<p class="m_eyebrow fade f_up" data-i18n="menu.eyebrow"><span class="font">MENU</span> 오늘의 목록</p>
+				<h2 class="m_title title t2 cw font2 fade f_up f_delay03" data-i18n="menu.title">잔 하나에<br>계절을 담아</h2>
+				<p class="m_hand fade f_up f_delay06" data-i18n="menu.note">* 계절과 수급에 따라 메뉴는 조금씩 바뀝니다</p>
 			</div>
 			<div class="m_body">
-
-				<div class="m_group fade f_up f_delay03">
-					<h3 class="mg_title font">CLASSIC</h3>
-					<ul class="mg_list">
+				<div class="m_tabs fade f_up f_delay03" role="tablist">
+					<button type="button" class="mt_btn on" role="tab" aria-selected="true" aria-controls="pn_classic" data-panel="classic">CLASSIC</button>
+					<button type="button" class="mt_btn" role="tab" aria-selected="false" aria-controls="pn_highball" data-panel="highball">HIGHBALL &amp; BEER</button>
+					<button type="button" class="mt_btn" role="tab" aria-selected="false" aria-controls="pn_snack" data-panel="snack">SNACK</button>
+				</div>
+				<div class="m_panels fade f_up f_delay06">
+					<div class="mp_panel on" id="pn_classic" role="tabpanel">
+						<ul class="mg_list">
 						<li class="mgl_item"><strong>Gimlet <span>김렛</span></strong><i></i><em class="font">15,000</em></li>
 						<li class="mgl_item"><strong>Old Fashioned <span>올드 패션드</span></strong><i></i><em class="font">17,000</em></li>
 						<li class="mgl_item"><strong>Negroni <span>네그로니</span></strong><i></i><em class="font">16,000</em></li>
 						<li class="mgl_item"><strong>Whisky Sour <span>위스키 사워</span></strong><i></i><em class="font">16,000</em></li>
 					</ul>
-				</div>
-
-				<div class="m_group fade f_up f_delay06">
-					<h3 class="mg_title font">HIGHBALL &amp; BEER</h3>
-					<ul class="mg_list">
+					</div>
+					<div class="mp_panel" id="pn_highball" role="tabpanel">
+						<ul class="mg_list">
 						<li class="mgl_item"><strong>Jungle Highball <span>정글 하이볼</span></strong><i></i><em class="font">13,000</em></li>
 						<li class="mgl_item"><strong>Yuzu Highball <span>유자 하이볼</span></strong><i></i><em class="font">14,000</em></li>
 						<li class="mgl_item"><strong>Draft Beer <span>생맥주</span></strong><i></i><em class="font">9,000</em></li>
 						<li class="mgl_item"><strong>Bottle Beer <span>병맥주</span></strong><i></i><em class="font">8,000</em></li>
 					</ul>
-				</div>
-
-				<div class="m_group fade f_up f_delay09">
-					<h3 class="mg_title font">SNACK</h3>
-					<ul class="mg_list">
+					</div>
+					<div class="mp_panel" id="pn_snack" role="tabpanel">
+						<ul class="mg_list">
 						<li class="mgl_item"><strong>Olive &amp; Nuts <span>올리브 &amp; 넛츠</span></strong><i></i><em class="font">9,000</em></li>
 						<li class="mgl_item"><strong>Jungle Fries <span>정글 프라이</span></strong><i></i><em class="font">12,000</em></li>
 						<li class="mgl_item"><strong>Cheese Plate <span>치즈 플레이트</span></strong><i></i><em class="font">19,000</em></li>
 						<li class="mgl_item"><strong>Dried Fruits <span>말린 과일</span></strong><i></i><em class="font">8,000</em></li>
 					</ul>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</section>
@@ -693,36 +734,35 @@
 		<!-- 정글 베일 E -->
 
 		<div class="g_wrap">
-			<p class="g_eyebrow fade f_up"><span class="font">MOMENT</span> 정글의 밤</p>
-			<h2 class="g_title title t2 cw font2 fade f_up f_delay03">그날 밤의 <mark class="cr">한 컷</mark></h2>
-			<!-- 실제 사진 교체 안내 : .gl_item 의 .gli_thumb 에 background-image:url("./images/pic_moment_01.jpg") 형태로 교체하고 내부 svg 는 삭제 -->
+			<p class="g_eyebrow fade f_up" data-i18n="moment.eyebrow"><span class="font">MOMENT</span> 정글의 밤</p>
+			<h2 class="g_title title t2 cw font2 fade f_up f_delay03" data-i18n="moment.title">그날 밤의 <mark class="cr">한 컷</mark></h2>
 			<ul class="g_list">
+				<li class="gl_item fade f_up">
+					<div class="gli_thumb"><img src="./images/moment/m1.jpg" alt="BAR JUNGLE 바 카운터" loading="lazy" decoding="async"></div>
+					<p class="gli_cap" data-i18n="moment.cap1">바 카운터, 오늘 밤의 자리</p>
+				</li>
 				<li class="gl_item fade f_up f_delay03">
-					<div class="gli_thumb t1"><svg viewBox="0 0 300 300" aria-hidden="true"><g class="lfc3"><use href="#lf_palm" transform="translate(150,300) rotate(-18) scale(2.2)"></use><use href="#lf_oval" transform="translate(150,300) rotate(22) scale(2)"></use></g></svg></div>
-					<p class="gli_cap">늦은 밤, 첫 손님의 김렛</p>
+					<div class="gli_thumb"><img src="./images/moment/m2.jpg" alt="레이어드 시그니처 칵테일" loading="lazy" decoding="async"></div>
+					<p class="gli_cap" data-i18n="moment.cap2">정글의 초록 한 잔</p>
 				</li>
 				<li class="gl_item fade f_up f_delay06">
-					<div class="gli_thumb t2"><svg viewBox="0 0 300 300" aria-hidden="true"><g class="lfc4"><use href="#lf_frond" transform="translate(150,300) rotate(-30) scale(2.1)"></use><use href="#lf_split" transform="translate(150,300) rotate(16) scale(2)"></use></g></svg></div>
-					<p class="gli_cap">오늘 들어온 제철 자몽</p>
+					<div class="gli_thumb"><img src="./images/moment/m3.jpg" alt="천장에 걸린 나비 조명과 초록" loading="lazy" decoding="async"></div>
+					<p class="gli_cap" data-i18n="moment.cap3">초록 사이의 나비 조명</p>
 				</li>
 				<li class="gl_item fade f_up f_delay09">
-					<div class="gli_thumb t3"><svg viewBox="0 0 300 300" aria-hidden="true"><g class="lfc2"><use href="#lf_oval" transform="translate(150,300) rotate(-12) scale(2.3)"></use><use href="#lf_frond" transform="translate(150,300) rotate(34) scale(1.9)"></use></g></svg></div>
-					<p class="gli_cap">바 안쪽에서 본 골목</p>
+					<div class="gli_thumb"><img src="./images/moment/m4.jpg" alt="동물 피규어와 함께 놓인 칵테일" loading="lazy" decoding="async"></div>
+					<p class="gli_cap" data-i18n="moment.cap4">동물 친구들과 한 잔</p>
 				</li>
 				<li class="gl_item fade f_up f_delay06">
-					<div class="gli_thumb t4"><svg viewBox="0 0 300 300" aria-hidden="true"><g class="lfc5"><use href="#lf_split" transform="translate(150,300) rotate(-26) scale(2.2)"></use><use href="#lf_palm" transform="translate(150,300) rotate(18) scale(2)"></use></g></svg></div>
-					<p class="gli_cap">새벽 2시의 마지막 셰이킹</p>
+					<div class="gli_thumb"><img src="./images/moment/m5.jpg" alt="무지개 깃발과 색색의 샷 잔" loading="lazy" decoding="async"></div>
+					<p class="gli_cap" data-i18n="moment.cap5">모두의 밤, 모두의 잔</p>
 				</li>
 				<li class="gl_item fade f_up f_delay09">
-					<div class="gli_thumb t5"><svg viewBox="0 0 300 300" aria-hidden="true"><g class="lfc3"><use href="#lf_frond" transform="translate(150,300) rotate(-8) scale(2.2)"></use><use href="#lf_oval" transform="translate(150,300) rotate(30) scale(1.9)"></use></g></svg></div>
-					<p class="gli_cap">단골이 두고 간 엽서</p>
-				</li>
-				<li class="gl_item fade f_up f_delay12">
-					<div class="gli_thumb t6"><svg viewBox="0 0 300 300" aria-hidden="true"><g class="lfc4"><use href="#lf_palm" transform="translate(150,300) rotate(-34) scale(2.1)"></use><use href="#lf_split" transform="translate(150,300) rotate(10) scale(2.1)"></use></g></svg></div>
-					<p class="gli_cap">문 닫기 전, 초록 조명</p>
+					<div class="gli_thumb"><img src="./images/moment/m6.jpg" alt="호랑이 장식과 꽃이 놓인 바" loading="lazy" decoding="async"></div>
+					<p class="gli_cap" data-i18n="moment.cap6">호랑이가 지키는 바</p>
 				</li>
 			</ul>
-			<a href="https://www.instagram.com/jungle_seoul/" class="g_more" target="_blank" rel="noopener" title="Instagram_인스타그램 바로가기"><span class="font">@JUNGLE_SEOUL</span> 인스타그램에서 더 보기<i></i></a>
+			<a href="https://www.instagram.com/jungle_seoul/" class="g_more" target="_blank" rel="noopener" title="Instagram_인스타그램 바로가기"><span class="font">@JUNGLE_SEOUL</span> <span data-i18n="moment.more">인스타그램에서 더 보기</span><i></i></a>
 		</div>
 	</section>
 	<!-- Moment E -->
@@ -784,33 +824,40 @@
 
 		<div class="v_wrap">
 			<div class="v_left">
-				<p class="v_eyebrow fade f_up"><span class="font">VISIT</span> 오시는 길</p>
-				<h2 class="v_title title t2 cw font2 fade f_up f_delay03">풀숲을 헤치고<br><mark class="cs">들어오세요</mark></h2>
-				<p class="v_hand fade f_up f_delay06">예약은 인스타그램 DM으로 받습니다</p>
-				<a href="https://www.instagram.com/jungle_seoul/" class="v_btn fade f_up f_delay09" target="_blank" rel="noopener" title="Reserve_인스타그램 DM 예약">DM으로 예약하기<i></i></a>
+				<p class="v_eyebrow fade f_up" data-i18n="visit.eyebrow"><span class="font">VISIT</span> 오시는 길</p>
+				<h2 class="v_title title t2 cw font2 fade f_up f_delay03" data-i18n="visit.title">풀숲을 헤치고<br><mark class="cs">들어오세요</mark></h2>
+				<p class="v_hand fade f_up f_delay06" data-i18n="visit.hand">예약은 인스타그램 DM으로 받습니다</p>
+				<a href="https://www.instagram.com/jungle_seoul/" class="v_btn fade f_up f_delay09" target="_blank" rel="noopener" title="Reserve_인스타그램 DM 예약"><span data-i18n="visit.btn">DM으로 예약하기</span><i></i></a>
+				<div class="v_map fade f_up f_delay12">
+					<iframe src="https://www.google.com/maps?q=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%82%BC%EC%9D%BC%EB%8C%80%EB%A1%9C30%EA%B8%B8%2046&t=&z=17&ie=UTF8&iwloc=&output=embed" title="BAR JUNGLE 위치" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+					<a href="https://www.google.com/maps/search/?api=1&amp;query=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%82%BC%EC%9D%BC%EB%8C%80%EB%A1%9C30%EA%B8%B8%2046" class="vm_open" target="_blank" rel="noopener" title="Map_구글 지도에서 열기"><span data-i18n="visit.map">구글 지도에서 열기</span><i></i></a>
+				</div>
 			</div>
 			<div class="v_right">
 				<ul class="v_info fade f_up f_delay06">
-					<!-- 상세 주소·전화번호는 실제 정보로 교체 필요 -->
 					<li class="vi_row">
 						<strong class="vir_tit font">ADDRESS</strong>
 						<div class="vir_txt">
-							<address class="txt big cw">서울 종로구 익선동</address>
-							<p class="txt small">종로3가역 4번 출구에서 도보 3분</p>
+							<address class="txt big cw" data-i18n="visit.addr">서울시 종로구 삼일대로 30길 46 2층 정글</address>
+							<p class="txt small" data-i18n="visit.addr_sub">2nd floor, 46 Samil-daero 30-gil, Jongno-gu, Seoul</p>
 						</div>
 					</li>
 					<li class="vi_row">
 						<strong class="vir_tit font">HOURS</strong>
 						<div class="vir_txt">
-							<p class="txt big cw">월 – 목 19:00 – 03:00</p>
-							<p class="txt small">그 외 요일 및 휴무는 인스타그램 공지를 확인해 주세요</p>
+							<ul class="vir_hours">
+								<li><b data-i18n="visit.hours1">월 – 목</b><em class="font">19:00 – 03:00</em></li>
+								<li><b data-i18n="visit.hours2">금 – 토</b><em class="font">19:00 – 04:00</em></li>
+								<li><b data-i18n="visit.hours3">일</b><em class="font">20:00 – 03:00</em></li>
+							</ul>
+							<p class="txt small" data-i18n="visit.hours_sub">임시 휴무는 인스타그램 공지를 확인해 주세요</p>
 						</div>
 					</li>
 					<li class="vi_row">
 						<strong class="vir_tit font">RESERVE</strong>
 						<div class="vir_txt">
 							<p class="txt big cw">@jungle_seoul DM</p>
-							<p class="txt small">10석 규모의 작은 바입니다. 미리 연락 주시면 좋아요</p>
+							<p class="txt small" data-i18n="visit.reserve_sub">방문 전에 미리 연락 주시면 자리를 준비해 둘게요</p>
 						</div>
 					</li>
 				</ul>
@@ -822,7 +869,7 @@
 	<!-- Footer S -->
 	<footer id="footer" class="torn" data-tone="dark">
 		<div class="f_wrap">
-			<p class="f_logo font"><span>BAR</span> <em>JUNGLE</em></p>
+			<p class="f_logo"><img src="./images/logo_jungle.png" alt="BAR JUNGLE 정글"></p>
 			<ul class="f_sns">
 				<li><a href="https://www.instagram.com/jungle_seoul/" target="_blank" rel="noopener" title="SNS_인스타그램">INSTAGRAM</a></li>
 			</ul>
@@ -844,6 +891,7 @@
 
 </div>
 
+<script src="./js/i18n.js"></script>
 <script src="./js/lib.js"></script>
 </body>
 </html>
