@@ -1,0 +1,56 @@
+name: 카페24 배포
+
+# gnuboard/ 아래가 바뀌어 main 에 올라가면 실서버에 반영합니다.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'gnuboard/**'
+      - 'tools/deploy_ftp.py'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: '바뀐 파일만이 아니라 전체를 다시 올립니다'
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-cafe24
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: PHP 문법 검사
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq php-cli
+          fail=0
+          while IFS= read -r f; do
+            php -l "$f" > /dev/null || { echo "문법 오류: $f"; fail=1; }
+          done < <(find gnuboard -name '*.php')
+          exit $fail
+
+      - name: FTP 업로드
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          DEPLOY_FORCE: ${{ inputs.force && '1' || '0' }}
+        run: python3 tools/deploy_ftp.py
+
+      - name: 사이트 응답 확인
+        run: |
+          code=$(curl -s -o /tmp/out.html -w '%{http_code}' --max-time 60 https://jungle2304.mycafe24.com/)
+          echo "HTTP $code"
+          test "$code" = "200" || { echo "사이트가 200 을 돌려주지 않습니다"; exit 1; }
+          grep -q 'mgl_item' /tmp/out.html || { echo "메뉴가 출력되지 않았습니다"; exit 1; }
+          grep -qiE 'Fatal error|Parse error' /tmp/out.html && { echo "PHP 오류가 출력되었습니다"; exit 1; }
+          echo "정상"
