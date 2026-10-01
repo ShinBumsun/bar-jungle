@@ -392,9 +392,13 @@ include_once(G5_PATH.'/head.php');
 		<div class="s_wrap">
 			<p class="s_eyebrow fade f_up" data-i18n="sig.eyebrow"><span class="font">SIGNATURE</span> 오직, 정글에서만</p>
 			<h2 class="s_title title t2 cm font2 fade f_up f_delay03" data-i18n="sig.title">시그니처 <mark class="cr">칵테일</mark></h2>
-			<ul class="s_list">
+			<div class="s_slider">
+				<button type="button" class="ss_nav ss_prev" aria-label="이전 칵테일 보기"><i></i></button>
+				<ul class="s_list" tabindex="0">
 <?php foreach ($jungle_cards as $ci => $jc) echo jungle_card_item($jc, $ci); ?>
-			</ul>
+				</ul>
+				<button type="button" class="ss_nav ss_next" aria-label="다음 칵테일 보기"><i></i></button>
+			</div>
 			<p class="s_soon fade f_up f_delay15" data-i18n="sig.soon">시그니처 칵테일 10종 전체는 아래 메뉴에서 보실 수 있어요</p>
 		</div>
 	</section>

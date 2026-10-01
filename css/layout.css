@@ -256,7 +256,20 @@ html {scroll-snap-type:y proximity;}
 .s_eyebrow {justify-content:center;}
 .s_eyebrow::before {display:none;}
 .s_title {margin-bottom:48px;}
-.s_list {display:grid; grid-template-columns:repeat(5, 1fr); gap:22px;}
+/* 시그니처 : 한 줄 가로 슬라이드. 라이브러리 없이 네이티브 스크롤 스냅을 씀 */
+.s_slider {position:relative; width:100vw; margin-left:calc(50% - 50vw);}
+.s_list {display:flex; gap:22px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; scrollbar-width:none; padding:10px max(6vw, calc(50vw - 700px)) 30px; scroll-padding-left:max(6vw, calc(50vw - 700px));}
+.s_list::-webkit-scrollbar {display:none;}
+.s_list:focus-visible {outline:2px solid #1f4a35; outline-offset:4px;}
+.sl_item {flex:0 0 auto; width:clamp(226px, 21vw, 282px); scroll-snap-align:start;}
+.ss_nav {position:absolute; top:34%; z-index:4; width:52px; height:52px; border:2px solid #241f18; border-radius:50%; background-color:#f7efdd; box-shadow:4px 4px 0 rgba(36,31,24,0.85); transition:0.25s; cursor:pointer;}
+.ss_nav i {display:block; width:11px; height:11px; margin:0 auto; border-top:2.5px solid #241f18; border-right:2.5px solid #241f18;}
+.ss_prev {left:max(2vw, calc(50vw - 740px));}
+.ss_next {right:max(2vw, calc(50vw - 740px));}
+.ss_prev i {transform:translateX(2px) rotate(-135deg);}
+.ss_next i {transform:translateX(-2px) rotate(45deg);}
+.ss_nav:hover {background-color:#e8b13a;}
+.ss_nav[disabled] {opacity:0; pointer-events:none;}
 .sl_item {background-color:#f7efdd; border:2px solid #241f18; box-shadow:10px 10px 0 rgba(36,31,24,0.9); text-align:left; overflow:hidden; transition:opacity 0.9s ease, transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease;}
 .sec.on .sl_item:hover {transform:translate(-6px,-6px); box-shadow:17px 17px 0 rgba(36,31,24,0.9);}
 .sli_pic {position:relative; width:100%; aspect-ratio:4/3; border-bottom:2px solid #241f18; display:flex; align-items:center; justify-content:center;}
@@ -370,6 +383,7 @@ html {scroll-snap-type:y proximity;}
 	.svv_l {transform:translateX(-215%) !important;}
 	.svv_r {transform:scaleX(-1) translateX(-215%) !important;}
 	.jg_shade {opacity:0 !important;}
+	.s_list {scroll-behavior:auto !important;}
 }
 /* Motion 최소화 대응 E */
 
@@ -453,6 +467,7 @@ html {scroll-snap-type:y proximity;}
 	.m_wrap {gap:76px;}
 	.v_wrap {gap:80px;}
 	.s_list {gap:18px;}
+	.ss_nav {width:46px; height:46px;}
 	.g_list {gap:28px;}
 }
 
@@ -518,7 +533,7 @@ html {scroll-snap-type:y proximity;}
 	.hea_item.snake {width:17vw; margin-left:-8.5vw;}
 	.a_point {flex-wrap:wrap; gap:18px;}
 	.ap_item {flex:0 0 calc(50% - 9px); max-width:none;}
-	.s_list {grid-template-columns:repeat(4, 1fr); gap:18px;}
+
 
 	#depth {right:18px;}
 	.v_wrap {gap:48px;}
@@ -610,7 +625,8 @@ html {scroll-snap-type:y proximity;}
 	.he_front {height:26%;}
 	.a_point {flex-direction:column; gap:14px;}
 	.ap_item {flex:none; width:100%; padding:28px 22px; box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
-	.s_list {grid-template-columns:repeat(2, 1fr); gap:16px;}
+	.s_list {gap:14px; padding-bottom:24px;}
+	.ss_nav {display:none;}
 	.sl_item {box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
 	.sli_pic {aspect-ratio:16/10;}
 	.sli_pic svg {width:38%;}
@@ -648,7 +664,7 @@ html {scroll-snap-type:y proximity;}
 	.hea_item.toucan {width:24vw; margin-left:-12vw; left:81%; bottom:42%;}
 	.hea_item.snake {width:26vw; margin-left:-13vw; bottom:38%;}
 	.sli_note, .gli_cap, .m_hand, .v_hand {font-size:17px;}
-	.s_list {grid-template-columns:1fr;}
+
 	.f_logo img {height:38px;}
 }
 /* Responsive E */

@@ -312,6 +312,43 @@
 		if (saved !== 'ko') { setLang(saved); }
 	})();
 
+	/* 시그니처 슬라이드 : 가로 스크롤은 브라우저에 맡기고, 화살표만 거든다 */
+	var sList = document.querySelector('.s_list');
+	var sPrev = document.querySelector('.ss_prev');
+	var sNext = document.querySelector('.ss_next');
+
+	if (sList && sPrev && sNext) {
+		var sTick = false;
+
+		function sStep() {
+			var card = sList.querySelector('.sl_item');
+			if (!card) { return 300; }
+			var cs = window.getComputedStyle(sList);
+			var gap = parseFloat(cs.columnGap || cs.gap) || 22;
+			return card.getBoundingClientRect().width + gap;
+		}
+		function sSync() {
+			var max = sList.scrollWidth - sList.clientWidth;
+			sPrev.disabled = sList.scrollLeft <= 2;
+			sNext.disabled = sList.scrollLeft >= max - 2;
+			sTick = false;
+		}
+		function sMove(dir) {
+			var step = sStep();
+			if (sList.scrollBy) { sList.scrollBy({ left: dir * step, behavior: reduce ? 'auto' : 'smooth' }); }
+			else { sList.scrollLeft += dir * step; }
+		}
+		sPrev.addEventListener('click', function () { sMove(-1); });
+		sNext.addEventListener('click', function () { sMove(1); });
+		sList.addEventListener('scroll', function () {
+			if (!sTick) { window.requestAnimationFrame(sSync); sTick = true; }
+		}, { passive: true });
+		window.addEventListener('resize', function () {
+			if (!sTick) { window.requestAnimationFrame(sSync); sTick = true; }
+		}, { passive: true });
+		sSync();
+	}
+
 	/* 메뉴 탭 : 항목이 많아 분류별로 나눠 보여 줌 */
 	var tabBtns = document.querySelectorAll('.mt_btn');
 	var tabPanels = document.querySelectorAll('.mp_panel');
