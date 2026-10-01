@@ -26,8 +26,8 @@ if (!defined('_GNUBOARD_')) exit;
 
 </div>
 
-<script src="<?php echo G5_THEME_URL ?>/js/i18n.js?ver=<?php echo G5_JS_VER ?>"></script>
-<script src="<?php echo G5_THEME_URL ?>/js/lib.js?ver=<?php echo G5_JS_VER ?>"></script>
+<script src="<?php echo G5_THEME_URL ?>/js/i18n.js?v=<?php echo isset($jungle_ver) ? $jungle_ver : "1.0.0" ?>"></script>
+<script src="<?php echo G5_THEME_URL ?>/js/lib.js?v=<?php echo isset($jungle_ver) ? $jungle_ver : "1.0.0" ?>"></script>
 
 <?php
-include_once(G5_PATH.'/tail.sub.php');
+include_once(G5_THEME_PATH.'/tail.sub.php');

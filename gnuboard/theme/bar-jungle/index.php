@@ -1,7 +1,6 @@
 <?php
-include_once('./_common.php');
-
-define('_INDEX_', true);
+if (!defined('_INDEX_')) define('_INDEX_', true);
+if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 $jungle_site = include(G5_THEME_PATH.'/data/site.php');
 $jungle_menu = include(G5_THEME_PATH.'/data/menu.php');

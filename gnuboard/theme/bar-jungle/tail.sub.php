@@ -1,5 +1,8 @@
 <?php
-if (!defined('_GNUBOARD_')) exit;
+if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
+
+run_event('tail_sub');
 ?>
 </body>
 </html>
+<?php echo html_end(); // HTML 마지막 처리 함수 : 반드시 넣어주시기 바랍니다.
