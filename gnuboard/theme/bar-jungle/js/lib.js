@@ -225,6 +225,44 @@
 
 	/* 언어 전환 : KOR / ENG / JPN
 	   한국어 원문은 HTML 에 그대로 있고, 처음 로드될 때 보관해 두었다가 되돌린다. */
+	/* 메뉴판 항목은 수가 많아 사전에 넣지 않고, 서버가 각 줄의 data 속성에
+	   세 언어를 실어 보냅니다. 언어를 바꾸면 여기서 꺼내 씁니다. */
+	var menuItems = document.querySelectorAll('[data-jm]');
+
+	function applyMenuLang(lang) {
+		for (var i = 0; i < menuItems.length; i++) {
+			var li = menuItems[i];
+			var nameEl = li.querySelector('.mgli_name');
+			if (nameEl) {
+				var ja = li.getAttribute('data-nm-ja');
+				var primary = (lang === 'ja' && ja) ? ja : (li.getAttribute('data-nm-ko') || '');
+				var en = li.getAttribute('data-nm-en');
+				var vol = li.getAttribute('data-nm-vol');
+				/* 관리자가 넣은 글자가 태그로 해석되지 않도록 DOM 으로 다시 짠다 */
+				nameEl.textContent = primary;
+				if (en) {
+					var se = document.createElement('span');
+					se.textContent = en;
+					nameEl.appendChild(document.createTextNode(' '));
+					nameEl.appendChild(se);
+				}
+				if (vol) {
+					var sv = document.createElement('span');
+					sv.className = 'mgli_vol';
+					sv.textContent = vol;
+					nameEl.appendChild(document.createTextNode(' '));
+					nameEl.appendChild(sv);
+				}
+			}
+			var d = li.querySelector('.mgli_desc');
+			if (d) {
+				var txt = li.getAttribute('data-ds-' + lang) || '';
+				d.textContent = txt;
+				d.hidden = (txt === '');
+			}
+		}
+	}
+
 	var DICT = window.JUNGLE_I18N || {};
 	var langBtns = document.querySelectorAll('.hl_btn');
 	var i18nEls = document.querySelectorAll('[data-i18n]');
@@ -250,6 +288,7 @@
 		for (i = 0; i < langBtns.length; i++) {
 			langBtns[i].classList.toggle('on', langBtns[i].getAttribute('data-lang') === lang);
 		}
+		applyMenuLang(lang);
 		try { localStorage.setItem('jungle_lang', lang); } catch (e) {}
 		/* 문구 길이가 달라지면 높이도 달라진다 */
 		if (window.jungleRemeasure) { window.jungleRemeasure(0); }

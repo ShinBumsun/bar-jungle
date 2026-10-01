@@ -305,7 +305,6 @@ html {scroll-snap-type:y proximity;}
 .mgli_desc {margin-top:5px; padding-right:64px; font-size:13px; line-height:1.68; opacity:0.5;}
 .mp_sub {margin:38px 0 10px; padding-bottom:10px; border-bottom:1px solid rgba(247,239,221,0.2); font-size:15px; letter-spacing:0.14em; color:#e8b13a;}
 .mp_panel > .mp_sub:first-child {margin-top:0;}
-html[lang="en"] .mgli_desc, html[lang="ja"] .mgli_desc {display:none;}
 /* Menu E */
 
 /* Moment S */

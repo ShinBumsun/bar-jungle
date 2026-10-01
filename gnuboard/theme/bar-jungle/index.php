@@ -3,7 +3,7 @@ if (!defined('_INDEX_')) define('_INDEX_', true);
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 $jungle_site = include(G5_THEME_PATH.'/data/site.php');
-$jungle_menu = include(G5_THEME_PATH.'/data/menu.php');
+$jungle_menu = jungle_menu_tree();   // 관리자 > 정글 사이트 > 메뉴판 관리
 
 include_once(G5_PATH.'/head.php');
 ?>
@@ -512,7 +512,7 @@ include_once(G5_PATH.'/head.php');
 				<div class="m_panels fade f_up f_delay06">
 <?php foreach ($jungle_menu as $ti => $tab) { ?>
 					<div class="mp_panel<?php echo $ti ? '' : ' on' ?>" id="pn_<?php echo $tab['key'] ?>" role="tabpanel">
-<?php     $multi = count($tab['groups']) > 1; ?>
+<?php     $multi = count($tab['groups']) > 1 && trim($tab['groups'][0]['cat']) !== ''; ?>
 <?php     foreach ($tab['groups'] as $g) { ?>
 <?php         if ($multi) { ?>
 						<h4 class="mp_sub font"><?php echo $g['cat'] ?></h4>
