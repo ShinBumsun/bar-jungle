@@ -8,17 +8,19 @@ if (!defined('_GNUBOARD_')) exit;
 define('G5_JUNGLE_MENU_TABLE', G5_TABLE_PREFIX.'jungle_menu');
 
 // 메뉴판 탭. key 는 화면 id, label 은 버튼에 찍히는 글자입니다.
+// 적어 둔 순서가 곧 화면의 탭 순서입니다.
 $g5['jungle_tabs'] = array(
 	'signature' => 'SIGNATURE',
+	'bottle'    => 'BOTTLE',
+	'wine'      => 'WINE',
+	'shot'      => 'SHOT',
 	'highball'  => 'HIGHBALL',
 	'gin'       => 'GIN &amp; TONIC',
 	'tropical'  => 'TROPICAL',
 	'classic'   => 'CLASSIC',
-	'milkshot'  => 'MILK &amp; SHOT',
+	'milkshot'  => 'MILKY',
 	'nonalc'    => 'NON-ALCOHOL',
 	'beer'      => 'BEER &amp; SNACK',
-	'bottle'    => 'BOTTLE',
-	'wine'      => 'WINE',
 );
 
 /**
