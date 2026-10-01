@@ -38,18 +38,48 @@
 		Array.prototype.forEach.call(sections, function (sec) { sec.classList.add('on'); });
 	}
 
+	/* ──────────────────────────────────────────────────────────────
+	   측정값 캐시
+	   스크롤 중에 getBoundingClientRect / scrollHeight 를 읽으면 그때마다
+	   브라우저가 레이아웃을 다시 계산한다. 잎사귀 220개와 메뉴 208줄이
+	   얹힌 이 페이지에서는 그 비용이 그대로 끊김으로 나타난다.
+	   그래서 위치값은 미리 재 두고, 매 프레임에는 스크롤 위치만 읽는다.
+	   ────────────────────────────────────────────────────────────── */
+	var M = { vh: 0, maxScroll: 1, narrow: false, veilTop: [], toneTop: [], toneBot: [] };
+
+	function measure() {
+		var sy = window.pageYOffset || document.documentElement.scrollTop;
+		var i, r;
+		M.vh = window.innerHeight;
+		M.narrow = window.innerWidth <= 768;
+		M.maxScroll = Math.max(1, document.documentElement.scrollHeight - M.vh);
+		M.veilTop = [];
+		for (i = 0; i < veils.length; i++) {
+			r = veils[i].getBoundingClientRect();
+			M.veilTop.push(r.top + sy);
+		}
+		M.toneTop = []; M.toneBot = [];
+		for (i = 0; i < tones.length; i++) {
+			r = tones[i].getBoundingClientRect();
+			M.toneTop.push(r.top + sy);
+			M.toneBot.push(r.bottom + sy);
+		}
+	}
+
 	/* 헤더 고정 상태 + 히어로 패럴랙스 */
 	var ticking = false;
 	function onScroll() {
 		var sy = window.pageYOffset || document.documentElement.scrollTop;
 		if (header) { header.classList.toggle('fix', sy > 60); }
-		if (!reduce && hero && sy < window.innerHeight * 1.2) {
+		/* 패럴랙스는 큰 화면에서만. 모바일에서는 프레임당 요소 4개를 다시 그리는
+		   비용이 효과보다 크다. */
+		if (!reduce && !M.narrow && hero && sy < M.vh * 1.2) {
 			if (heFar) { heFar.style.transform = 'translateY(' + (sy * 0.1) + 'px)'; }
 			if (heBush) { heBush.style.transform = 'translateY(' + (sy * 0.16) + 'px)'; }
 			if (heAnimals) { heAnimals.style.transform = 'translateY(' + (sy * 0.24) + 'px)'; }
 			if (heTitle) {
 				heTitle.style.transform = 'translateX(-50%) translateY(' + (sy * 0.36) + 'px)';
-				heTitle.style.opacity = Math.max(0, 1 - sy / (window.innerHeight * 0.62));
+				heTitle.style.opacity = Math.max(0, 1 - sy / (M.vh * 0.62));
 			}
 		}
 		updateJungle(sy);
@@ -68,29 +98,38 @@
 	   스크롤이 버벅인다. 실제로 움직이는 좌우 풀숲에만 쓴다. */
 	var veilSides = [];
 
-	function veilTarget(el) {
-		var t = 1 - (el.getBoundingClientRect().top / window.innerHeight);
+	function veilTarget(i, sy) {
+		var t = 1 - ((M.veilTop[i] - sy) / M.vh);
 		return t < 0 ? 0 : t > 1 ? 1 : t;
 	}
 	function veilWrite(i, v) {
 		var sides = veilSides[i], j;
 		for (j = 0; j < sides.length; j++) { sides[j].style.setProperty('--p', v.toFixed(4)); }
 	}
-	/* 첫 프레임에 현재 스크롤 위치에 맞는 값을 반드시 한 번 써 준다.
-	   (안 쓰면 --p 가 비어 있어 CSS 기본값 1 = 열린 상태로 시작해 버림) */
+
 	for (var vi = 0; vi < veils.length; vi++) {
 		veilSides.push(veils[vi].querySelectorAll('.svv_side'));
-		var t0 = reduce ? 1 : veilTarget(veils[vi]);
-		veilP.push(t0);
-		veilWrite(vi, t0);
+		veilP.push(0);
 	}
+	measure();
+	/* 첫 프레임에 현재 스크롤 위치에 맞는 값을 반드시 한 번 써 준다.
+	   (안 쓰면 --p 가 비어 있어 CSS 기본값 1 = 열린 상태로 시작해 버림) */
+	(function () {
+		var sy = window.pageYOffset || document.documentElement.scrollTop;
+		for (var i = 0; i < veils.length; i++) {
+			var t0 = reduce ? 1 : veilTarget(i, sy);
+			veilP[i] = t0;
+			veilWrite(i, t0);
+		}
+	})();
 
 	function veilLoop(ts) {
 		var dt = veilLast ? Math.min(ts - veilLast, 64) : 16;
 		veilLast = ts;
 		var step = dt / VEIL_DUR;
+		var sy = window.pageYOffset || document.documentElement.scrollTop;
 		for (var i = 0; i < veils.length; i++) {
-			var target = veilTarget(veils[i]);
+			var target = veilTarget(i, sy);
 			var cur = veilP[i];
 			var diff = target - cur;
 			var next = Math.abs(diff) <= step ? target : cur + (diff > 0 ? step : -step);
@@ -107,24 +146,55 @@
 	}
 	if (!reduce) { window.requestAnimationFrame(veilLoop); }
 
+	var shadeLast = -1, toneLast = '', activeLast = -2;
 	function updateJungle(sy) {
-		var vh = window.innerHeight;
 		var i;
-		/* 아래로 갈수록 짙어지는 숲 그늘 */
-		/* #wrap 에 커스텀 속성을 쓰면 문서 전체가 무효화되므로, 자식이 없는 전용 레이어에 직접 쓴다 */
-		var max = document.documentElement.scrollHeight - vh;
-		if (shade) { shade.style.opacity = max > 0 ? (sy / max * 0.62).toFixed(3) : 0; }
-		/* 지금 몇 번째 층인지 */
-		var active = -1, tone = 'dark';
-		for (i = 0; i < tones.length; i++) {
-			var r = tones[i].getBoundingClientRect();
-			if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) { active = i; tone = tones[i].getAttribute('data-tone'); }
+		/* 아래로 갈수록 짙어지는 숲 그늘.
+		   값을 잘게 쪼개지 않고 50단계로 끊어, 대부분의 프레임에서는 아무것도 쓰지 않는다. */
+		if (shade) {
+			var step = Math.round((sy / M.maxScroll) * 50);
+			if (step !== shadeLast) {
+				shadeLast = step;
+				shade.style.opacity = (step / 50 * 0.62).toFixed(3);
+			}
 		}
-		if (depthNav) { depthNav.classList.toggle('light', tone === 'light'); }
-		for (i = 0; i < depthItems.length; i++) {
-			depthItems[i].classList.toggle('on', i === active);
+		/* 지금 몇 번째 층인지 */
+		var mid = sy + M.vh * 0.5, active = -1, tone = 'dark';
+		for (i = 0; i < tones.length; i++) {
+			if (M.toneTop[i] <= mid && M.toneBot[i] > mid) { active = i; tone = tones[i].getAttribute('data-tone'); }
+		}
+		if (depthNav && tone !== toneLast) { depthNav.classList.toggle('light', tone === 'light'); toneLast = tone; }
+		if (active !== activeLast) {
+			activeLast = active;
+			for (i = 0; i < depthItems.length; i++) { depthItems[i].classList.toggle('on', i === active); }
 		}
 	}
+
+	/* 다시 재야 하는 때
+	   모바일에서 주소창이 접히고 펴지면 innerHeight 가 바뀌는데, 레이아웃이 바뀐 게
+	   아니므로 무시한다. 이걸 그대로 반영하면 화면이 들썩인다. */
+	var lastW = window.innerWidth, lastH = window.innerHeight, reTimer = null;
+	function remeasure(delay) {
+		if (reTimer) { window.clearTimeout(reTimer); }
+		reTimer = window.setTimeout(function () {
+			measure();
+			shadeLast = -1; activeLast = -2; toneLast = '';
+			onScroll();
+		}, delay || 0);
+	}
+	window.addEventListener('resize', function () {
+		var w = window.innerWidth, h = window.innerHeight;
+		if (w === lastW && Math.abs(h - lastH) < 160) { lastH = h; return; }
+		lastW = w; lastH = h;
+		remeasure(160);
+	}, { passive: true });
+	window.addEventListener('orientationchange', function () { remeasure(260); }, { passive: true });
+	window.addEventListener('load', function () { remeasure(0); remeasure(400); });
+	if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+		document.fonts.ready.then(function () { remeasure(0); });
+	}
+	window.jungleRemeasure = remeasure;
+
 	window.addEventListener('scroll', function () {
 		if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
 	}, { passive: true });
@@ -181,6 +251,8 @@
 			langBtns[i].classList.toggle('on', langBtns[i].getAttribute('data-lang') === lang);
 		}
 		try { localStorage.setItem('jungle_lang', lang); } catch (e) {}
+		/* 문구 길이가 달라지면 높이도 달라진다 */
+		if (window.jungleRemeasure) { window.jungleRemeasure(0); }
 	}
 	for (var li = 0; li < langBtns.length; li++) {
 		langBtns[li].addEventListener('click', function () { setLang(this.getAttribute('data-lang')); });
@@ -207,6 +279,8 @@
 				tabBtns[i].setAttribute('aria-selected', on ? 'true' : 'false');
 			}
 			for (i = 0; i < tabPanels.length; i++) { tabPanels[i].classList.toggle('on', tabPanels[i].id === id); }
+			/* 패널이 바뀌면 섹션 높이가 달라지므로 위치를 다시 잰다 */
+			if (window.jungleRemeasure) { window.jungleRemeasure(0); }
 		});
 	}
 

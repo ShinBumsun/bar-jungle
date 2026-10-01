@@ -568,6 +568,8 @@ html[lang="en"] .mgli_desc, html[lang="ja"] .mgli_desc {display:none;}
 }
 
 @media all and (max-width:768px) {
+	/* 모바일 성능 : 풀숲 앞쪽 장식 잎 6장은 생략. 덮는 역할은 뒤쪽 잎들이 한다. */
+	.svl.n13, .svl.n14, .svl.n15, .svl.n16, .svl.n17, .svl.n18 {display:none;}
 	.h_logo img {height:28px;}
 	#header.fix .h_logo img {height:26px;}
 	.het_logo img {width:66vw;}
