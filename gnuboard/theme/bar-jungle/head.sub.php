@@ -24,7 +24,7 @@ $jungle_scheme = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !==
 $jungle_host   = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 $jungle_base   = $jungle_scheme.'://'.$jungle_host.G5_URL;
 $jungle_og     = $jungle_scheme.'://'.$jungle_host.G5_THEME_URL.'/img/og.jpg';
-$jungle_ver    = '1.0.7';
+$jungle_ver    = '1.0.8';
 ?>
 <!doctype html>
 <html lang="ko">

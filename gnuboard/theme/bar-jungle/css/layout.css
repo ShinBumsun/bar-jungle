@@ -681,9 +681,24 @@ html {scroll-snap-type:y proximity;}
 	.sec > .sv_veil {--lsc:2.4; --vshift:-215%;}
 	#depth {display:none;}
 
-	.mgli_name {font-size:16px;}
-	.mgli_desc {padding-right:0; font-size:12.5px;}
+	/* 한 줄에 다 넣으려다 이름 칸이 눌려 글자 단위로 쪼개지던 것을 고친다.
+	   와인처럼 당도·바디 지표가 붙는 줄은 폭이 모자라 이름이 9줄까지 갈라졌다.
+
+	   이름이 한 줄을 다 쓰게 하고, 지표·점선·가격을 그 아래 줄로 내렸다.
+	   남는 자리에 지표를 끼워 넣으면 영문명과 맞붙어 읽기 어렵고, 폭이
+	   모자랄 때 지표만 다시 갈라져 더 어지러워진다.
+	   아래 줄은 order 로 지표 → 점선 → 가격 순서로 세우고, 점선이 남는
+	   자리를 늘려 가격이 오른쪽 끝에 붙게 한다. 가격만 있는 맥주·안주도
+	   같은 모양이라 목록 전체가 한 결로 읽힌다. */
+	.mgli_row {flex-wrap:wrap; row-gap:2px;}
+	.mgli_name {font-size:16px; flex:1 0 100%; order:0;}
 	.mgli_name span {display:block; margin:3px 0 0 0;}
+	.mgli_alc, .mgli_meter {order:1; margin-bottom:1px;}
+	.mgli_meter {margin-right:8px; font-size:10.5px;}
+	.mgli_row i {order:2; min-width:14px; margin:0 9px 5px;}
+	.mgli_row em {order:3; margin-left:auto;}
+	.mgli_note {order:4;}
+	.mgli_desc {padding-right:0; font-size:12.5px;}
 	.g_list {grid-template-columns:1fr; gap:20px;}
 	.gl_item {box-shadow:7px 7px 0 rgba(36,31,24,0.85);}
 	.gli_thumb {aspect-ratio:4/3;}
