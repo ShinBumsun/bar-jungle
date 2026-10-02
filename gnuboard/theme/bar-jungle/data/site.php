@@ -13,7 +13,7 @@ return array(
 	'insta_id'   => '@jungle_seoul',
 	'addr_ko'    => '서울시 종로구 삼일대로 30길 46 2층 정글',
 	'addr_en'    => '2nd floor, 46 Samil-daero 30-gil, Jongno-gu, Seoul',
-	'map_query'  => '서울특별시 종로구 삼일대로30길 46',
+	'map_query'  => '서울시 종로구 삼일대로 30길 46 2층 정글',
 	'hours'      => array(
 		array('label' => '월 – 목', 'i18n' => 'visit.hours1', 'time' => '19:00 – 03:00'),
 		array('label' => '금 – 토', 'i18n' => 'visit.hours2', 'time' => '19:00 – 04:00'),
