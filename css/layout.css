@@ -625,11 +625,16 @@ html {scroll-snap-type:y proximity;}
 	.hea_item.tiger  {--w:25vw; left:50%; bottom:35%;}
 	.hea_item.monkey {--w:18vw; left:73%; bottom:36%;}
 	.hea_item.toucan {--w:15vw; left:90%; bottom:42%;}
-	.hea_drink.d_snake  {--w:9vw; left:10%; bottom:23%;}
-	.hea_drink.d_lion   {--w:9vw; left:27%; bottom:23%;}
-	.hea_drink.d_tiger  {--w:9vw; left:50%; bottom:23%;}
-	.hea_drink.d_monkey {--w:9vw; left:73%; bottom:23%;}
-	.hea_drink.d_toucan {--w:9vw; left:90%; bottom:23%;}
+	/* 잔은 제 동물 바로 아래에 붙인다.
+	   한 줄로 나란히 두면 높이가 제각각인 동물들과 사이가 벌어져 따로 노는데,
+	   동물의 bottom 에서 일정한 vw 만큼만 내리면 간격이 고르게 유지된다.
+	   빼는 값은 잔 높이 + 여백 - 동물 그림의 아래 여백 이고, 전부 vw 라
+	   화면이 세로로 길어지거나 짧아져도 간격이 그대로다. */
+	.hea_drink.d_snake  {--w:9vw; left:10%; bottom:calc(41% - 12.2vw);}
+	.hea_drink.d_lion   {--w:9vw; left:27%; bottom:calc(36% - 11.9vw);}
+	.hea_drink.d_tiger  {--w:9vw; left:50%; bottom:calc(35% - 11.0vw);}
+	.hea_drink.d_monkey {--w:9vw; left:73%; bottom:calc(36% - 11.5vw);}
+	.hea_drink.d_toucan {--w:9vw; left:90%; bottom:calc(42% - 12.3vw);}
 	/* 모바일 성능 : 풀숲 앞쪽 장식 잎 6장은 생략. 덮는 역할은 뒤쪽 잎들이 한다. */
 	.svl.n13, .svl.n14, .svl.n15, .svl.n16, .svl.n17, .svl.n18 {display:none;}
 	.h_logo img {height:28px;}
@@ -709,11 +714,11 @@ html {scroll-snap-type:y proximity;}
 	.hea_item.tiger  {--w:21vw; bottom:33%;}
 	.hea_item.monkey {--w:15vw; bottom:34%;}
 	.hea_item.toucan {--w:13vw; bottom:39%;}
-	.hea_drink.d_snake  {--w:8vw; bottom:21%;}
-	.hea_drink.d_lion   {--w:8vw; bottom:21%;}
-	.hea_drink.d_tiger  {--w:8vw; bottom:21%;}
-	.hea_drink.d_monkey {--w:8vw; bottom:21%;}
-	.hea_drink.d_toucan {--w:8vw; bottom:21%;}
+	.hea_drink.d_snake  {--w:8vw; bottom:calc(38% - 11.2vw);}
+	.hea_drink.d_lion   {--w:8vw; bottom:calc(34% - 10.9vw);}
+	.hea_drink.d_tiger  {--w:8vw; bottom:calc(33% - 10.1vw);}
+	.hea_drink.d_monkey {--w:8vw; bottom:calc(34% - 10.6vw);}
+	.hea_drink.d_toucan {--w:8vw; bottom:calc(39% - 11.0vw);}
 }
 
 /* Responsive E */
