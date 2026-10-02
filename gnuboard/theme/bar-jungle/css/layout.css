@@ -645,16 +645,20 @@ html {scroll-snap-type:y proximity;}
 	.h_logo img {height:28px;}
 	#header.fix .h_logo img {height:26px;}
 	.het_logo img {width:min(66vw, calc(var(--vh) * 42));}
-	.het_pride {margin-top:18px; padding:7px 16px 7px 13px; gap:8px;}
+	/* margin-top 은 두 줄로 따로 놓였던 시절의 흔적이다. 지금은 인스타 링크와
+	   het_row 한 줄에 나란히 서는데, 뱃지만 18px 내려가 높이가 어긋나 있었다. */
+	.het_pride {padding:7px 16px 7px 13px; gap:8px;}
 	.hp_bow {width:28px; height:16px;}
 	.het_pride span {font-size:11px; letter-spacing:0.12em;}
 	.het_ig {font-size:12px;}
 	.a_notice {padding:24px 20px; box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
 	.an_tit {font-size:17px;}
 	.s_soon {font-size:18px;}
-	.m_tabs {flex-wrap:nowrap; justify-content:flex-start; overflow-x:auto; scrollbar-width:none; margin-bottom:28px;}
-	.m_tabs::-webkit-scrollbar {display:none;}
-	.mt_btn {flex-shrink:0; padding:10px 18px; font-size:14px;}
+	/* 가로로 밀어 보는 줄이었는데, 중간쯤 밀면 양 끝 버튼이 반씩 잘려 보였다.
+	   탭이 11개라 어떻게 밀어도 끝은 잘린다. 줄을 바꿔 한눈에 다 보이게 한다.
+	   글자와 여백을 줄여 줄 수가 늘어나는 만큼을 상쇄한다. */
+	.m_tabs {flex-wrap:wrap; justify-content:center; overflow-x:visible; gap:7px; margin-bottom:26px;}
+	.mt_btn {padding:9px 15px; font-size:12.5px; letter-spacing:0.08em;}
 	.mp_panel .mg_list {columns:1;}
 	.v_map {--ratio:100%; margin-top:26px;}
 	.vir_hours b {min-width:64px; font-size:16px;}
