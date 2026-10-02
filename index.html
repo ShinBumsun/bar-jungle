@@ -57,7 +57,12 @@
 <!-- SVG Defs S : 종이컷 스타일 잎사귀 원본 -->
 <svg class="svg_defs" aria-hidden="true" focusable="false">
 	<defs>
-		<path id="lf_blade" d="M-7,0 Q-3,-52 0,-100 Q3,-52 7,0 Z"></path>
+		<!-- 잎 한 장. y=0 위쪽 윤곽은 그대로 두고 밑동만 뾰족하게 마무리한다.
+		     밑동이 평평하면 수풀이 갈라져 밑동이 드러날 때 칼로 자른 것처럼 보인다. -->
+		<path id="lf_blade" d="M-7,0 Q-3,-52 0,-100 Q3,-52 7,0 C6,10 3,16 0,17 C-3,16 -6,10 -7,0 Z"></path>
+		<!-- 줄기에 붙는 작은 잎. 밑동이 줄기에 가려지므로 뾰족하게 만들면
+		     꼬리가 줄기 반대편으로 삐져나온다. 그래서 평평한 원래 모양을 쓴다. -->
+		<path id="lf_leaflet" d="M-7,0 Q-3,-52 0,-100 Q3,-52 7,0 Z"></path>
 		<g id="lf_palm">
 			<use href="#lf_blade" transform="rotate(-54) scale(0.86)"></use>
 			<use href="#lf_blade" transform="rotate(-36) scale(0.94)"></use>
@@ -73,16 +78,16 @@
 			<path d="M0,-34 L-16,-52 M0,-34 L16,-52 M0,-58 L-13,-74 M0,-58 L13,-74" fill="none" stroke="rgba(0,0,0,0.12)" stroke-width="2" stroke-linecap="round"></path>
 		</g>
 		<g id="lf_frond">
-			<path d="M-2.5,4 L-2.5,-118 L2.5,-118 L2.5,4 Z"></path>
-			<use href="#lf_blade" transform="translate(0,-22) rotate(68) scale(0.44)"></use>
-			<use href="#lf_blade" transform="translate(0,-22) rotate(-68) scale(0.44)"></use>
-			<use href="#lf_blade" transform="translate(0,-48) rotate(70) scale(0.4)"></use>
-			<use href="#lf_blade" transform="translate(0,-48) rotate(-70) scale(0.4)"></use>
-			<use href="#lf_blade" transform="translate(0,-72) rotate(72) scale(0.34)"></use>
-			<use href="#lf_blade" transform="translate(0,-72) rotate(-72) scale(0.34)"></use>
-			<use href="#lf_blade" transform="translate(0,-94) rotate(74) scale(0.26)"></use>
-			<use href="#lf_blade" transform="translate(0,-94) rotate(-74) scale(0.26)"></use>
-			<use href="#lf_blade" transform="translate(0,-112) scale(0.2)"></use>
+			<path d="M0,-121 C1.6,-121 2.5,-120 2.5,-118 L2.5,0 C2.5,8 1.4,14 0,16 C-1.4,14 -2.5,8 -2.5,0 L-2.5,-118 C-2.5,-120 -1.6,-121 0,-121 Z"></path>
+			<use href="#lf_leaflet" transform="translate(0,-22) rotate(68) scale(0.44)"></use>
+			<use href="#lf_leaflet" transform="translate(0,-22) rotate(-68) scale(0.44)"></use>
+			<use href="#lf_leaflet" transform="translate(0,-48) rotate(70) scale(0.4)"></use>
+			<use href="#lf_leaflet" transform="translate(0,-48) rotate(-70) scale(0.4)"></use>
+			<use href="#lf_leaflet" transform="translate(0,-72) rotate(72) scale(0.34)"></use>
+			<use href="#lf_leaflet" transform="translate(0,-72) rotate(-72) scale(0.34)"></use>
+			<use href="#lf_leaflet" transform="translate(0,-94) rotate(74) scale(0.26)"></use>
+			<use href="#lf_leaflet" transform="translate(0,-94) rotate(-74) scale(0.26)"></use>
+			<use href="#lf_leaflet" transform="translate(0,-112) scale(0.2)"></use>
 		</g>
 		<g id="lf_split">
 			<path d="M0,0 C-30,-26 -34,-78 0,-112 C34,-78 30,-26 0,0 Z"></path>

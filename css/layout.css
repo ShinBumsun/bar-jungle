@@ -213,7 +213,12 @@ html {scroll-snap-type:y proximity;}
 #hero.on .het_logo {opacity:1; transform:translateY(0) scale(1);}
 
 .he_bush {position:absolute; left:0; top:0; width:100%; height:100%; z-index:6;}
-.heb_leaf {position:absolute; bottom:-2%; height:114%; transition:transform 2.1s cubic-bezier(0.62,0.02,0.2,1) 0.3s;}
+/* overflow:visible 가 핵심이다.
+   수풀 패널은 양옆으로 밀려나며 갈라지는데, 기본값(hidden)이면 SVG 가 제 박스
+   경계에서 내용을 잘라 낸다. 패널이 기울어 있어서 그 경계가 화면 한가운데
+   비스듬한 직선으로 드러나고, 잎이 칼로 벤 것처럼 보였다.
+   밖으로 나가는 잎은 #hero 의 overflow:hidden 이 잡아 준다. */
+.heb_leaf {position:absolute; bottom:-2%; height:114%; overflow:visible; transition:transform 2.1s cubic-bezier(0.62,0.02,0.2,1) 0.3s;}
 .heb_l1 {left:-7%; width:66%; transform-origin:0% 100%;}
 .heb_r1 {right:-7%; width:66%; transform-origin:100% 100%;}
 .heb_l2 {left:-5%; width:56%; transform-origin:0% 100%; transition-delay:0.18s;}
