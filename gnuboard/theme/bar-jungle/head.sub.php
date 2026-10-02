@@ -19,12 +19,20 @@ if (!$g5['lo_location']) $g5['lo_location'] = addslashes(clean_xss_tags($_SERVER
 $g5['lo_url'] = addslashes(clean_xss_tags($_SERVER['REQUEST_URI']));
 if (strstr($g5['lo_url'], '/'.G5_ADMIN_DIR.'/') || $is_admin == 'super') $g5['lo_url'] = '';
 
-// 공유(오픈그래프)용 절대 주소 : 접속한 도메인 기준으로 만듭니다.
-$jungle_scheme = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
-$jungle_host   = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
-$jungle_base   = $jungle_scheme.'://'.$jungle_host.G5_URL;
-$jungle_og     = $jungle_scheme.'://'.$jungle_host.G5_THEME_URL.'/img/og.jpg';
-$jungle_ver    = '1.0.9';
+// 공유(오픈그래프)용 절대 주소
+// G5_URL 은 설치에 따라 모양이 다르다. 이 서버의 g5_path() 는 'https://호스트/경로'
+// 처럼 절대주소를 만들지만, G5_DOMAIN 을 비워 둔 다른 설치에서는 경로만 들어온다.
+// 그래서 이미 절대주소면 그대로 쓰고, 아닐 때만 접속한 도메인을 앞에 붙인다.
+// (앞서 무조건 붙이는 바람에 호스트가 두 번 들어가 공유 미리보기가 깨져 있었다.)
+$jungle_origin = '';
+if (!preg_match('#^https?://#i', G5_URL)) {
+	$jungle_scheme = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') ? 'https' : 'http';
+	$jungle_host   = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+	$jungle_origin = $jungle_host ? $jungle_scheme.'://'.$jungle_host : '';
+}
+$jungle_base   = rtrim($jungle_origin.G5_URL, '/');
+$jungle_og     = $jungle_origin.G5_THEME_URL.'/img/og.jpg';
+$jungle_ver    = '1.0.10';
 ?>
 <!doctype html>
 <html lang="ko">
