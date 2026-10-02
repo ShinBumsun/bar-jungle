@@ -26,6 +26,31 @@
 	<link href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./css/init.css">
 	<link rel="stylesheet" href="./css/layout.css">
+	<script>
+	/* 화면 높이 고정
+	   모바일에서 주소창이 접히고 펴지면 보이는 높이가 계속 바뀐다. 그대로 두면
+	   섹션 높이가 따라 움직여 화면이 들썩이므로, 처음 잰 값을 --vh 에 박아 두고
+	   가로폭이나 방향이 실제로 바뀔 때만 다시 잰다. 첫 페인트 전에 정해야
+	   깜빡임이 없어서 CSS 바로 뒤에 인라인으로 둔다. */
+	(function () {
+		var de = document.documentElement, lastW = -1;
+		/* 주소창이 있는 건 터치 기기뿐이다. 데스크톱은 창을 세로로 줄이면
+		   그대로 따라가야 하므로 고정하지 않는다. */
+		var touch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+		function pin(force) {
+			var w = window.innerWidth, h = window.innerHeight;
+			if (!h) { return; }
+			if (touch && !force && w === lastW) { return; }	/* 높이만 바뀐 건 주소창이므로 무시 */
+			lastW = w;
+			de.style.setProperty('--vh', (h / 100) + 'px');
+		}
+		pin(true);
+		window.addEventListener('resize', function () { pin(false); }, { passive: true });
+		window.addEventListener('orientationchange', function () {
+			window.setTimeout(function () { pin(true); }, 260);
+		}, { passive: true });
+	})();
+	</script>
 </head>
 <body>
 
@@ -1646,8 +1671,13 @@
 				<h2 class="v_title title t2 cw font2 fade f_up f_delay03" data-i18n="visit.title">풀숲을 헤치고<br><mark class="cs">들어오세요</mark></h2>
 				<p class="v_hand fade f_up f_delay06" data-i18n="visit.hand">예약은 인스타그램 DM으로 받습니다</p>
 				<a href="https://www.instagram.com/jungle_seoul/" class="v_btn fade f_up f_delay09" target="_blank" rel="noopener" title="Reserve_인스타그램 DM 예약"><span data-i18n="visit.btn">DM으로 예약하기</span><i></i></a>
-				<div class="v_map fade f_up f_delay12">
-					<iframe src="https://www.google.com/maps?q=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%82%BC%EC%9D%BC%EB%8C%80%EB%A1%9C30%EA%B8%B8%2046&t=&z=17&ie=UTF8&iwloc=&output=embed" title="BAR JUNGLE 위치" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+				<div class="v_map fade f_up f_delay12" id="vmap">
+					<div class="vm_fall">
+						<span class="vmf_mark" aria-hidden="true">林</span>
+						<p class="vmf_addr">서울시 종로구 삼일대로 30길 46 2층 정글</p>
+						<p class="vmf_sub" data-i18n="visit.map_fall">지도가 보이지 않으면 아래 버튼을 눌러 주세요</p>
+					</div>
+					<iframe src="https://www.google.com/maps?q=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%82%BC%EC%9D%BC%EB%8C%80%EB%A1%9C30%EA%B8%B8%2046&t=&z=17&ie=UTF8&iwloc=&output=embed" title="BAR JUNGLE 위치" referrerpolicy="no-referrer-when-downgrade" allow="fullscreen" allowfullscreen></iframe>
 					<a href="https://www.google.com/maps/search/?api=1&amp;query=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%82%BC%EC%9D%BC%EB%8C%80%EB%A1%9C30%EA%B8%B8%2046" class="vm_open" target="_blank" rel="noopener" title="Map_구글 지도에서 열기"><span data-i18n="visit.map">구글 지도에서 열기</span><i></i></a>
 				</div>
 			</div>

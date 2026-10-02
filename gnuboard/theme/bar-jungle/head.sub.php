@@ -24,7 +24,7 @@ $jungle_scheme = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !==
 $jungle_host   = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 $jungle_base   = $jungle_scheme.'://'.$jungle_host.G5_URL;
 $jungle_og     = $jungle_scheme.'://'.$jungle_host.G5_THEME_URL.'/img/og.jpg';
-$jungle_ver    = '1.0.2';
+$jungle_ver    = '1.0.3';
 ?>
 <!doctype html>
 <html lang="ko">
@@ -57,6 +57,31 @@ $jungle_ver    = '1.0.2';
 <?php
 if ($config['cf_add_meta']) echo $config['cf_add_meta'].PHP_EOL;
 ?>
+<script>
+/* 화면 높이 고정
+   모바일에서 주소창이 접히고 펴지면 보이는 높이가 계속 바뀐다. 그대로 두면
+   섹션 높이가 따라 움직여 화면이 들썩이므로, 처음 잰 값을 --vh 에 박아 두고
+   가로폭이나 방향이 실제로 바뀔 때만 다시 잰다. 첫 페인트 전에 정해야
+   깜빡임이 없어서 CSS 바로 뒤에 인라인으로 둔다. */
+(function () {
+	var de = document.documentElement, lastW = -1;
+	/* 주소창이 있는 건 터치 기기뿐이다. 데스크톱은 창을 세로로 줄이면
+	   그대로 따라가야 하므로 고정하지 않는다. */
+	var touch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+	function pin(force) {
+		var w = window.innerWidth, h = window.innerHeight;
+		if (!h) { return; }
+		if (touch && !force && w === lastW) { return; }	/* 높이만 바뀐 건 주소창이므로 무시 */
+		lastW = w;
+		de.style.setProperty('--vh', (h / 100) + 'px');
+	}
+	pin(true);
+	window.addEventListener('resize', function () { pin(false); }, { passive: true });
+	window.addEventListener('orientationchange', function () {
+		window.setTimeout(function () { pin(true); }, 260);
+	}, { passive: true });
+})();
+</script>
 <script>
 // 그누보드 자바스크립트 전역변수
 var g5_url       = "<?php echo G5_URL ?>";

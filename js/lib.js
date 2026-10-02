@@ -366,4 +366,30 @@
 		});
 	}
 
+	/* 구글 지도
+	   인스타그램·카카오톡 인앱 브라우저나 추적 차단 설정에서는 구글 지도
+	   iframe 이 조용히 실패해 빈 칸만 남는다. 정해진 시간 안에 load 가
+	   오지 않으면 지도를 걷어내고 주소 안내를 대신 보여 준다. */
+	var vmap = document.getElementById('vmap');
+	if (vmap) {
+		var vframe = vmap.querySelector('iframe');
+		var vdone = false;
+		var vtimer = window.setTimeout(function () {
+			if (!vdone) { vmap.classList.add('no_map'); }
+		}, 6000);
+		if (vframe) {
+			vframe.addEventListener('load', function () {
+				vdone = true;
+				window.clearTimeout(vtimer);
+			});
+			vframe.addEventListener('error', function () {
+				window.clearTimeout(vtimer);
+				vmap.classList.add('no_map');
+			});
+		} else {
+			window.clearTimeout(vtimer);
+			vmap.classList.add('no_map');
+		}
+	}
+
 })();

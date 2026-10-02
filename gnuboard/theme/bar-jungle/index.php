@@ -644,8 +644,13 @@ include_once(G5_PATH.'/head.php');
 				<h2 class="v_title title t2 cw font2 fade f_up f_delay03" data-i18n="visit.title">풀숲을 헤치고<br><mark class="cs">들어오세요</mark></h2>
 				<p class="v_hand fade f_up f_delay06" data-i18n="visit.hand">예약은 인스타그램 DM으로 받습니다</p>
 				<a href="<?php echo $jungle_site['instagram'] ?>" class="v_btn fade f_up f_delay09" target="_blank" rel="noopener" title="Reserve_인스타그램 DM 예약"><span data-i18n="visit.btn">DM으로 예약하기</span><i></i></a>
-				<div class="v_map fade f_up f_delay12">
-					<iframe src="https://www.google.com/maps?q=<?php echo urlencode($jungle_site['map_query']) ?>&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=&amp;output=embed" title="BAR JUNGLE 위치" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+				<div class="v_map fade f_up f_delay12" id="vmap">
+					<div class="vm_fall">
+						<span class="vmf_mark" aria-hidden="true">林</span>
+						<p class="vmf_addr"><?php echo $jungle_site['addr_ko'] ?></p>
+						<p class="vmf_sub" data-i18n="visit.map_fall">지도가 보이지 않으면 아래 버튼을 눌러 주세요</p>
+					</div>
+					<iframe src="https://www.google.com/maps?q=<?php echo urlencode($jungle_site['map_query']) ?>&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=&amp;output=embed" title="BAR JUNGLE 위치" referrerpolicy="no-referrer-when-downgrade" allow="fullscreen" allowfullscreen></iframe>
 					<a href="https://www.google.com/maps/search/?api=1&amp;query=<?php echo urlencode($jungle_site['map_query']) ?>" class="vm_open" target="_blank" rel="noopener" title="Map_구글 지도에서 열기"><span data-i18n="visit.map">구글 지도에서 열기</span><i></i></a>
 				</div>
 			</div>

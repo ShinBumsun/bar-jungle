@@ -1,6 +1,16 @@
 @charset "utf-8";
 
 /* ==========================================================================
+   화면 높이 기준값
+   모바일 브라우저는 스크롤에 따라 주소창이 접히고 펴지면서 보이는 높이가
+   계속 바뀐다. 100vh 로 두면 그때마다 섹션 높이가 따라 움직여서 화면이
+   들썩이므로, 한 번 잰 값을 --vh 에 고정해 두고 그것만 쓴다.
+   JS 가 꺼져 있거나 아직 안 돌았을 때를 대비해 svh > vh 순으로 받친다.
+   ========================================================================== */
+:root {--vh:1vh;}
+@supports (height:1svh) {:root {--vh:1svh;}}
+
+/* ==========================================================================
    BAR JUNGLE - layout.css
    ========================================================================== */
 
@@ -66,7 +76,7 @@ html {scroll-snap-type:y proximity;}
 #wrap {position:relative; width:100%; overflow-x:clip;}
 .jg_shade {position:fixed; left:0; top:0; width:100%; height:100%; z-index:880; pointer-events:none; opacity:0; background:radial-gradient(ellipse at 50% 42%, rgba(10,32,20,0) 26%, rgba(10,32,20,0.34) 62%, rgba(8,26,16,0.72) 100%);}
 #wrap::after {content:""; position:fixed; left:0; top:0; width:100%; height:100%; z-index:900; pointer-events:none; opacity:0.42; mix-blend-mode:multiply; background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='320'%20height='320'%3E%3Cfilter%20id='pg'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.85'%20numOctaves='4'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20type='saturate'%20values='0'/%3E%3C/filter%3E%3Crect%20width='320'%20height='320'%20filter='url(%23pg)'/%3E%3C/svg%3E"); background-size:320px 320px;}
-.sec {position:relative; display:flex; flex-direction:column; justify-content:safe center; width:100%; min-height:100svh; padding:132px 0 108px; scroll-snap-align:start; z-index:2;}
+.sec {position:relative; display:flex; flex-direction:column; justify-content:safe center; width:100%; min-height:calc(var(--vh) * 100); padding:132px 0 108px; scroll-snap-align:start; z-index:2;}
 .sec > div {position:relative; width:1400px; max-width:88%; margin:0 auto; z-index:3;}
 .eyebrow, .a_eyebrow, .s_eyebrow, .m_eyebrow, .g_eyebrow, .v_eyebrow {display:flex; align-items:center; gap:10px; font-size:15px; letter-spacing:0.06em; color:#241f18; opacity:0.6; margin-bottom:22px;}
 .a_eyebrow .font, .s_eyebrow .font, .m_eyebrow .font, .g_eyebrow .font, .v_eyebrow .font {font-size:19px; letter-spacing:0.12em;}
@@ -115,7 +125,7 @@ html {scroll-snap-type:y proximity;}
 /* Jungle Veil S : 섹션마다 풀숲을 헤치고 들어감
    잎을 큰 SVG 하나에 몰아넣지 않고 개별 배치 → 박스에 잘린 단면이 생기지 않음
    --lsc 잎 크기 배율 / --vshift 다 열렸을 때 밀려나는 거리 */
-.sec > .sv_veil {position:absolute; left:0; top:0; width:100%; max-width:none; height:100svh; margin:0; z-index:5; overflow:hidden; pointer-events:none; --lsc:1; --vshift:-135%;}
+.sec > .sv_veil {position:absolute; left:0; top:0; width:100%; max-width:none; height:calc(var(--vh) * 100); margin:0; z-index:5; overflow:hidden; pointer-events:none; --lsc:1; --vshift:-135%;}
 .svv_side {position:absolute; top:0; width:58%; height:100%;}
 .sv_veil.moving .svv_side {will-change:transform;}
 .svv_l {left:-4%; transform:translateX(calc(var(--p,1) * var(--vshift)));}
@@ -166,7 +176,7 @@ html {scroll-snap-type:y proximity;}
 /* Depth Nav E */
 
 /* Hero S */
-#hero {position:relative; width:100%; height:100vh; height:100svh; min-height:660px; overflow:hidden; background-color:#0d2317; scroll-snap-align:start; z-index:1;}
+#hero {position:relative; width:100%; height:calc(var(--vh) * 100); min-height:660px; overflow:hidden; background-color:#0d2317; scroll-snap-align:start; z-index:1;}
 .he_sky {position:absolute; left:0; top:0; width:100%; height:100%; background:radial-gradient(ellipse at 50% 60%, #4a7a4e 0%, #275034 38%, #0d2317 100%);}
 .he_sky::after {content:""; position:absolute; left:0; top:0; width:100%; height:100%; background:radial-gradient(ellipse at 50% 44%, rgba(232,177,58,0.22) 0%, rgba(232,177,58,0) 46%);}
 .he_far {position:absolute; left:0; bottom:0; width:100%; height:82%; opacity:0; transition:opacity 1.5s ease 0.4s;}
@@ -197,7 +207,7 @@ html {scroll-snap-type:y proximity;}
 .het_eyebrow i {display:block; width:44px; height:1px; background-color:rgba(232,177,58,0.6);}
 .het_logo {margin-top:13px; opacity:0; transform:translateY(34px) scale(0.94); transition:1s cubic-bezier(0.16,1,0.3,1) 1.62s;}
 /* 가로뿐 아니라 세로에도 상한을 둔다. 노트북처럼 납작한 화면에서 로고가 세로를 다 먹고 동물과 부딪히던 문제 */
-.het_logo img {display:block; width:min(34vw, 460px, 50vh); height:auto; margin:0 auto; filter:drop-shadow(0 16px 36px rgba(0,0,0,0.45));}
+.het_logo img {display:block; width:min(34vw, 460px, calc(var(--vh) * 50)); height:auto; margin:0 auto; filter:drop-shadow(0 16px 36px rgba(0,0,0,0.45));}
 .het_sub {margin-top:18px; font-size:clamp(15px, 1.0417vw, 20px); line-height:1.8; color:#f7efdd; opacity:0; transform:translateY(24px); transition:0.9s cubic-bezier(0.16,1,0.3,1) 1.82s;}
 #hero.on .het_eyebrow, #hero.on .het_sub {opacity:0.9; transform:translateY(0);}
 #hero.on .het_logo {opacity:1; transform:translateY(0) scale(1);}
@@ -455,9 +465,23 @@ html {scroll-snap-type:y proximity;}
 /* Menu Tabs E */
 
 /* Visit Map / Hours S */
-.v_map {position:relative; width:100%; margin-top:40px; aspect-ratio:16/10; border:2px solid rgba(247,239,221,0.5); overflow:hidden; background-color:#0a2416;}
-.v_map iframe {display:block; width:100%; height:100%; border:0; filter:grayscale(0.3) saturate(0.85) contrast(1.04);}
-.vm_open {position:absolute; right:12px; bottom:12px; display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background-color:#f7efdd; border:2px solid #241f18; font-size:13px; color:#241f18; transition:0.3s;}
+/* 비율 상자
+   aspect-ratio 는 iOS 15 / 크롬 88 부터라 그 아래 기기에서는 무시되고
+   높이가 0 이 되어 지도가 통째로 사라진다. 어디서나 되는 padding 비율로 잡는다.
+   --ratio 는 세로/가로 백분율. */
+.v_map {position:relative; width:100%; margin-top:40px; border:2px solid rgba(247,239,221,0.5); overflow:hidden; background-color:#0a2416; --ratio:62.5%;}
+.v_map::before {content:""; display:block; width:100%; padding-top:var(--ratio);}
+.v_map iframe {position:absolute; left:0; top:0; display:block; width:100%; height:100%; border:0; background-color:#0a2416; filter:grayscale(0.3) saturate(0.85) contrast(1.04); z-index:2;}
+
+/* 지도를 못 띄웠을 때
+   인스타그램 / 카카오톡 인앱 브라우저나 추적 차단 설정에서는 구글 지도
+   iframe 이 아예 안 뜨는 경우가 있다. 그때 빈 칸만 남지 않도록 주소를 깔아 둔다. */
+.vm_fall {position:absolute; left:0; top:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; width:100%; height:100%; padding:24px 20px 72px; text-align:center; z-index:1;}
+.vm_fall .vmf_mark {font-family:"Black Han Sans", "Apple SD Gothic Neo", sans-serif; font-size:34px; line-height:1; color:#f7efdd; opacity:0.75;}
+.vm_fall .vmf_addr {font-size:15px; line-height:1.6; color:#f7efdd; opacity:0.9;}
+.vm_fall .vmf_sub {font-size:13px; line-height:1.6; color:#f7efdd; opacity:0.55;}
+.v_map.no_map iframe {display:none;}
+.vm_open {position:absolute; right:12px; bottom:12px; z-index:3; display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background-color:#f7efdd; border:2px solid #241f18; font-size:13px; color:#241f18; transition:0.3s;}
 .vm_open i {display:block; width:7px; height:7px; border-top:2px solid #241f18; border-right:2px solid #241f18; transform:rotate(45deg); transition:0.3s;}
 .vm_open:hover {background-color:#e8b13a;}
 .vm_open:hover i {transform:rotate(45deg) translate(2px,-2px);}
@@ -528,7 +552,7 @@ html {scroll-snap-type:y proximity;}
 }
 
 @media all and (max-width:1280px) {
-	.het_logo img {width:min(38vw, 50vh);}
+	.het_logo img {width:min(38vw, calc(var(--vh) * 50));}
 	.v_map {margin-top:32px;}
 	.sec {padding:100px 0;}
 	#about {padding-top:112px;}
@@ -550,18 +574,18 @@ html {scroll-snap-type:y proximity;}
 	.h_util {gap:10px;}
 	.h_lang {padding:3px;}
 	.hl_btn {padding:6px 9px; font-size:10px; letter-spacing:0.06em;}
-	.het_logo img {width:min(52vw, 44vh);}
+	.het_logo img {width:min(52vw, calc(var(--vh) * 44));}
 	.a_notice {margin-top:40px;}
-	.v_map {aspect-ratio:4/3;}
+	.v_map {--ratio:75%;}
 	#header {height:72px; padding:0 22px;}
-	.h_gnb {position:fixed; left:0; top:0; width:100%; height:100vh; background-color:#0f3221; display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:0.45s cubic-bezier(0.16,1,0.3,1); z-index:1;}
+	.h_gnb {position:fixed; left:0; top:0; width:100%; height:calc(var(--vh) * 100); background-color:#0f3221; display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:0.45s cubic-bezier(0.16,1,0.3,1); z-index:1;}
 	#header.open .h_gnb {opacity:1; visibility:visible;}
 	.hg_list {flex-direction:column; gap:26px;}
 	.hgl_item a {font-size:24px; color:#f7efdd !important;}
 	.h_book {display:none;}
 	.h_toggle {display:flex;}
 	#header.open .h_toggle i {background-color:#f7efdd !important;}
-	#hero {min-height:600px;}
+	#hero {min-height:600px;}	/* 1024 이하 태블릿까지만 */
 	.he_title {top:16%;}
 	.sec {padding:88px 0;}
 	#about {padding-top:100px;}
@@ -582,6 +606,9 @@ html {scroll-snap-type:y proximity;}
 }
 
 @media all and (max-width:768px) {
+	/* 폰에서는 최소높이를 풀어 히어로가 고정된 화면 높이와 정확히 일치하게 한다.
+	   min-height 가 더 크면 그만큼 히어로가 화면 밖으로 넘쳐 스냅 지점이 어긋난다. */
+	#hero {min-height:0;}
 	/* 좁은 화면에서는 한 줄에 열 개를 세울 수 없다.
 	   동물을 위로 올리고 잔은 그 아래 수풀 앞에 한 줄로 놓아 서로 닿지 않게 한다. */
 	.hea_item.snake  {--w:15vw; left:10%; bottom:41%;}
@@ -598,7 +625,7 @@ html {scroll-snap-type:y proximity;}
 	.svl.n13, .svl.n14, .svl.n15, .svl.n16, .svl.n17, .svl.n18 {display:none;}
 	.h_logo img {height:28px;}
 	#header.fix .h_logo img {height:26px;}
-	.het_logo img {width:min(66vw, 42vh);}
+	.het_logo img {width:min(66vw, calc(var(--vh) * 42));}
 	.het_pride {margin-top:18px; padding:7px 16px 7px 13px; gap:8px;}
 	.hp_bow {width:28px; height:16px;}
 	.het_pride span {font-size:11px; letter-spacing:0.12em;}
@@ -610,7 +637,7 @@ html {scroll-snap-type:y proximity;}
 	.m_tabs::-webkit-scrollbar {display:none;}
 	.mt_btn {flex-shrink:0; padding:10px 18px; font-size:14px;}
 	.mp_panel .mg_list {columns:1;}
-	.v_map {aspect-ratio:1/1; margin-top:26px;}
+	.v_map {--ratio:100%; margin-top:26px;}
 	.vir_hours b {min-width:64px; font-size:16px;}
 	.vir_hours em {font-size:17px;}
 	.sec {padding:76px 0;}
@@ -648,7 +675,7 @@ html {scroll-snap-type:y proximity;}
 
 @media all and (max-width:480px) {
 	.h_logo img {height:25px;}
-	.het_logo img {width:min(74vw, 46vh);}
+	.het_logo img {width:min(74vw, calc(var(--vh) * 46));}
 	.hl_btn {padding:5px 7px;}
 	#header {padding:0 18px;}
 	.h_logo span {font-size:14px;}
@@ -666,7 +693,7 @@ html {scroll-snap-type:y proximity;}
 /* 좁고 납작한 창 : 제목 + 동물 + 잔을 세로로 다 담을 높이가 부족하다.
    전체를 한 단계씩 줄이고 수풀도 낮춰 잔이 묻히지 않게 한다. */
 @media all and (max-width:768px) and (max-height:820px) {
-	.het_logo img {width:min(56vw, 34vh);}
+	.het_logo img {width:min(56vw, calc(var(--vh) * 34));}
 	.he_front {height:22%;}
 	.hea_item.snake  {--w:13vw; bottom:38%;}
 	.hea_item.lion   {--w:17vw; bottom:34%;}
