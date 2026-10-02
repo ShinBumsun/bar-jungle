@@ -230,6 +230,15 @@
 	var menuItems = document.querySelectorAll('[data-jm]');
 
 	function applyMenuLang(lang) {
+		/* 소분류 제목(SHOT COCKTAIL · 2샷 주문 시 할인 …)
+		   번역을 적어 둔 것만 바꾸고, 없으면 한국어를 그대로 둔다.
+		   VODKA·Red Wine 처럼 세 언어에서 똑같이 읽히는 제목이 대부분이다. */
+		var subs = document.querySelectorAll('.mp_sub');
+		for (var si = 0; si < subs.length; si++) {
+			var sv = subs[si].getAttribute('data-ct-' + lang) || subs[si].getAttribute('data-ct-ko');
+			if (sv !== null) subs[si].textContent = sv;
+		}
+
 		for (var i = 0; i < menuItems.length; i++) {
 			var li = menuItems[i];
 			var nameEl = li.querySelector('.mgli_name');

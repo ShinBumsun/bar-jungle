@@ -483,7 +483,15 @@ include_once(G5_PATH.'/head.php');
 <?php     $multi = count($tab['groups']) > 1 && trim($tab['groups'][0]['cat']) !== ''; ?>
 <?php     foreach ($tab['groups'] as $g) { ?>
 <?php         if ($multi) { ?>
-						<h4 class="mp_sub font"><?php echo $g['cat'] ?></h4>
+<?php
+			$ct = isset($g5['jungle_cat_i18n'][$g['cat']]) ? $g5['jungle_cat_i18n'][$g['cat']] : null;
+			$ct_attr = '';
+			if ($ct) {
+				$ct_attr  = ' data-ct-en="'.htmlspecialchars($ct['en'], ENT_QUOTES, 'UTF-8').'"';
+				$ct_attr .= ' data-ct-ja="'.htmlspecialchars($ct['ja'], ENT_QUOTES, 'UTF-8').'"';
+			}
+?>
+						<h4 class="mp_sub font" data-ct-ko="<?php echo htmlspecialchars($g['cat'], ENT_QUOTES, 'UTF-8') ?>"<?php echo $ct_attr ?>><?php echo $g['cat'] ?></h4>
 <?php         } ?>
 						<ul class="mg_list">
 <?php             foreach ($g['items'] as $it) echo jungle_menu_item($it); ?>

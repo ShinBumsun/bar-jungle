@@ -24,6 +24,40 @@ $g5['jungle_tabs'] = array(
 	'shot'      => 'SHOT',
 );
 
+/**
+ * 메뉴판 소분류 제목의 영어·일본어
+ *
+ * 분류 42개 중 한국어가 섞인 것은 아래 다섯뿐이고, 나머지(VODKA, Red Wine …)는
+ * 세 언어에서 그대로 둬도 읽힙니다. 그래서 항목처럼 DB 열을 늘리지 않고
+ * 여기에 모아 둡니다. 한 분류가 여러 줄에 걸쳐 있어서, 열로 두면 같은 말을
+ * 줄마다 다시 입력해야 합니다.
+ *
+ * 분류 제목을 새로 만들거나 글자를 고치면 여기 왼쪽 글자도 똑같이 맞춰 주세요.
+ * 맞는 줄이 없으면 한국어가 그대로 나갑니다.
+ */
+$g5['jungle_cat_i18n'] = array(
+	'SHOT COCKTAIL · 2샷 주문 시 할인' => array(
+		'en' => 'SHOT COCKTAIL · Discount when you order 2',
+		'ja' => 'SHOT COCKTAIL · 2ショット注文で割引',
+	),
+	'정글 추천 위스키 · Chapter 1 입문 (하이볼 변경 +2,000)' => array(
+		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 1 Beginner (Make it a highball +2,000)',
+		'ja' => 'ジャングルおすすめウイスキー · Chapter 1 入門（ハイボールに変更 +2,000）',
+	),
+	'정글 추천 위스키 · Chapter 2 오크향 가득한 버번' => array(
+		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 2 Bourbon, rich with oak',
+		'ja' => 'ジャングルおすすめウイスキー · Chapter 2 オークの香り豊かなバーボン',
+	),
+	'정글 추천 위스키 · Chapter 3 스모키한 피트' => array(
+		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 3 Smoky peat',
+		'ja' => 'ジャングルおすすめウイスキー · Chapter 3 スモーキーなピート',
+	),
+	'정글 추천 위스키 · Chapter 4 50도 이상 하이 프루프' => array(
+		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 4 High proof, 50% ABV and up',
+		'ja' => 'ジャングルおすすめウイスキー · Chapter 4 50度以上のハイプルーフ',
+	),
+);
+
 // 시그니처 카드에 쓸 잔 그림과 배경색 (관리자 선택지)
 $g5['jungle_card_icons'] = array(
 	'ck1' => '마티니 잔',
