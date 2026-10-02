@@ -178,23 +178,27 @@ html {scroll-snap-type:y proximity;}
 .hea_item:hover svg {animation-duration:1.1s;}
 #hero.on .hea_item {opacity:1; transform:translateY(0) scale(1);}
 #hero.on .hea_item.pop {transform:translateY(0) scale(1.12) rotate(-4deg); transition:transform 0.34s cubic-bezier(0.22,1.5,0.36,1) 0s;}
-.hea_item.tiger {left:50%; bottom:10%; width:min(24vw,320px); margin-left:min(-12vw,-160px); z-index:5; transition-delay:1.35s;}
-.hea_item.lion {left:28%; bottom:20%; width:min(18vw,242px); margin-left:min(-9vw,-121px); z-index:4; transition-delay:1.55s;}
-.hea_item.lion svg {animation-duration:5.8s; animation-delay:0.4s;}
-.hea_item.monkey {left:72%; bottom:21%; width:min(16vw,214px); margin-left:min(-8vw,-107px); z-index:4; transition-delay:1.68s;}
+/* 동물과 잔을 번갈아 세워 서로 겹치지 않게 배치한다.
+   폭은 --w 하나로 두고 margin-left 를 거기서 계산해, 화면이 넓어져도 중심이 틀어지지 않는다. */
+.hea_item.snake  {--w:min(12vw,192px);  left:9%;    bottom:33%; z-index:3; transition-delay:1.82s;}
+.hea_item.lion   {--w:min(15vw,240px);  left:27.5%; bottom:20%; z-index:4; transition-delay:1.55s;}
+.hea_item.tiger  {--w:min(20vw,320px);  left:50%;   bottom:10%; z-index:5; transition-delay:1.35s;}
+.hea_item.monkey {--w:min(13vw,208px);  left:71.5%; bottom:21%; z-index:4; transition-delay:1.68s;}
+.hea_item.toucan {--w:min(11vw,176px);  left:88.5%; bottom:36%; z-index:3; transition-delay:1.94s;}
+.hea_item {width:var(--w); margin-left:calc(var(--w) / -2);}
+.hea_item.snake svg  {animation-duration:6.4s; animation-delay:0.2s;}
+.hea_item.lion svg   {animation-duration:5.8s; animation-delay:0.4s;}
 .hea_item.monkey svg {animation-duration:4.4s; animation-delay:0.8s;}
-.hea_item.toucan {left:87%; bottom:36%; width:min(13.5vw,182px); margin-left:min(-6.75vw,-91px); z-index:3; transition-delay:1.94s;}
 .hea_item.toucan svg {animation-duration:5.2s; animation-delay:1.1s;}
-.hea_item.snake {left:13%; bottom:33%; width:min(15vw,200px); margin-left:min(-7.5vw,-100px); z-index:3; transition-delay:1.82s;}
-.hea_item.snake svg {animation-duration:6.4s; animation-delay:0.2s;}
 @keyframes a_bob {0%, 100% {transform:translateY(0) rotate(0deg);} 50% {transform:translateY(-12px) rotate(1.6deg);}}
 
 .he_title {position:absolute; left:50%; top:12%; width:100%; transform:translateX(-50%); text-align:center; z-index:9; pointer-events:none;}
 .het_eyebrow {display:flex; align-items:center; justify-content:center; gap:16px; font-size:14px; letter-spacing:0.34em; color:#e8b13a; opacity:0; transform:translateY(24px); transition:0.9s cubic-bezier(0.16,1,0.3,1) 1.5s;}
 .het_eyebrow i {display:block; width:44px; height:1px; background-color:rgba(232,177,58,0.6);}
-.het_logo {margin-top:18px; opacity:0; transform:translateY(34px) scale(0.94); transition:1s cubic-bezier(0.16,1,0.3,1) 1.62s;}
-.het_logo img {display:block; width:min(34vw,460px); height:auto; margin:0 auto; filter:drop-shadow(0 16px 36px rgba(0,0,0,0.45));}
-.het_sub {margin-top:22px; font-size:clamp(15px, 1.0417vw, 20px); line-height:1.8; color:#f7efdd; opacity:0; transform:translateY(24px); transition:0.9s cubic-bezier(0.16,1,0.3,1) 1.82s;}
+.het_logo {margin-top:13px; opacity:0; transform:translateY(34px) scale(0.94); transition:1s cubic-bezier(0.16,1,0.3,1) 1.62s;}
+/* 가로뿐 아니라 세로에도 상한을 둔다. 노트북처럼 납작한 화면에서 로고가 세로를 다 먹고 동물과 부딪히던 문제 */
+.het_logo img {display:block; width:min(34vw, 460px, 50vh); height:auto; margin:0 auto; filter:drop-shadow(0 16px 36px rgba(0,0,0,0.45));}
+.het_sub {margin-top:18px; font-size:clamp(15px, 1.0417vw, 20px); line-height:1.8; color:#f7efdd; opacity:0; transform:translateY(24px); transition:0.9s cubic-bezier(0.16,1,0.3,1) 1.82s;}
 #hero.on .het_eyebrow, #hero.on .het_sub {opacity:0.9; transform:translateY(0);}
 #hero.on .het_logo {opacity:1; transform:translateY(0) scale(1);}
 
@@ -401,10 +405,11 @@ html {scroll-snap-type:y proximity;}
 /* Header Util : 언어 전환 E */
 
 /* Hero Pride / Instagram S */
-.het_pride {display:flex; width:fit-content; align-items:center; gap:11px; margin:22px auto 0; padding:9px 22px 9px 16px; border:1.5px solid rgba(247,239,221,0.42); border-radius:999px; opacity:0; transform:translateY(24px); transition:0.9s cubic-bezier(0.16,1,0.3,1) 1.96s;}
+.het_row {display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px 14px; margin-top:18px;}
+.het_pride {display:flex; width:fit-content; align-items:center; gap:11px; margin:0; padding:9px 22px 9px 16px; border:1.5px solid rgba(247,239,221,0.42); border-radius:999px; opacity:0; transform:translateY(24px); transition:0.9s cubic-bezier(0.16,1,0.3,1) 1.96s;}
 .hp_bow {width:34px; height:19px; flex-shrink:0;}
 .het_pride span {font-size:13px; letter-spacing:0.18em; color:#f7efdd;}
-.het_ig {display:block; width:fit-content; margin:15px auto 0; padding:2px 4px; font-size:13px; letter-spacing:0.16em; color:#e8b13a; opacity:0; transform:translateY(20px); transition:0.9s cubic-bezier(0.16,1,0.3,1) 2.1s; pointer-events:auto;}
+.het_ig {display:block; width:fit-content; margin:0; padding:2px 4px; font-size:13px; letter-spacing:0.16em; color:#e8b13a; opacity:0; transform:translateY(20px); transition:0.9s cubic-bezier(0.16,1,0.3,1) 2.1s; pointer-events:auto;}
 .het_ig:hover {color:#f7efdd;}
 #hero.on .het_pride {opacity:1; transform:translateY(0);}
 #hero.on .het_ig {opacity:0.9; transform:translateY(0);}
@@ -414,13 +419,16 @@ html {scroll-snap-type:y proximity;}
 .hea_drink {position:absolute; opacity:0; transform:translateY(54px) scale(0.5); transition:opacity 0.6s ease, transform 0.9s cubic-bezier(0.22,1.35,0.36,1);}
 .hea_drink svg {display:block; width:100%; height:auto; filter:drop-shadow(0 16px 20px rgba(0,0,0,0.35)); animation:a_bob 5.6s ease-in-out infinite; transform-origin:50% 100%;}
 #hero.on .hea_drink {opacity:1; transform:translateY(0) scale(1);}
-.hea_drink.d1 {left:18%; bottom:30%; width:min(5.6vw,78px); z-index:6; transition-delay:2.1s;}
-.hea_drink.d2 {left:36%; bottom:31%; width:min(5vw,68px); z-index:6; transition-delay:2.24s;}
-.hea_drink.d2 svg {animation-duration:4.8s; animation-delay:0.5s;}
-.hea_drink.d3 {left:62%; bottom:33%; width:min(5.4vw,74px); z-index:6; transition-delay:2.36s;}
-.hea_drink.d3 svg {animation-duration:6.2s; animation-delay:0.9s;}
-.hea_drink.d4 {left:83%; bottom:28%; width:min(5.2vw,70px); z-index:6; transition-delay:2.48s;}
-.hea_drink.d4 svg {animation-duration:5.2s; animation-delay:1.3s;}
+.hea_drink {width:var(--w); margin-left:calc(var(--w) / -2);}
+.hea_drink.d_snake  {--w:min(4vw,64px); left:17.5%; bottom:36%; z-index:6; transition-delay:2.10s;}
+.hea_drink.d_lion   {--w:min(4vw,64px); left:37.5%; bottom:28%; z-index:6; transition-delay:2.22s;}
+.hea_drink.d_tiger  {--w:min(4vw,64px); left:62.5%; bottom:29%; z-index:6; transition-delay:2.34s;}
+.hea_drink.d_monkey {--w:min(4vw,64px); left:80.5%; bottom:28%; z-index:6; transition-delay:2.46s;}
+.hea_drink.d_toucan {--w:min(4vw,64px); left:96.5%; bottom:39%; z-index:6; transition-delay:2.58s;}
+.hea_drink.d_lion svg   {animation-duration:4.8s; animation-delay:0.5s;}
+.hea_drink.d_tiger svg  {animation-duration:6.2s; animation-delay:0.9s;}
+.hea_drink.d_monkey svg {animation-duration:5.2s; animation-delay:1.3s;}
+.hea_drink.d_toucan svg {animation-duration:5.6s; animation-delay:1.7s;}
 /* Hero Cocktail E */
 
 /* About Notice S : 함께하는 공간 안내 */
@@ -520,17 +528,12 @@ html {scroll-snap-type:y proximity;}
 }
 
 @media all and (max-width:1280px) {
-	.het_logo img {width:38vw;}
+	.het_logo img {width:min(38vw, 50vh);}
 	.v_map {margin-top:32px;}
 	.sec {padding:100px 0;}
 	#about {padding-top:112px;}
 	#menu {padding:118px 0;}
 	#visit {padding:116px 0;}
-	.hea_item.tiger {width:26vw; margin-left:-13vw; bottom:12%;}
-	.hea_item.lion {width:20vw; margin-left:-10vw; left:27%; bottom:21%;}
-	.hea_item.monkey {width:18vw; margin-left:-9vw; left:73%; bottom:22%;}
-	.hea_item.toucan {width:15vw; margin-left:-7.5vw;}
-	.hea_item.snake {width:17vw; margin-left:-8.5vw;}
 	.a_point {flex-wrap:wrap; gap:18px;}
 	.ap_item {flex:0 0 calc(50% - 9px); max-width:none;}
 
@@ -547,7 +550,7 @@ html {scroll-snap-type:y proximity;}
 	.h_util {gap:10px;}
 	.h_lang {padding:3px;}
 	.hl_btn {padding:6px 9px; font-size:10px; letter-spacing:0.06em;}
-	.het_logo img {width:52vw;}
+	.het_logo img {width:min(52vw, 44vh);}
 	.a_notice {margin-top:40px;}
 	.v_map {aspect-ratio:4/3;}
 	#header {height:72px; padding:0 22px;}
@@ -560,11 +563,6 @@ html {scroll-snap-type:y proximity;}
 	#header.open .h_toggle i {background-color:#f7efdd !important;}
 	#hero {min-height:600px;}
 	.he_title {top:16%;}
-	.hea_item.tiger {width:32vw; margin-left:-16vw; bottom:12%;}
-	.hea_item.lion {width:24vw; margin-left:-12vw; left:26%; bottom:23%;}
-	.hea_item.monkey {width:22vw; margin-left:-11vw; left:74%; bottom:24%;}
-	.hea_item.toucan {width:17vw; margin-left:-8.5vw; left:88%; bottom:40%;}
-	.hea_item.snake {width:19vw; margin-left:-9.5vw; left:12%; bottom:37%;}
 	.sec {padding:88px 0;}
 	#about {padding-top:100px;}
 	#menu {padding:100px 0;}
@@ -584,19 +582,27 @@ html {scroll-snap-type:y proximity;}
 }
 
 @media all and (max-width:768px) {
+	/* 좁은 화면에서는 한 줄에 열 개를 세울 수 없다.
+	   동물을 위로 올리고 잔은 그 아래 수풀 앞에 한 줄로 놓아 서로 닿지 않게 한다. */
+	.hea_item.snake  {--w:15vw; left:10%; bottom:41%;}
+	.hea_item.lion   {--w:20vw; left:27%; bottom:36%;}
+	.hea_item.tiger  {--w:25vw; left:50%; bottom:35%;}
+	.hea_item.monkey {--w:18vw; left:73%; bottom:36%;}
+	.hea_item.toucan {--w:15vw; left:90%; bottom:42%;}
+	.hea_drink.d_snake  {--w:9vw; left:10%; bottom:23%;}
+	.hea_drink.d_lion   {--w:9vw; left:27%; bottom:23%;}
+	.hea_drink.d_tiger  {--w:9vw; left:50%; bottom:23%;}
+	.hea_drink.d_monkey {--w:9vw; left:73%; bottom:23%;}
+	.hea_drink.d_toucan {--w:9vw; left:90%; bottom:23%;}
 	/* 모바일 성능 : 풀숲 앞쪽 장식 잎 6장은 생략. 덮는 역할은 뒤쪽 잎들이 한다. */
 	.svl.n13, .svl.n14, .svl.n15, .svl.n16, .svl.n17, .svl.n18 {display:none;}
 	.h_logo img {height:28px;}
 	#header.fix .h_logo img {height:26px;}
-	.het_logo img {width:66vw;}
+	.het_logo img {width:min(66vw, 42vh);}
 	.het_pride {margin-top:18px; padding:7px 16px 7px 13px; gap:8px;}
 	.hp_bow {width:28px; height:16px;}
 	.het_pride span {font-size:11px; letter-spacing:0.12em;}
 	.het_ig {font-size:12px;}
-	.hea_drink.d1 {width:13vw; bottom:31%; left:17%;}
-	.hea_drink.d2 {width:12vw; bottom:37%; left:39%;}
-	.hea_drink.d3 {width:12.5vw; bottom:36%; left:63%;}
-	.hea_drink.d4 {width:12vw; bottom:30%; left:84%;}
 	.a_notice {padding:24px 20px; box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
 	.an_tit {font-size:17px;}
 	.s_soon {font-size:18px;}
@@ -617,11 +623,6 @@ html {scroll-snap-type:y proximity;}
 	.het_logo em {font-size:15vw;}
 	.het_sub {font-size:15px;}
 	.he_title {top:13%;}
-	.hea_item.tiger {width:40vw; margin-left:-20vw; bottom:13%;}
-	.hea_item.lion {width:30vw; margin-left:-15vw; left:25%; bottom:26%;}
-	.hea_item.monkey {width:27vw; margin-left:-13.5vw; left:75%; bottom:27%;}
-	.hea_item.toucan {width:21vw; margin-left:-10.5vw; left:84%; bottom:46%;}
-	.hea_item.snake {width:23vw; margin-left:-11.5vw; left:13%; bottom:43%;}
 	.he_front {height:26%;}
 	.a_point {flex-direction:column; gap:14px;}
 	.ap_item {flex:none; width:100%; padding:28px 22px; box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
@@ -647,7 +648,7 @@ html {scroll-snap-type:y proximity;}
 
 @media all and (max-width:480px) {
 	.h_logo img {height:25px;}
-	.het_logo img {width:74vw;}
+	.het_logo img {width:min(74vw, 46vh);}
 	.hl_btn {padding:5px 7px;}
 	#header {padding:0 18px;}
 	.h_logo span {font-size:14px;}
@@ -658,13 +659,25 @@ html {scroll-snap-type:y proximity;}
 	.het_eyebrow i {width:26px;}
 	.het_logo em {font-size:17vw;}
 	.het_hand {font-size:19px;}
-	.hea_item.tiger {width:46vw; margin-left:-23vw;}
-	.hea_item.lion {width:34vw; margin-left:-17vw; left:24%; bottom:29%;}
-	.hea_item.monkey {width:31vw; margin-left:-15.5vw; left:76%; bottom:30%;}
-	.hea_item.toucan {width:24vw; margin-left:-12vw; left:81%; bottom:42%;}
-	.hea_item.snake {width:26vw; margin-left:-13vw; bottom:38%;}
 	.sli_note, .gli_cap, .m_hand, .v_hand {font-size:17px;}
 
 	.f_logo img {height:38px;}
 }
+/* 좁고 납작한 창 : 제목 + 동물 + 잔을 세로로 다 담을 높이가 부족하다.
+   전체를 한 단계씩 줄이고 수풀도 낮춰 잔이 묻히지 않게 한다. */
+@media all and (max-width:768px) and (max-height:820px) {
+	.het_logo img {width:min(56vw, 34vh);}
+	.he_front {height:22%;}
+	.hea_item.snake  {--w:13vw; bottom:38%;}
+	.hea_item.lion   {--w:17vw; bottom:34%;}
+	.hea_item.tiger  {--w:21vw; bottom:33%;}
+	.hea_item.monkey {--w:15vw; bottom:34%;}
+	.hea_item.toucan {--w:13vw; bottom:39%;}
+	.hea_drink.d_snake  {--w:8vw; bottom:21%;}
+	.hea_drink.d_lion   {--w:8vw; bottom:21%;}
+	.hea_drink.d_tiger  {--w:8vw; bottom:21%;}
+	.hea_drink.d_monkey {--w:8vw; bottom:21%;}
+	.hea_drink.d_toucan {--w:8vw; bottom:21%;}
+}
+
 /* Responsive E */
