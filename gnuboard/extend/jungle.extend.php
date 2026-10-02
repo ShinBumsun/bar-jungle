@@ -244,3 +244,29 @@ if (!function_exists('jungle_sig_rows')) {
 		return $cache[$ck] = $out;
 	}
 }
+
+/**
+ * 관리자 첫 화면을 메뉴판 관리로
+ *
+ * /adm/ 의 기본 화면은 신규가입회원·최근게시물·포인트 내역인데 이 사이트에서는
+ * 쓰지 않습니다. 들어오자마자 메뉴판 관리가 뜨도록 넘깁니다.
+ *
+ * 코어 파일(adm/index.php)은 건드리지 않습니다. adm/_common.php 끝에서 부르는
+ * admin_common 훅을 씁니다. 이 훅은 admin.lib.php 의 로그인·권한 검사를 모두
+ * 지난 뒤에 돌기 때문에, 로그인하지 않은 사람이 엉뚱한 곳으로 튕기지 않습니다.
+ */
+if (!function_exists('jungle_admin_home')) {
+	function jungle_admin_home()
+	{
+		$self = isset($_SERVER['SCRIPT_FILENAME']) ? $_SERVER['SCRIPT_FILENAME'] : '';
+		if (!$self) return;
+
+		// 파일 경로로 견주어 본다. /adm/ 로 들어오든 /adm/index.php 로 들어오든 같다.
+		$self = @realpath($self);
+		$home = @realpath(G5_ADMIN_PATH.'/index.php');
+		if (!$self || !$home || $self !== $home) return;
+
+		goto_url(G5_ADMIN_URL.'/jungle_menu.php');
+	}
+}
+add_event('admin_common', 'jungle_admin_home');
