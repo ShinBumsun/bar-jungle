@@ -114,3 +114,43 @@ if (!function_exists('jungle_parse_meter')) {
 		return $out;
 	}
 }
+
+/**
+ * 관리자 좌측 메뉴 정리
+ *
+ * 설치된 그누보드에는 쇼핑몰·SMS·게시판처럼 이 사이트가 쓰지 않는 메뉴가
+ * 함께 들어 있습니다. 실제로 쓰는 것만 남깁니다.
+ *
+ * 코어 파일은 건드리지 않습니다. 그누보드가 adm/admin.menu*.php 를 모두
+ * 읽어들인 뒤 호출하는 admin_amenu 훅에서 거릅니다. 거르는 대상은 메뉴 목록
+ * ($amenu) 뿐이고 메뉴 정의($menu)는 그대로 둡니다. 관리권한설정 화면이
+ * 그 정의를 읽어 쓰기 때문에 같이 지우면 권한 지정이 비어 버립니다.
+ *
+ * 다시 보이게 하려면 아래 배열에 번호를 넣으세요.
+ *   '100' 환경설정   '200' 회원관리   '300' 게시판관리
+ *   '400' 쇼핑몰관리 '500' 쇼핑몰현황/기타   '900' SMS 관리
+ *   '950' 정글 사이트
+ */
+$g5['jungle_admin_menu'] = array('950');
+
+if (!function_exists('jungle_admin_amenu')) {
+	function jungle_admin_amenu($amenu)
+	{
+		global $g5;
+
+		if (!is_array($amenu) || !$amenu) return $amenu;
+
+		$keep = isset($g5['jungle_admin_menu']) ? (array)$g5['jungle_admin_menu'] : array();
+		if (!$keep) return $amenu;
+
+		$kept = array();
+		foreach ($amenu as $no => $file) {
+			if (in_array((string)$no, $keep, true)) $kept[$no] = $file;
+		}
+
+		/* 하나도 안 남으면 거르는 쪽이 잘못된 것이다.
+		   관리자가 아무 데도 못 가는 상태가 되지 않도록 원래 목록을 돌려준다. */
+		return $kept ? $kept : $amenu;
+	}
+}
+add_replace('admin_amenu', 'jungle_admin_amenu');
