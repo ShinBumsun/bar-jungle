@@ -274,6 +274,15 @@ html {scroll-snap-type:y proximity;}
 .s_slider {position:relative; width:100vw; margin-left:calc(50% - 50vw);}
 .s_list {display:flex; gap:22px; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scroll-behavior:smooth; scrollbar-width:none; padding:10px max(6vw, calc(50vw - 700px)) 30px; scroll-padding-left:max(6vw, calc(50vw - 700px));}
 .s_list::-webkit-scrollbar {display:none;}
+/* 마우스로 끌 수 있다는 걸 커서로 알린다. 터치 기기에는 커서가 없으므로 제외. */
+@media (hover:hover) and (pointer:fine) {
+	.s_list {cursor:grab;}
+	.s_list.is_drag {cursor:grabbing;}
+}
+/* 끄는 동안에는 스냅과 부드러운 스크롤을 꺼 둔다.
+   켜 둔 채로 scrollLeft 를 직접 쓰면 매 프레임 제자리로 되돌아간다. */
+.s_list.is_drag {scroll-snap-type:none; scroll-behavior:auto; user-select:none; -webkit-user-select:none;}
+.s_list.is_drag .sl_item {pointer-events:none;}
 .s_list:focus-visible {outline:2px solid #1f4a35; outline-offset:4px;}
 .sl_item {flex:0 0 auto; width:clamp(226px, 21vw, 282px); scroll-snap-align:start;}
 .ss_nav {position:absolute; top:34%; z-index:4; width:52px; height:52px; border:2px solid #241f18; border-radius:50%; background-color:#f7efdd; box-shadow:4px 4px 0 rgba(36,31,24,0.85); transition:0.25s; cursor:pointer;}

@@ -312,12 +312,14 @@
 		if (saved !== 'ko') { setLang(saved); }
 	})();
 
-	/* 시그니처 슬라이드 : 가로 스크롤은 브라우저에 맡기고, 화살표만 거든다 */
+	/* 시그니처 슬라이드
+	   가로 스크롤 자체는 브라우저에 맡기고, 화살표와 마우스 드래그로 거든다.
+	   손가락 스와이프는 브라우저 기본 동작이 가장 매끄러워서 건드리지 않는다. */
 	var sList = document.querySelector('.s_list');
 	var sPrev = document.querySelector('.ss_prev');
 	var sNext = document.querySelector('.ss_next');
 
-	if (sList && sPrev && sNext) {
+	if (sList) {
 		var sTick = false;
 
 		function sStep() {
@@ -327,19 +329,87 @@
 			var gap = parseFloat(cs.columnGap || cs.gap) || 22;
 			return card.getBoundingClientRect().width + gap;
 		}
+		function sMax() { return Math.max(0, sList.scrollWidth - sList.clientWidth); }
 		function sSync() {
-			var max = sList.scrollWidth - sList.clientWidth;
-			sPrev.disabled = sList.scrollLeft <= 2;
-			sNext.disabled = sList.scrollLeft >= max - 2;
+			var max = sMax();
+			if (sPrev) { sPrev.disabled = sList.scrollLeft <= 2; }
+			if (sNext) { sNext.disabled = sList.scrollLeft >= max - 2; }
 			sTick = false;
 		}
-		function sMove(dir) {
-			var step = sStep();
-			if (sList.scrollBy) { sList.scrollBy({ left: dir * step, behavior: reduce ? 'auto' : 'smooth' }); }
-			else { sList.scrollLeft += dir * step; }
+		function sTo(left, smooth) {
+			left = Math.max(0, Math.min(sMax(), left));
+			if (sList.scrollTo && smooth && !reduce) { sList.scrollTo({ left: left, behavior: 'smooth' }); }
+			else { sList.scrollLeft = left; }
 		}
-		sPrev.addEventListener('click', function () { sMove(-1); });
-		sNext.addEventListener('click', function () { sMove(1); });
+		function sMove(dir) { sTo(sList.scrollLeft + dir * sStep(), true); }
+
+		if (sPrev) { sPrev.addEventListener('click', function () { sMove(-1); }); }
+		if (sNext) { sNext.addEventListener('click', function () { sMove(1); }); }
+
+		/* 마우스 드래그
+		   끄는 동안에는 스냅과 부드러운 스크롤을 꺼야 한다. 켜 둔 채로
+		   scrollLeft 를 직접 쓰면 매 프레임 원래 자리로 되돌아가 버린다. */
+		var dragOn = false, dragId = null, grabbed = false;
+		var startX = 0, startLeft = 0, moved = 0;
+
+		sList.addEventListener('pointerdown', function (e) {
+			if (e.pointerType === 'touch') { return; }	/* 스와이프는 기본 동작에 맡긴다 */
+			if (e.button !== 0) { return; }
+			if (sMax() <= 0) { return; }				/* 넘칠 게 없으면 끌 것도 없다 */
+			dragOn = true; dragId = e.pointerId; grabbed = false;
+			startX = e.clientX; startLeft = sList.scrollLeft; moved = 0;
+		});
+
+		sList.addEventListener('pointermove', function (e) {
+			if (!dragOn || e.pointerId !== dragId) { return; }
+			var dx = e.clientX - startX;
+			if (Math.abs(dx) > Math.abs(moved)) { moved = dx; }
+			if (!grabbed) {
+				if (Math.abs(dx) <= 3) { return; }	/* 그냥 클릭한 건 건드리지 않는다 */
+				grabbed = true;
+				try { sList.setPointerCapture(dragId); } catch (err) {}
+				/* 스냅을 끄는 순간 위치가 살짝 틀어질 수 있어, 끈 뒤에 기준을 다시 잡는다 */
+				sList.classList.add('is_drag');
+				startX = e.clientX; startLeft = sList.scrollLeft;
+				dx = 0;
+			}
+			sList.scrollLeft = startLeft - dx;
+			e.preventDefault();
+		});
+
+		function sDragEnd() {
+			if (!dragOn) { return; }
+			dragOn = false;
+			if (grabbed) { try { sList.releasePointerCapture(dragId); } catch (err) {} }
+			dragId = null;
+			/* 스냅을 되살리기 전에 멈춘 자리를 먼저 읽는다.
+			   클래스를 떼는 순간 브라우저가 알아서 당겨 버리기 때문이다. */
+			var step = sStep(), now = sList.scrollLeft;
+			sList.classList.remove('is_drag');
+			if (!grabbed) { return; }
+			/* 손을 뗀 자리에서 가장 가까운 카드로 맞춘다.
+			   조금이라도 끌었으면 끈 방향으로 한 장은 넘어가게 해 준다. */
+			var idx = (Math.abs(now - startLeft) > step * 0.15)
+				? (now > startLeft ? Math.ceil(now / step) : Math.floor(now / step))
+				: Math.round(now / step);
+			sTo(idx * step, true);
+		}
+		sList.addEventListener('pointerup', sDragEnd);
+		sList.addEventListener('pointercancel', sDragEnd);
+
+		/* 끌고 난 뒤의 클릭은 삼킨다. 카드를 집어 옮긴 것이지 누른 게 아니다. */
+		sList.addEventListener('click', function (e) {
+			if (Math.abs(moved) > 5) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+		}, true);
+		/* 카드 안의 글자·이미지가 브라우저 기본 드래그로 끌려나오지 않게 */
+		sList.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+		/* 목록에 초점이 있을 때 좌우 키 */
+		sList.addEventListener('keydown', function (e) {
+			if (e.key === 'ArrowRight') { sMove(1); e.preventDefault(); }
+			else if (e.key === 'ArrowLeft') { sMove(-1); e.preventDefault(); }
+		});
+
 		sList.addEventListener('scroll', function () {
 			if (!sTick) { window.requestAnimationFrame(sSync); sTick = true; }
 		}, { passive: true });
