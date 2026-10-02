@@ -256,7 +256,7 @@ html {scroll-snap-type:y proximity;}
 #about {background-color:#f2e9d8;}
 .a_wrap {text-align:center;}
 .a_deco {position:absolute; right:-60px; top:-120px; width:300px; opacity:0.14; z-index:-1;}
-.a_deco svg {width:100%; height:auto;}
+.a_deco svg {width:100%; height:auto; overflow:visible;}	/* 어떤 경우에도 잎이 박스에 잘리지 않게 */
 .a_eyebrow {justify-content:center;}
 .a_eyebrow::before {display:none;}
 .a_title {margin-bottom:44px;}

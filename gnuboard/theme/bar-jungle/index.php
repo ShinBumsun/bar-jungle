@@ -303,11 +303,14 @@ include_once(G5_PATH.'/head.php');
 		<div class="a_wrap">
 			<div class="a_deco">
 				<svg viewBox="0 0 300 300" aria-hidden="true">
-					<g class="lfc3">
-						<use href="#lf_oval" transform="translate(150,300) rotate(-24) scale(2.3)"></use>
-						<use href="#lf_palm" transform="translate(150,300) rotate(12) scale(2.1)"></use>
-						<use href="#lf_frond" transform="translate(150,300) rotate(-52) scale(1.9)"></use>
-						<use href="#lf_split" transform="translate(150,300) rotate(40) scale(2)"></use>
+					<mask id="ad_leaf" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="300">
+						<rect width="300" height="300" fill="#000"></rect>
+						<path d="M150,46 C196,76 222,124 221,170 C220,218 191,254 150,260 C109,254 80,218 79,170 C78,124 104,76 150,46 Z" fill="#fff"></path>
+						<path d="M300,214 L300,254 L162,209 Z M300,187 L300,224 L165,182 Z M300,158 L300,192 L169,153 Z M300,127 L300,157 L174,123 Z M300,98 L300,124 L181,94 Z M0,223 L0,263 L138,218 Z M0,196 L0,233 L135,191 Z M0,167 L0,201 L131,162 Z M0,136 L0,166 L126,132 Z M0,107 L0,133 L119,103 Z" fill="#000"></path>
+					</mask>
+					<g class="lfc3" transform="rotate(-14 150 160)">
+						<rect width="300" height="300" mask="url(#ad_leaf)"></rect>
+						<path d="M156,254 C158,270 154,282 147,292 C145,281 146,268 144,255 Z"></path>
 					</g>
 				</svg>
 			</div>
