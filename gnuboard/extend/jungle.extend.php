@@ -6,6 +6,7 @@
 if (!defined('_GNUBOARD_')) exit;
 
 define('G5_JUNGLE_MENU_TABLE', G5_TABLE_PREFIX.'jungle_menu');
+define('G5_JUNGLE_SIG_TABLE',  G5_TABLE_PREFIX.'jungle_signature');
 
 // 메뉴판 탭. key 는 화면 id, label 은 버튼에 찍히는 글자입니다.
 // 적어 둔 순서가 곧 화면의 탭 순서입니다.
@@ -49,11 +50,9 @@ if (!function_exists('jungle_signature_cards')) {
 	function jungle_signature_cards()
 	{
 		$out = array();
-		$res = sql_query(" SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
-		                    WHERE jm_card = 1 AND jm_use = 1
-		                    ORDER BY jm_order ASC, jm_id ASC ", false);
-		if (!$res) return $out;
-		while ($row = sql_fetch_array($res)) $out[] = $row;
+		foreach (jungle_sig_rows() as $row) {
+			if ($row['jm_card']) $out[] = $row;
+		}
 		return $out;
 	}
 }
@@ -73,8 +72,9 @@ if (!function_exists('jungle_menu_tree')) {
 			$tree[$key] = array('key' => $key, 'label' => $label, 'groups' => array());
 		}
 
+		// 시그니처는 전용 표에서 읽으므로 메뉴판 쪽에서는 뺀다.
 		$sql = " SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
-		          WHERE jm_use = 1
+		          WHERE jm_use = 1 AND jm_tab <> 'signature'
 		          ORDER BY jm_order ASC, jm_id ASC ";
 		$res = sql_query($sql, false);
 		if (!$res) return array();
@@ -87,6 +87,18 @@ if (!function_exists('jungle_menu_tree')) {
 				$tree[$tab]['groups'][$cat] = array('cat' => $cat, 'items' => array());
 			}
 			$tree[$tab]['groups'][$cat]['items'][] = $row;
+		}
+
+		// SIGNATURE 탭은 전용 표가 채웁니다. 관리하는 곳이 한 군데여야
+		// 이름을 고칠 때 메뉴판과 카드가 따로 놀지 않습니다.
+		if (isset($tree['signature'])) {
+			foreach (jungle_sig_rows() as $row) {
+				$cat = $row['jm_cat'];
+				if (!isset($tree['signature']['groups'][$cat])) {
+					$tree['signature']['groups'][$cat] = array('cat' => $cat, 'items' => array());
+				}
+				$tree['signature']['groups'][$cat]['items'][] = $row;
+			}
 		}
 
 		// 항목이 하나도 없는 탭은 버립니다.
@@ -154,3 +166,81 @@ if (!function_exists('jungle_admin_amenu')) {
 	}
 }
 add_replace('admin_amenu', 'jungle_admin_amenu');
+
+/**
+ * 시그니처 전용 표
+ *
+ * 시그니처는 메뉴판 항목에 체크를 켜는 방식이었는데, 전용 화면에서 따로
+ * 관리하도록 표를 분리했습니다. 열 이름을 메뉴판과 똑같이 두는 것은 일부러
+ * 그렇게 한 것입니다. 화면을 그리는 jungle_card_item() / jungle_menu_item()
+ * 이 jm_* 키를 그대로 읽으므로, 이름을 맞춰 두면 그 코드를 건드릴 일이 없습니다.
+ *
+ * 표가 없으면 처음 읽을 때 만들고, 메뉴판에 있던 시그니처 항목을 옮겨 옵니다.
+ * 관리자가 화면을 열기 전이라도 사이트가 비어 보이지 않게 하려는 것입니다.
+ */
+if (!function_exists('jungle_sig_setup')) {
+	function jungle_sig_setup()
+	{
+		static $tried = false;
+		if ($tried) return false;
+		$tried = true;
+
+		try {
+			$res = sql_query(" SHOW TABLES LIKE '".G5_JUNGLE_SIG_TABLE."' ", false);
+			if ($res && sql_num_rows($res)) return true;
+
+			// 메뉴판 표와 같은 모양으로 만든다. 글자셋·열 구성이 저절로 맞는다.
+			sql_query(" CREATE TABLE IF NOT EXISTS ".G5_JUNGLE_SIG_TABLE."
+			            LIKE ".G5_JUNGLE_MENU_TABLE." ", false);
+
+			// 비어 있을 때만 옮긴다. 두 번 눌러도 중복되지 않게.
+			$cnt = sql_fetch(" SELECT COUNT(*) AS cnt FROM ".G5_JUNGLE_SIG_TABLE, false);
+			if ($cnt && (int)$cnt['cnt'] === 0) {
+				sql_query(" INSERT INTO ".G5_JUNGLE_SIG_TABLE."
+				            SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
+				             WHERE jm_tab = 'signature' ", false);
+			}
+			return true;
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+}
+
+/**
+ * 시그니처 항목을 순서대로 읽습니다.
+ * $only_use 가 참이면 '화면에 보이기' 가 켜진 것만 돌려줍니다.
+ */
+if (!function_exists('jungle_sig_rows')) {
+	function jungle_sig_rows($only_use = true)
+	{
+		// 한 페이지에서 메인 카드와 메뉴판 양쪽이 부르므로 한 번만 읽는다.
+		static $cache = array();
+		$ck = $only_use ? 'use' : 'all';
+		if (isset($cache[$ck])) return $cache[$ck];
+
+		$out  = array();
+		$cond = $only_use ? " WHERE jm_use = 1 " : " ";
+
+		$res = sql_query(" SELECT * FROM ".G5_JUNGLE_SIG_TABLE.$cond."
+		                    ORDER BY jm_order ASC, jm_id ASC ", false);
+
+		if (!$res) {
+			// 아직 표가 없다면 만들어 보고 한 번 더 시도한다.
+			if (jungle_sig_setup()) {
+				$res = sql_query(" SELECT * FROM ".G5_JUNGLE_SIG_TABLE.$cond."
+				                    ORDER BY jm_order ASC, jm_id ASC ", false);
+			}
+		}
+		if (!$res) {
+			// 그래도 안 되면 예전 자리에서 읽어 화면이 비지 않게 한다.
+			$res = sql_query(" SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
+			                    WHERE jm_tab = 'signature' ".($only_use ? " AND jm_use = 1 " : "")."
+			                    ORDER BY jm_order ASC, jm_id ASC ", false);
+		}
+		if (!$res) return $cache[$ck] = $out;
+
+		while ($row = sql_fetch_array($res)) $out[] = $row;
+		return $cache[$ck] = $out;
+	}
+}
