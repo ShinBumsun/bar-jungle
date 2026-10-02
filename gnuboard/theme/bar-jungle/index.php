@@ -332,8 +332,8 @@ include_once(G5_PATH.'/head.php');
 						<path d="M16,19.5 A3,3 0 0 1 22,19.5" stroke="#8f55c8"></path>
 					</g>
 				</svg>
-				<strong class="an_tit" data-i18n="about.notice_tit">모두를 위한 자리입니다</strong>
-				<p class="an_txt txt normal ch" data-i18n="about.notice">정글바는 소수자분들을 위한 공간입니다.<br>모두가 즐거운 시간을 보낼 수 있도록 공간에 대한 배려를 부탁드립니다.</p>
+				<strong class="an_tit" data-i18n="about.notice_tit">정글바는 소수자분들을 위한 공간입니다.</strong>
+				<p class="an_txt txt normal ch" data-i18n="about.notice">모두가 즐거운 시간을 보낼 수 있도록 공간에 대한 배려를 부탁드립니다.</p>
 			</div>
 			<!-- 함께하는 공간 안내 E -->
 		</div>

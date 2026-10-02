@@ -459,6 +459,11 @@ html {scroll-snap-type:y proximity;}
 .a_notice {max-width:880px; margin:56px auto 0; padding:34px 38px; background-color:#f7efdd; border:2px solid #241f18; box-shadow:9px 9px 0 rgba(36,31,24,0.9);}
 .an_bow {width:38px; height:21px; margin-bottom:14px;}
 .an_tit {display:block; font-size:19px; font-weight:700; color:#1f4a35; margin-bottom:12px;}
+/* 제목이 한 문장이라 좁은 화면에서 줄이 바뀐다. keep-all 이 없으면
+   '공간입/니다' 처럼 낱말 가운데가 갈린다.
+   한국어에만 건다. 일본어는 원래 아무 데서나 끊는 것이 정상이라,
+   같이 걸면 긴 가타카나가 통째로 밀려 상자 밖으로 삐져나간다. */
+html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 .an_txt {margin:0;}
 /* About Notice E */
 
