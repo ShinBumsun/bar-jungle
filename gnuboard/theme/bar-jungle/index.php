@@ -500,6 +500,7 @@ include_once(G5_PATH.'/head.php');
 							</li>
 <?php     } ?>
 						</ul>
+						<p class="ms_hint" data-i18n="season.zoom">눌러서 크게 보기</p>
 					</div>
 <?php } ?>
 <?php foreach ($jungle_menu as $ti => $tab) { $on = (!$has_season && $ti === 0); ?>

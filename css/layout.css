@@ -492,14 +492,24 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 .mt_btn.on {background-color:#e8b13a; border-color:#e8b13a; color:#241f18; opacity:1;}
 /* 탭 머리말 : 탭을 열자마자 보이도록 목록 위에 한 줄로 둔다. */
 .mp_notice {display:block; margin-bottom:24px; text-align:center; font-size:14px; letter-spacing:0.02em; color:#e8b13a;}
-/* 시즌 메뉴 : 설명도 가격도 없이 포스터 한 장씩만 건다.
-   포스터는 세로로 길어 글씨가 작다. 눌러서 크게 볼 수 있게 해 둔다. */
-.ms_list {display:grid; grid-template-columns:repeat(3, 1fr); gap:30px;}
-.ms_item {margin:0;}
-.ms_btn {display:block; width:100%; padding:0; border:2px solid #241f18; background-color:#f7efdd; box-shadow:9px 9px 0 rgba(36,31,24,0.9); cursor:zoom-in; transition:transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;}
-.ms_btn img {display:block; width:100%; height:auto;}
-.ms_btn:hover {transform:translate(-5px,-5px); box-shadow:15px 15px 0 rgba(36,31,24,0.9);}
-.ms_btn:focus-visible {outline:3px solid #e8b13a; outline-offset:4px;}
+/* 시즌 메뉴 : 설명도 가격도 없이 포스터만 건다.
+   보통 한 장만 올라오므로 가운데에 액자처럼 세운다. 격자 대신 flex 를 쓰면
+   한 장일 때 저절로 가운데로 가고, 두세 장이 되어도 그대로 나뉜다. */
+.ms_list {display:flex; flex-wrap:wrap; justify-content:center; gap:30px;}
+.ms_item {margin:0; flex:0 1 calc((100% - 60px) / 3); max-width:460px;}
+.ms_item:only-child {flex:0 1 520px; max-width:520px;}
+
+/* 종이 테두리를 둘러 붙여 둔 포스터처럼 보이게 한다.
+   살짝 기울여 뒀다가 손을 올리면 반듯해지며 떠오른다. */
+.ms_btn {display:block; width:100%; padding:14px 14px 16px; border:2px solid #241f18; background-color:#f7efdd; box-shadow:10px 10px 0 rgba(36,31,24,0.9); cursor:zoom-in; transform:rotate(-1.4deg); transition:transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease;}
+.ms_item:nth-child(even) .ms_btn {transform:rotate(1.2deg);}
+.ms_btn img {display:block; width:100%; height:auto; border:1px solid rgba(36,31,24,0.35);}
+.ms_btn:hover {transform:rotate(0deg) translate(-4px,-6px); box-shadow:16px 16px 0 rgba(36,31,24,0.9);}
+.ms_btn:focus-visible {outline:3px solid #e8b13a; outline-offset:5px;}
+
+/* 눌러서 크게 볼 수 있다는 것을 알려 준다. 포스터의 재료 글씨가 작아
+   이 안내가 없으면 그냥 그림인 줄 알고 지나친다. */
+.ms_hint {margin-top:26px; text-align:center; font-family:"Nanum Pen Script", cursive; font-size:21px; color:#f7efdd; opacity:0.55;}
 
 .ms_view {position:fixed; left:0; top:0; width:100%; height:100%; z-index:1200; display:flex; align-items:center; justify-content:center; padding:5vh 5vw; background-color:rgba(10,28,18,0.94);}
 .ms_view[hidden] {display:none;}
@@ -586,7 +596,8 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.h_util {gap:12px;}
 	.mt_btn {padding:11px 22px; font-size:15px;}
 	.mp_panel .mg_list {column-gap:44px;}
-	.ms_list {grid-template-columns:repeat(2, 1fr); gap:24px;}
+	.ms_item {flex:0 1 calc((100% - 24px) / 2); max-width:420px;}
+	.ms_list {gap:24px;}
 	#header {height:82px; padding:0 30px;}
 	.h_logo em {font-size:25px;}
 	.hg_list {gap:26px;}
@@ -705,7 +716,10 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.m_tabs {flex-wrap:wrap; justify-content:center; overflow-x:visible; gap:7px; margin-bottom:26px;}
 	.mt_btn {padding:9px 15px; font-size:12.5px; letter-spacing:0.08em;}
 	.mp_panel .mg_list {columns:1;}
-	.ms_list {grid-template-columns:1fr; gap:22px;}
+	.ms_list {gap:22px;}
+	.ms_item, .ms_item:only-child {flex:0 1 100%; max-width:100%;}
+	.ms_btn {padding:10px 10px 12px; box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
+	.ms_hint {margin-top:20px; font-size:18px;}
 	.ms_close {right:12px; top:12px; width:40px; height:40px;}
 	.ms_close::before, .ms_close::after {left:10px; top:17px; width:16px;}
 	.v_map {--ratio:100%; margin-top:26px;}
