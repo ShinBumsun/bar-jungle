@@ -17,7 +17,11 @@ $g5['jungle_tabs'] = array(
 	'highball'  => 'HIGHBALL',
 	'gin'       => 'GIN &amp; TONIC',
 	'tropical'  => 'TROPICAL',
+	'fizzy'     => 'FIZZY',
 	'classic'   => 'CLASSIC',
+	'short'     => 'SHORT',
+	'martini'   => 'MARTINI',
+	'absente'   => 'ABSENTE',
 	'milkshot'  => 'MILKY',
 	'nonalc'    => 'NON-ALCOHOL',
 	'beer'      => 'BEER &amp; SNACK',
@@ -123,6 +127,7 @@ if (!function_exists('jungle_menu_tree')) {
 
 		jungle_menu_fix_1006();
 		jungle_menu_add_soup();
+		jungle_menu_split_classic();
 
 		// 시그니처는 전용 표에서 읽으므로 메뉴판 쪽에서는 뺀다.
 		$sql = " SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
@@ -496,5 +501,42 @@ if (!function_exists('jungle_menu_add_soup')) {
 		}
 
 		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}
+
+/**
+ * 메뉴판 한 번짜리 손질 그 세 번째 (2026-10-06)
+ *
+ * CLASSIC 탭 하나에 다섯 묶음이 몰려 있던 것을 묶음마다 탭으로 나눕니다.
+ * CLASSIC 묶음만 CLASSIC 탭에 남고 나머지 넷이 제 탭을 갖습니다.
+ *
+ * 나눈 뒤에는 탭마다 묶음이 하나뿐이라, 탭 이름과 똑같은 소제목이 겹쳐
+ * 보이지 않습니다. 화면 쪽에서 묶음이 둘 이상일 때만 소제목을 찍기 때문입니다.
+ */
+if (!function_exists('jungle_menu_split_classic')) {
+	function jungle_menu_split_classic()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_classic_split';
+		if (is_file($flag)) return;
+
+		// 묶음 이름 → 옮겨 갈 탭
+		$map = array(
+			'FIZZY'   => 'fizzy',
+			'SHORT'   => 'short',
+			'MARTINI' => 'martini',
+			'ABSENTE' => 'absente',
+		);
+
+		$moved = 0;
+		foreach ($map as $cat => $tab) {
+			$r = sql_query(" UPDATE ".G5_JUNGLE_MENU_TABLE."
+			                    SET jm_tab = '".sql_escape_string($tab)."'
+			                  WHERE jm_tab = 'classic'
+			                    AND jm_cat = '".sql_escape_string($cat)."' ", false);
+			if ($r === false) return;            // 실패하면 표시를 남기지 않고 다음에 다시
+			$moved += get_sql_affected_rows();
+		}
+
+		@file_put_contents($flag, date('Y-m-d H:i:s')." moved=".$moved."\n");
 	}
 }
