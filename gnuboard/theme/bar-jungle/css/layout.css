@@ -489,6 +489,17 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 .m_tabs {display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:38px;}
 .mt_btn {padding:13px 28px; border:2px solid rgba(247,239,221,0.3); border-radius:999px; font-family:"Anton", sans-serif; font-size:16px; letter-spacing:0.12em; color:#f7efdd; opacity:0.75; transition:0.28s;}
 .mt_btn:hover {opacity:1; border-color:rgba(247,239,221,0.6);}
+/* 시즌 탭에만 붙는 별.
+   이번 시즌 메뉴라는 것을 한눈에 알리려고 모서리에 스티커처럼 얹는다.
+   버튼 밖으로 걸치므로 버튼이 기준점이 되어야 한다. */
+.mt_season {position:relative; overflow:visible;}
+.mt_star {position:absolute; right:-8px; top:-10px; width:23px; height:23px; fill:#d9622b; stroke:#241f18; stroke-width:1.6; stroke-linejoin:round; filter:drop-shadow(1.5px 1.5px 0 rgba(36,31,24,0.55)); transform-origin:50% 50%; animation:mt_twinkle 3.4s ease-in-out infinite;}
+.mt_season:hover .mt_star {fill:#e8b13a;}
+@keyframes mt_twinkle {
+	0%, 100% {transform:rotate(-8deg) scale(1);}
+	50%      {transform:rotate(6deg) scale(1.12);}
+}
+
 .mt_btn.on {background-color:#e8b13a; border-color:#e8b13a; color:#241f18; opacity:1;}
 /* 탭 머리말 : 탭을 열자마자 보이도록 목록 위에 한 줄로 둔다. */
 .mp_notice {display:block; margin-bottom:24px; text-align:center; font-size:14px; letter-spacing:0.02em; color:#e8b13a;}
@@ -715,6 +726,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	   글자와 여백을 줄여 줄 수가 늘어나는 만큼을 상쇄한다. */
 	.m_tabs {flex-wrap:wrap; justify-content:center; overflow-x:visible; gap:7px; margin-bottom:26px;}
 	.mt_btn {padding:9px 15px; font-size:12.5px; letter-spacing:0.08em;}
+	.mt_star {right:-6px; top:-8px; width:19px; height:19px;}
 	.mp_panel .mg_list {columns:1;}
 	.ms_list {gap:22px;}
 	.ms_item, .ms_item:only-child {flex:0 1 100%; max-width:100%;}

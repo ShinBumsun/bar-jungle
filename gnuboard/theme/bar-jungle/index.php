@@ -479,7 +479,7 @@ include_once(G5_PATH.'/head.php');
 ?>
 				<div class="m_tabs fade f_up f_delay03" role="tablist">
 <?php if ($has_season) { ?>
-					<button type="button" class="mt_btn on" role="tab" aria-selected="true" aria-controls="pn_season" data-panel="season">SEASON</button>
+					<button type="button" class="mt_btn mt_season on" role="tab" aria-selected="true" aria-controls="pn_season" data-panel="season">SEASON<svg class="mt_star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.00,1.80 L14.53,8.52 L21.70,8.85 L16.09,13.33 L18.00,20.25 L12.00,16.30 L6.00,20.25 L7.91,13.33 L2.30,8.85 L9.47,8.52 Z"></path></svg></button>
 <?php } ?>
 <?php foreach ($jungle_menu as $ti => $tab) { $on = (!$has_season && $ti === 0); ?>
 					<button type="button" class="mt_btn<?php echo $on ? ' on' : '' ?>" role="tab" aria-selected="<?php echo $on ? 'true' : 'false' ?>" aria-controls="pn_<?php echo $tab['key'] ?>" data-panel="<?php echo $tab['key'] ?>"><?php echo $tab['label'] ?></button>

@@ -32,7 +32,7 @@ if (!preg_match('#^https?://#i', G5_URL)) {
 }
 $jungle_base   = rtrim($jungle_origin.G5_URL, '/');
 $jungle_og     = $jungle_origin.G5_THEME_URL.'/img/og.jpg';
-$jungle_ver    = '1.0.25';
+$jungle_ver    = '1.0.26';
 ?>
 <!doctype html>
 <html lang="ko">
