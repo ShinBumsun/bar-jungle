@@ -492,7 +492,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 .mt_btn:hover {opacity:1; border-color:rgba(247,239,221,0.6);}
 .mt_btn.on {background-color:#e8b13a; border-color:#e8b13a; color:#241f18; opacity:1;}
 /* 탭 머리말 : 탭을 열자마자 보이도록 목록 위에 한 줄로 둔다. */
-.mp_notice {display:inline-block; margin-bottom:22px; padding:9px 18px; border:1.5px solid rgba(232,177,58,0.55); border-radius:999px; font-size:14px; letter-spacing:0.02em; color:#e8b13a;}
+.mp_notice {display:block; margin-bottom:24px; text-align:center; font-size:14px; letter-spacing:0.02em; color:#e8b13a;}
 .mp_panel {display:none;}
 .mp_panel.on {display:block; animation:mp_in 0.5s cubic-bezier(0.16,1,0.3,1);}
 .mp_panel .mg_list {columns:2; column-gap:64px;}
