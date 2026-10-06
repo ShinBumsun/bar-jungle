@@ -13,7 +13,7 @@ define('G5_JUNGLE_SIG_TABLE',  G5_TABLE_PREFIX.'jungle_signature');
 $g5['jungle_tabs'] = array(
 	'signature' => 'SIGNATURE',
 	'bottle'    => 'BOTTLE',
-	'wine'      => 'WINE',
+	'wine'      => 'WINE &amp; CHAMPAGNE',
 	'highball'  => 'HIGHBALL',
 	'gin'       => 'GIN &amp; TONIC',
 	'tropical'  => 'TROPICAL',
@@ -128,6 +128,7 @@ if (!function_exists('jungle_menu_tree')) {
 		jungle_menu_fix_1006();
 		jungle_menu_add_soup();
 		jungle_menu_split_classic();
+		jungle_menu_order_wine();
 
 		// 시그니처는 전용 표에서 읽으므로 메뉴판 쪽에서는 뺀다.
 		$sql = " SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
@@ -538,5 +539,42 @@ if (!function_exists('jungle_menu_split_classic')) {
 		}
 
 		@file_put_contents($flag, date('Y-m-d H:i:s')." moved=".$moved."\n");
+	}
+}
+
+/**
+ * 메뉴판 한 번짜리 손질 그 네 번째 (2026-10-06)
+ *
+ * 와인 탭 안의 묶음 차례를 바꿉니다.
+ *   샴페인 → 스파클링 와인 → 레드 와인 → 화이트 와인 → 포트 와인
+ *
+ * 묶음은 jm_order 가 작은 줄이 먼저 나오는 순서대로 만들어집니다. 그래서
+ * 묶음마다 번호대를 100 씩 띄어 주면 묶음 차례가 그대로 정해집니다.
+ * 한 묶음 안에서는 jm_order 가 같으므로 jm_id 순, 곧 지금 보이는 차례가
+ * 그대로 유지됩니다.
+ */
+if (!function_exists('jungle_menu_order_wine')) {
+	function jungle_menu_order_wine()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_wine_order';
+		if (is_file($flag)) return;
+
+		$order = array(
+			'Champagne'      => 100,
+			'Sparkling Wine' => 200,
+			'Red Wine'       => 300,
+			'White Wine'     => 400,
+			'Port Wine'      => 500,
+		);
+
+		foreach ($order as $cat => $base) {
+			$r = sql_query(" UPDATE ".G5_JUNGLE_MENU_TABLE."
+			                    SET jm_order = '".(int)$base."'
+			                  WHERE jm_tab = 'wine'
+			                    AND jm_cat = '".sql_escape_string($cat)."' ", false);
+			if ($r === false) return;        // 실패하면 표시를 남기지 않고 다음에 다시
+		}
+
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
 	}
 }
