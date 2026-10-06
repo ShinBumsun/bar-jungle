@@ -300,8 +300,14 @@ html {scroll-snap-type:y proximity;}
 .ss_nav[disabled] {opacity:0; pointer-events:none;}
 .sl_item {background-color:#f7efdd; border:2px solid #241f18; box-shadow:10px 10px 0 rgba(36,31,24,0.9); text-align:left; overflow:hidden; transition:opacity 0.9s ease, transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease;}
 .sec.on .sl_item:hover {transform:translate(-6px,-6px); box-shadow:17px 17px 0 rgba(36,31,24,0.9);}
-.sli_pic {position:relative; width:100%; aspect-ratio:4/3; border-bottom:2px solid #241f18; display:flex; align-items:center; justify-content:center;}
-.sli_pic svg {width:62%; height:auto; filter:drop-shadow(0 10px 14px rgba(0,0,0,0.18));}
+/* 4:3 자리.
+   aspect-ratio 는 구형 기기에서 무시되어 높이가 0 이 된다. 지도와 같은 이유로
+   어디서나 되는 padding 비율을 쓰고, 안쪽은 절대 위치로 앉힌다. */
+.sli_pic {position:relative; width:100%; border-bottom:2px solid #241f18; overflow:hidden;}
+.sli_pic::before {content:""; display:block; width:100%; padding-top:75%;}
+.sli_pic svg {position:absolute; left:19%; top:50%; width:62%; height:auto; transform:translateY(-50%); filter:drop-shadow(0 10px 14px rgba(0,0,0,0.18));}
+.sli_pic img {position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; display:block;}
+.sli_pic.has_pic {background-color:#17422a;}
 .sl_item.c1 .sli_pic {background-color:#2f7346;}
 .sl_item.c2 .sli_pic {background-color:#17422a;}
 .sl_item.c3 .sli_pic {background-color:#d9622b;}
@@ -684,7 +690,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.s_list {gap:14px; padding-bottom:24px;}
 	.ss_nav {display:none;}
 	.sl_item {box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
-	.sli_pic {aspect-ratio:16/10;}
+	.sli_pic::before {padding-top:62.5%;}	/* 16:10 */
 	.sli_pic svg {width:38%;}
 	html {scroll-snap-type:none;}
 	.sec > .sv_veil {--lsc:2.4; --vshift:-215%;}

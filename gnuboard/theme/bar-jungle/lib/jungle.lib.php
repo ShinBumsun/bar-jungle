@@ -107,10 +107,21 @@ if (!function_exists('jungle_card_item')) {
 		if ($d_en !== '') $attr .= ' data-ds-en="'.$esc($d_en).'"';
 		if ($d_ja !== '') $attr .= ' data-ds-ja="'.$esc($d_ja).'"';
 
+		$img = isset($c['jm_image']) ? trim($c['jm_image']) : '';
+		if ($img !== '' && is_file(jungle_sig_dir().'/'.$img)) {
+			$alt = $ko !== '' ? $ko : $en;
+			$pic = "\t".'<div class="sli_pic has_pic">'."\n"
+			     . "\t\t".'<img src="'.$esc(jungle_sig_url().'/'.rawurlencode($img)).'" alt="'.$esc($alt).'" loading="lazy" decoding="async">'."\n"
+			     . "\t".'</div>'."\n";
+		} else {
+			/* 사진을 아직 안 올린 칵테일은 잔 그림으로 대신한다 */
+			$pic = "\t".'<div class="sli_pic">'."\n"
+			     . "\t\t".'<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#'.$esc($icon).'"></use></svg>'."\n"
+			     . "\t".'</div>'."\n";
+		}
+
 		$h  = '<li class="sl_item '.$esc($color).' fade f_up'.$dly.'"'.$attr.'>'."\n";
-		$h .= "\t".'<div class="sli_pic">'."\n";
-		$h .= "\t\t".'<svg viewBox="0 0 160 200" aria-hidden="true"><use href="#'.$esc($icon).'"></use></svg>'."\n";
-		$h .= "\t".'</div>'."\n";
+		$h .= $pic;
 		$h .= "\t".'<div class="sli_txt">'."\n";
 		$h .= "\t\t".'<em class="font">'.sprintf('%02d', $i + 1).'</em>'."\n";
 		$h .= "\t\t".'<strong class="sli_name">'.$esc($en !== '' ? $en : $ko);

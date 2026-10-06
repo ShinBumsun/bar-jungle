@@ -13,7 +13,7 @@ $jm = array('jm_id'=>0,'jm_tab'=>'signature','jm_cat'=>'','jm_order'=>0,
 	'jm_name_ko'=>'','jm_name_en'=>'','jm_name_ja'=>'',
 	'jm_desc_ko'=>'','jm_desc_en'=>'','jm_desc_ja'=>'',
 	'jm_price'=>'','jm_alc'=>0,'jm_vol'=>'','jm_note'=>'','jm_meter'=>'','jm_use'=>1,
-	'jm_card'=>1,'jm_card_icon'=>'ck1','jm_card_color'=>'c1');
+	'jm_card'=>1,'jm_card_icon'=>'ck1','jm_card_color'=>'c1','jm_image'=>'');
 
 if ($w === 'u') {
 	$row = sql_fetch(" SELECT * FROM ".G5_JUNGLE_SIG_TABLE." WHERE jm_id = '$jm_id' ", false);
@@ -25,7 +25,7 @@ $g5['title'] = '시그니처 '.($w === 'u' ? '수정' : '등록');
 include_once(G5_ADMIN_PATH.'/admin.head.php');
 ?>
 
-<form name="fjungle" action="./jungle_sig_form_update.php" onsubmit="return fjungle_submit(this);" method="post">
+<form name="fjungle" action="./jungle_sig_form_update.php" onsubmit="return fjungle_submit(this);" method="post" enctype="multipart/form-data">
 <input type="hidden" name="token" value="">
 <input type="hidden" name="w" value="<?php echo $w ?>">
 <input type="hidden" name="jm_id" value="<?php echo $jm['jm_id'] ?>">
@@ -109,24 +109,19 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		</td>
 	</tr>
 	<tr>
-		<th scope="row"><label for="jm_card_icon">카드 잔 그림</label></th>
+		<th scope="row"><label for="jm_image">사진</label></th>
 		<td>
-			<select name="jm_card_icon" id="jm_card_icon">
-				<?php foreach ($g5['jungle_card_icons'] as $k => $label) { ?>
-				<option value="<?php echo $k ?>"<?php echo $jm['jm_card_icon'] === $k ? ' selected' : '' ?>><?php echo $label ?></option>
-				<?php } ?>
-			</select>
-			<span class="frm_info">카드 위쪽에 그려지는 잔 모양입니다.</span>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><label for="jm_card_color">카드 배경색</label></th>
-		<td>
-			<select name="jm_card_color" id="jm_card_color">
-				<?php foreach ($g5['jungle_card_colors'] as $k => $label) { ?>
-				<option value="<?php echo $k ?>"<?php echo $jm['jm_card_color'] === $k ? ' selected' : '' ?>><?php echo $label ?></option>
-				<?php } ?>
-			</select>
+<?php $cur = isset($jm['jm_image']) ? trim($jm['jm_image']) : ''; if ($cur !== '' && is_file(jungle_sig_dir().'/'.$cur)) { ?>
+			<p style="margin:0 0 8px">
+				<img src="<?php echo jungle_sig_url().'/'.rawurlencode($cur) ?>?<?php echo @filemtime(jungle_sig_dir().'/'.$cur) ?>" alt="등록된 사진" style="width:200px;height:150px;object-fit:cover;border:2px solid #241f18">
+			</p>
+			<p style="margin:0 0 8px">
+				<input type="checkbox" name="jm_image_del" value="1" id="jm_image_del">
+				<label for="jm_image_del">이 사진 지우기</label>
+			</p>
+<?php } ?>
+			<input type="file" name="jm_image" id="jm_image" accept="image/jpeg,image/png,image/webp">
+			<span class="frm_info">카드 위쪽에 들어갑니다. 가로:세로 4:3 으로 잘려 보이니 그 비율로 올리는 편이 좋습니다. jpg·png·webp, 5MB 까지.<br>새 파일을 고르면 기존 사진은 지워지고 바뀝니다. 사진이 없으면 잔 그림이 대신 들어갑니다.</span>
 		</td>
 	</tr>
 	<tr>

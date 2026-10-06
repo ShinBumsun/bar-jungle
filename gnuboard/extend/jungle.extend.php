@@ -202,6 +202,68 @@ if (!function_exists('jungle_admin_amenu')) {
 add_replace('admin_amenu', 'jungle_admin_amenu');
 
 /**
+ * 시그니처 사진이 올라가는 곳
+ * data 밑에 두면 그누보드가 쓰기 권한을 보장하고, 배포 때 덮어쓰이지도 않습니다.
+ */
+if (!function_exists('jungle_sig_dir')) {
+	function jungle_sig_dir() { return G5_DATA_PATH.'/jungle_sig'; }
+	function jungle_sig_url() { return G5_DATA_URL.'/jungle_sig'; }
+}
+
+/**
+ * 처음 한 번, 미리 올려 둔 사진을 이름으로 짝지어 붙입니다.
+ *
+ * 사진은 FTP 로 먼저 올려 두고 이 표와 이어 주기만 하면 됩니다. 관리자가
+ * 열 장을 손으로 다시 올리지 않아도 되도록 둔 장치입니다.
+ * 왼쪽은 이름에서 띄어쓰기·쉼표를 뺀 것이고(메뉴에는 '시나, 브로' 처럼
+ * 적혀 있습니다), 사진이 이미 붙어 있는 줄은 건드리지 않습니다.
+ */
+if (!function_exists('jungle_sig_seed_images')) {
+	function jungle_sig_seed_images()
+	{
+		/* 한 번 붙이고 나면 다시 하지 않는다. 표시를 파일로 남기는 것은
+		   페이지마다 DB 를 뒤지지 않기 위해서다. 파일 하나 보는 값이 가장 싸다. */
+		$flag = jungle_sig_dir().'/.seeded';
+		if (is_file($flag)) return;
+
+		$seed = array(
+			'하쿠나마타타'   => 'hakuna-matata.jpg',
+			'럭키정글'       => 'lucky-jungle.jpg',
+			'정글몬스터'     => 'jungle-monster.jpg',
+			'그레이트그레이프' => 'great-grapes.jpg',
+			'트레져'         => 'treasure.jpg',
+			'정글쥬스'       => 'jungle-juice.jpg',
+			'뱀부브리즈'     => 'bamboo-breeze.jpg',
+			'크림달래'       => 'cream-dalae.jpg',
+			'레인보우딜라이트' => 'rainbow-delight.jpg',
+			'시나브로'       => 'cinna-bro.jpg',
+		);
+
+		$res = sql_query(" SELECT jm_id, jm_name_ko FROM ".G5_JUNGLE_SIG_TABLE."
+		                    WHERE jm_image = '' ", false);
+		if (!$res) return;
+
+		while ($row = sql_fetch_array($res)) {
+			$key = preg_replace('/[^0-9A-Za-z가-힣]/u', '', $row['jm_name_ko']);
+			$file = '';
+			foreach ($seed as $k => $v) {
+				// '레인보우딜라이트' 와 '레인보우 딜라이트 샷 세트' 처럼
+				// 뒤에 말이 더 붙은 이름도 같은 것으로 본다.
+				if ($key === $k || strpos($key, $k) === 0) { $file = $v; break; }
+			}
+			if (!$file) continue;
+			if (!is_file(jungle_sig_dir().'/'.$file)) continue;
+
+			sql_query(" UPDATE ".G5_JUNGLE_SIG_TABLE."
+			              SET jm_image = '".sql_escape_string($file)."'
+			            WHERE jm_id = '".(int)$row['jm_id']."' ", false);
+		}
+
+		if (is_dir(jungle_sig_dir())) @file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}
+
+/**
  * 시그니처 전용 표
  *
  * 시그니처는 메뉴판 항목에 체크를 켜는 방식이었는데, 전용 화면에서 따로
@@ -221,19 +283,29 @@ if (!function_exists('jungle_sig_setup')) {
 
 		try {
 			$res = sql_query(" SHOW TABLES LIKE '".G5_JUNGLE_SIG_TABLE."' ", false);
-			if ($res && sql_num_rows($res)) return true;
+			if (!$res || !sql_num_rows($res)) {
+				// 메뉴판 표와 같은 모양으로 만든다. 글자셋·열 구성이 저절로 맞는다.
+				sql_query(" CREATE TABLE IF NOT EXISTS ".G5_JUNGLE_SIG_TABLE."
+				            LIKE ".G5_JUNGLE_MENU_TABLE." ", false);
 
-			// 메뉴판 표와 같은 모양으로 만든다. 글자셋·열 구성이 저절로 맞는다.
-			sql_query(" CREATE TABLE IF NOT EXISTS ".G5_JUNGLE_SIG_TABLE."
-			            LIKE ".G5_JUNGLE_MENU_TABLE." ", false);
-
-			// 비어 있을 때만 옮긴다. 두 번 눌러도 중복되지 않게.
-			$cnt = sql_fetch(" SELECT COUNT(*) AS cnt FROM ".G5_JUNGLE_SIG_TABLE, false);
-			if ($cnt && (int)$cnt['cnt'] === 0) {
-				sql_query(" INSERT INTO ".G5_JUNGLE_SIG_TABLE."
-				            SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
-				             WHERE jm_tab = 'signature' ", false);
+				// 비어 있을 때만 옮긴다. 두 번 눌러도 중복되지 않게.
+				$cnt = sql_fetch(" SELECT COUNT(*) AS cnt FROM ".G5_JUNGLE_SIG_TABLE, false);
+				if ($cnt && (int)$cnt['cnt'] === 0) {
+					sql_query(" INSERT INTO ".G5_JUNGLE_SIG_TABLE."
+					            SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
+					             WHERE jm_tab = 'signature' ", false);
+				}
 			}
+
+			// 사진 열. 표가 이미 있던 설치에도 붙여야 하므로 따로 본다.
+			// MySQL 은 ADD COLUMN 에 IF NOT EXISTS 가 없어 먼저 있는지 확인한다.
+			$col = sql_query(" SHOW COLUMNS FROM ".G5_JUNGLE_SIG_TABLE." LIKE 'jm_image' ", false);
+			if ($col && !sql_num_rows($col)) {
+				sql_query(" ALTER TABLE ".G5_JUNGLE_SIG_TABLE."
+				            ADD jm_image VARCHAR(255) NOT NULL DEFAULT '' ", false);
+			}
+
+			jungle_sig_seed_images();
 			return true;
 		} catch (Exception $e) {
 			return false;
@@ -256,15 +328,20 @@ if (!function_exists('jungle_sig_rows')) {
 		$out  = array();
 		$cond = $only_use ? " WHERE jm_use = 1 " : " ";
 
-		$res = sql_query(" SELECT * FROM ".G5_JUNGLE_SIG_TABLE.$cond."
-		                    ORDER BY jm_order ASC, jm_id ASC ", false);
+		$sql = " SELECT * FROM ".G5_JUNGLE_SIG_TABLE.$cond."
+		          ORDER BY jm_order ASC, jm_id ASC ";
+		$res = sql_query($sql, false);
 
-		if (!$res) {
-			// 아직 표가 없다면 만들어 보고 한 번 더 시도한다.
-			if (jungle_sig_setup()) {
-				$res = sql_query(" SELECT * FROM ".G5_JUNGLE_SIG_TABLE.$cond."
-				                    ORDER BY jm_order ASC, jm_id ASC ", false);
-			}
+		/* 표가 아직 없거나, 있어도 사진 열이 안 붙어 있으면 한 번 손보고 다시 읽는다.
+		   열이 붙은 뒤에는 첫 줄에 jm_image 가 보이므로 두 번 들어오지 않는다. */
+		$need = !$res;
+		if ($res) {
+			$peek = sql_fetch_array($res);
+			if ($peek !== null && !array_key_exists('jm_image', $peek)) $need = true;
+			else sql_data_seek($res, 0);
+		}
+		if ($need && jungle_sig_setup()) {
+			$res = sql_query($sql, false);
 		}
 		if (!$res) {
 			// 그래도 안 되면 예전 자리에서 읽어 화면이 비지 않게 한다.

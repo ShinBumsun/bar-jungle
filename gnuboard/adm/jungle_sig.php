@@ -65,8 +65,7 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		<th scope="col">가격</th>
 		<th scope="col">도수</th>
 		<th scope="col">설명(한/영/일)</th>
-		<th scope="col">잔 그림</th>
-		<th scope="col">배경색</th>
+		<th scope="col">사진</th>
 		<th scope="col">메인 카드</th>
 		<th scope="col">순서</th>
 		<th scope="col">노출</th>
@@ -99,8 +98,16 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 			echo $mark;
 			?>
 		</td>
-		<td class="td_category"><?php echo isset($g5['jungle_card_icons'][$row['jm_card_icon']]) ? $g5['jungle_card_icons'][$row['jm_card_icon']] : '-' ?></td>
-		<td class="td_category"><?php echo isset($g5['jungle_card_colors'][$row['jm_card_color']]) ? $g5['jungle_card_colors'][$row['jm_card_color']] : '-' ?></td>
+		<td class="td_category">
+			<?php
+			$im = isset($row['jm_image']) ? trim($row['jm_image']) : '';
+			if ($im !== '' && is_file(jungle_sig_dir().'/'.$im)) {
+				echo '<img src="'.jungle_sig_url().'/'.rawurlencode($im).'" alt="" style="width:64px;height:48px;object-fit:cover;border:1px solid #ccc;vertical-align:middle">';
+			} else {
+				echo '<span style="color:#c33">없음</span>';
+			}
+			?>
+		</td>
 		<td class="td_num"><?php echo $row['jm_card'] ? '<b style="color:#2f7346">O</b>' : '-' ?></td>
 		<td class="td_num"><input type="text" name="jm_order[<?php echo $i ?>]" value="<?php echo $row['jm_order'] ?>" class="frm_input" size="3"></td>
 		<td class="td_chk"><input type="checkbox" name="jm_use[<?php echo $i ?>]" value="1"<?php echo $row['jm_use'] ? ' checked' : '' ?>></td>
@@ -111,7 +118,7 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 	<?php
 		$i++;
 	}
-	if ($i === 0) echo '<tr><td colspan="13" class="empty_table">등록된 시그니처가 없습니다.</td></tr>';
+	if ($i === 0) echo '<tr><td colspan="12" class="empty_table">등록된 시그니처가 없습니다.</td></tr>';
 	?>
 	</tbody>
 	</table>
