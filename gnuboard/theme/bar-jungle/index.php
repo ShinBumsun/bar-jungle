@@ -129,7 +129,7 @@ include_once(G5_PATH.'/head.php');
 
 		<!-- 히어로 타이틀 S -->
 		<div class="he_title">
-			<p class="het_eyebrow"><i></i><span>SEOUL · IKSEON-DONG</span><i></i></p>
+			<p class="het_eyebrow"><i></i><span>SEOUL · JONG-NO</span><i></i></p>
 			<h2 class="het_logo"><img src="<?php echo G5_THEME_URL ?>/img/logo_jungle.png" alt="BAR JUNGLE 정글"></h2>
 			<p class="het_sub" data-i18n="hero.sub">풀숲을 헤치면, 도심 한가운데 정글</p>
 			<div class="het_row">
@@ -146,8 +146,8 @@ include_once(G5_PATH.'/head.php');
 					</svg>
 					<span class="font">PRIDE MEMBERSHIP BAR</span>
 				</p>
-				<a href="<?php echo $jungle_site['instagram'] ?>" class="het_ig font" target="_blank" rel="noopener" title="Instagram_인스타그램">@JUNGLE_SEOUL</a>
 			</div>
+			<p class="het_igrow"><a href="<?php echo $jungle_site['instagram'] ?>" class="het_ig font" target="_blank" rel="noopener" title="Instagram_인스타그램">@JUNGLE_SEOUL</a></p>
 		</div>
 		<!-- 히어로 타이틀 E -->
 
@@ -468,7 +468,7 @@ include_once(G5_PATH.'/head.php');
 		<div class="m_wrap">
 			<div class="m_head">
 				<p class="m_eyebrow fade f_up" data-i18n="menu.eyebrow"><span class="font">MENU</span> 오늘의 목록</p>
-				<h2 class="m_title title t2 cw font2 fade f_up f_delay03" data-i18n="menu.title">잔 하나에<br>계절을 담아</h2>
+				<h2 class="m_title title t2 cw font2 fade f_up f_delay03" data-i18n="menu.title">잔 하나에 계절을 담아</h2>
 				<p class="m_hand fade f_up f_delay06" data-i18n="menu.note">* 계절과 수급에 따라 메뉴는 조금씩 바뀝니다</p>
 			</div>
 			<div class="m_body">
@@ -480,6 +480,10 @@ include_once(G5_PATH.'/head.php');
 				<div class="m_panels fade f_up f_delay06">
 <?php foreach ($jungle_menu as $ti => $tab) { ?>
 					<div class="mp_panel<?php echo $ti ? '' : ' on' ?>" id="pn_<?php echo $tab['key'] ?>" role="tabpanel">
+<?php     $tn = isset($g5['jungle_tab_notice'][$tab['key']]) ? $g5['jungle_tab_notice'][$tab['key']] : null; ?>
+<?php     if ($tn) { ?>
+						<p class="mp_notice" data-tn-ko="<?php echo htmlspecialchars($tn['ko'], ENT_QUOTES, 'UTF-8') ?>" data-tn-en="<?php echo htmlspecialchars($tn['en'], ENT_QUOTES, 'UTF-8') ?>" data-tn-ja="<?php echo htmlspecialchars($tn['ja'], ENT_QUOTES, 'UTF-8') ?>"><?php echo $tn['ko'] ?></p>
+<?php     } ?>
 <?php     $multi = count($tab['groups']) > 1 && trim($tab['groups'][0]['cat']) !== ''; ?>
 <?php     foreach ($tab['groups'] as $g) { ?>
 <?php         if ($multi) { ?>
@@ -653,8 +657,6 @@ include_once(G5_PATH.'/head.php');
 			<div class="v_left">
 				<p class="v_eyebrow fade f_up" data-i18n="visit.eyebrow"><span class="font">VISIT</span> 오시는 길</p>
 				<h2 class="v_title title t2 cw font2 fade f_up f_delay03" data-i18n="visit.title">풀숲을 헤치고<br><mark class="cs">들어오세요</mark></h2>
-				<p class="v_hand fade f_up f_delay06" data-i18n="visit.hand">예약은 인스타그램 DM으로 받습니다</p>
-				<a href="<?php echo $jungle_site['instagram'] ?>" class="v_btn fade f_up f_delay09" target="_blank" rel="noopener" title="Reserve_인스타그램 DM 예약"><span data-i18n="visit.btn">DM으로 예약하기</span><i></i></a>
 				<div class="v_map fade f_up f_delay12" id="vmap">
 					<div class="vm_fall">
 						<span class="vmf_mark" aria-hidden="true">林</span>
@@ -678,6 +680,7 @@ include_once(G5_PATH.'/head.php');
 						<strong class="vir_tit font">HOURS</strong>
 						<div class="vir_txt">
 							<ul class="vir_hours">
+								<li class="vh_open"><b data-i18n="visit.open365">365 OPEN!</b></li>
 <?php foreach ($jungle_site['hours'] as $hr) { ?>
 								<li><b data-i18n="<?php echo $hr['i18n'] ?>"><?php echo $hr['label'] ?></b><em class="font"><?php echo $hr['time'] ?></em></li>
 <?php } ?>
@@ -688,8 +691,8 @@ include_once(G5_PATH.'/head.php');
 					<li class="vi_row">
 						<strong class="vir_tit font">RESERVE</strong>
 						<div class="vir_txt">
-							<p class="txt big cw"><?php echo $jungle_site['insta_id'] ?> DM</p>
-							<p class="txt small" data-i18n="visit.reserve_sub">방문 전에 미리 연락 주시면 자리를 준비해 둘게요</p>
+							<p class="txt big cw"><a href="<?php echo $jungle_site['instagram'] ?>" class="vir_ig" target="_blank" rel="noopener" title="Instagram_인스타그램">Instagram <?php echo $jungle_site['insta_id'] ?></a></p>
+							<p class="txt small" data-i18n="visit.reserve_sub">미리 연락주시면 예약 안내해드릴게요.</p>
 						</div>
 					</li>
 				</ul>

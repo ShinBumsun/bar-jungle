@@ -21,7 +21,22 @@ $g5['jungle_tabs'] = array(
 	'milkshot'  => 'MILKY',
 	'nonalc'    => 'NON-ALCOHOL',
 	'beer'      => 'BEER &amp; SNACK',
-	'shot'      => 'SHOT',
+	'shot'      => 'SHOTS',
+	'whisky'    => 'WHISKY SHOT',
+);
+
+/**
+ * 탭 맨 위에 띄우는 한 줄 공지
+ *
+ * 분류 제목 뒤에 붙여 두면 묻혀서 안 보입니다. 탭을 열자마자 보이도록
+ * 목록 위에 따로 한 줄을 둡니다. 비어 있는 탭은 아무것도 나오지 않습니다.
+ */
+$g5['jungle_tab_notice'] = array(
+	'whisky' => array(
+		'ko' => '하이볼로 변경 +2,000',
+		'en' => 'Make it a highball +2,000',
+		'ja' => 'ハイボールに変更 +2,000',
+	),
 );
 
 /**
@@ -40,9 +55,9 @@ $g5['jungle_cat_i18n'] = array(
 		'en' => 'SHOT COCKTAIL · Discount when you order 2',
 		'ja' => 'SHOT COCKTAIL · 2ショット注文で割引',
 	),
-	'정글 추천 위스키 · Chapter 1 입문 (하이볼 변경 +2,000)' => array(
-		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 1 Beginner (Make it a highball +2,000)',
-		'ja' => 'ジャングルおすすめウイスキー · Chapter 1 入門（ハイボールに変更 +2,000）',
+	'정글 추천 위스키 · Chapter 1 입문' => array(
+		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 1 Beginner',
+		'ja' => 'ジャングルおすすめウイスキー · Chapter 1 入門',
 	),
 	'정글 추천 위스키 · Chapter 2 오크향 가득한 버번' => array(
 		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 2 Bourbon, rich with oak',
@@ -105,6 +120,8 @@ if (!function_exists('jungle_menu_tree')) {
 		foreach ($tabs as $key => $label) {
 			$tree[$key] = array('key' => $key, 'label' => $label, 'groups' => array());
 		}
+
+		jungle_menu_fix_1006();
 
 		// 시그니처는 전용 표에서 읽으므로 메뉴판 쪽에서는 뺀다.
 		$sql = " SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
@@ -381,3 +398,55 @@ if (!function_exists('jungle_admin_home')) {
 	}
 }
 add_event('admin_common', 'jungle_admin_home');
+
+/**
+ * 메뉴판 한 번짜리 손질 (2026-10-06)
+ *
+ * SHOT 탭 한 곳에 100 항목이 22 묶음으로 들어 있어 끝없이 길었습니다.
+ * 위스키를 따로 떼어 SHOTS / WHISKY SHOT 두 탭으로 나눕니다.
+ * 함께 '아그와 밤' 을 BOMB COCKTAIL 묶음으로 옮기고, Chapter 1 제목에
+ * 붙어 있던 하이볼 안내는 탭 머리말로 올리므로 제목에서 뗍니다.
+ *
+ * 한 번 돌고 나면 표시 파일을 남겨 다시 돌지 않습니다. 되돌려야 하면
+ * data/.jungle_shot_split 를 지우고 아래 WHISKY 목록을 비우면 됩니다.
+ */
+if (!function_exists('jungle_menu_fix_1006')) {
+	function jungle_menu_fix_1006()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_shot_split';
+		if (is_file($flag)) return;
+
+		// 위스키로 보낼 묶음. 이름을 그대로 적어 두어 무엇이 옮겨지는지 눈에 보이게 한다.
+		$to_whisky = array(
+			'정글 추천 위스키 · Chapter 1 입문 (하이볼 변경 +2,000)',
+			'정글 추천 위스키 · Chapter 1 입문',
+			'정글 추천 위스키 · Chapter 2 오크향 가득한 버번',
+			'정글 추천 위스키 · Chapter 3 스모키한 피트',
+			'정글 추천 위스키 · Chapter 4 50도 이상 하이 프루프',
+			'WHISKY · Irish', 'WHISKY · Blended', 'WHISKY · Single Malt',
+			'WHISKY · Korean', 'WHISKY · Indian', 'WHISKY · Taiwanese',
+			'WHISKY · Japanese', 'WHISKY · Tennessee', 'WHISKY · Bourbon',
+		);
+
+		$moved = 0;
+		foreach ($to_whisky as $cat) {
+			$r = sql_query(" UPDATE ".G5_JUNGLE_MENU_TABLE."
+			                    SET jm_tab = 'whisky'
+			                  WHERE jm_tab = 'shot'
+			                    AND jm_cat = '".sql_escape_string($cat)."' ", false);
+			if ($r) $moved += get_sql_affected_rows();
+		}
+
+		// Chapter 1 제목에서 하이볼 안내를 뗀다. 탭 머리말로 올라갔다.
+		sql_query(" UPDATE ".G5_JUNGLE_MENU_TABLE."
+		               SET jm_cat = '정글 추천 위스키 · Chapter 1 입문'
+		             WHERE jm_cat = '정글 추천 위스키 · Chapter 1 입문 (하이볼 변경 +2,000)' ", false);
+
+		// 아그와 밤 → BOMB COCKTAIL
+		sql_query(" UPDATE ".G5_JUNGLE_MENU_TABLE."
+		               SET jm_cat = 'BOMB COCKTAIL', jm_order = 900
+		             WHERE jm_tab = 'shot' AND jm_name_ko LIKE '아그와%' ", false);
+
+		@file_put_contents($flag, date('Y-m-d H:i:s')." moved=".$moved."\n");
+	}
+}

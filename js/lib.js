@@ -233,6 +233,13 @@
 		/* 소분류 제목(SHOT COCKTAIL · 2샷 주문 시 할인 …)
 		   번역을 적어 둔 것만 바꾸고, 없으면 한국어를 그대로 둔다.
 		   VODKA·Red Wine 처럼 세 언어에서 똑같이 읽히는 제목이 대부분이다. */
+		/* 탭 머리말도 같은 방식으로 바꿔 끼운다 */
+		var tns = document.querySelectorAll('.mp_notice');
+		for (var ni = 0; ni < tns.length; ni++) {
+			var tv = tns[ni].getAttribute('data-tn-' + lang) || tns[ni].getAttribute('data-tn-ko');
+			if (tv !== null) tns[ni].textContent = tv;
+		}
+
 		var subs = document.querySelectorAll('.mp_sub');
 		for (var si = 0; si < subs.length; si++) {
 			var sv = subs[si].getAttribute('data-ct-' + lang) || subs[si].getAttribute('data-ct-ko');
