@@ -37,9 +37,9 @@ $g5['jungle_tabs'] = array(
  */
 $g5['jungle_tab_notice'] = array(
 	'whisky' => array(
-		'ko' => '하이볼로 변경 +2,000',
-		'en' => 'Make it a highball +2,000',
-		'ja' => 'ハイボールに変更 +2,000',
+		'ko' => '모든 샷 하이볼로 주문시 +2,000원',
+		'en' => 'Any shot ordered as a highball, +2,000',
+		'ja' => 'すべてのショットをハイボールでご注文の場合 +2,000',
 	),
 );
 
