@@ -32,7 +32,7 @@ if (!preg_match('#^https?://#i', G5_URL)) {
 }
 $jungle_base   = rtrim($jungle_origin.G5_URL, '/');
 $jungle_og     = $jungle_origin.G5_THEME_URL.'/img/og.jpg';
-$jungle_ver    = '1.0.17';
+$jungle_ver    = '1.0.18';
 ?>
 <!doctype html>
 <html lang="ko">
@@ -53,9 +53,14 @@ $jungle_ver    = '1.0.17';
 <meta property="og:image:alt" content="정글 속 호랑이와 칵테일 일러스트, BAR JUNGLE">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="<?php echo $jungle_og ?>">
-<link rel="icon" type="image/png" sizes="32x32" href="<?php echo G5_THEME_URL ?>/img/favicon-32.png">
-<link rel="icon" type="image/svg+xml" href="<?php echo G5_THEME_URL ?>/img/favicon.svg">
-<link rel="apple-touch-icon" href="<?php echo G5_THEME_URL ?>/img/apple-touch-icon.png">
+<?php /* 아이콘은 정글로고(호랑이)에서 땄습니다. 작은 크기는 얼굴만 바짝 잘라
+         또렷하게, 큰 크기는 머리 전체가 로고답게 보이도록 따로 떴습니다.
+         svg 는 더 쓰지 않습니다. 브라우저가 svg 를 먼저 고르기 때문에
+         크기별로 다른 그림을 줄 수 없습니다. */ ?>
+<link rel="icon" type="image/png" sizes="16x16" href="<?php echo G5_THEME_URL ?>/img/favicon-16.png?v=<?php echo $jungle_ver ?>">
+<link rel="icon" type="image/png" sizes="32x32" href="<?php echo G5_THEME_URL ?>/img/favicon-32.png?v=<?php echo $jungle_ver ?>">
+<link rel="icon" type="image/png" sizes="192x192" href="<?php echo G5_THEME_URL ?>/img/favicon-192.png?v=<?php echo $jungle_ver ?>">
+<link rel="apple-touch-icon" href="<?php echo G5_THEME_URL ?>/img/apple-touch-icon.png?v=<?php echo $jungle_ver ?>">
 <meta name="theme-color" content="#0d2317">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
