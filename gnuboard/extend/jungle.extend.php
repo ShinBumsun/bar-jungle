@@ -25,8 +25,8 @@ $g5['jungle_tabs'] = array(
 	'milkshot'  => 'MILKY',
 	'nonalc'    => 'NON-ALCOHOL',
 	'beer'      => 'BEER &amp; SNACK',
-	'shot'      => 'SHOTS',
 	'whisky'    => 'WHISKY SHOT',
+	'shot'      => 'OTHER SHOT',
 );
 
 /**
