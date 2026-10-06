@@ -478,4 +478,38 @@
 		}
 	}
 
+	/* 시즌 그림 크게 보기
+	   포스터는 세로로 길어 목록 크기로는 재료 글씨가 안 읽힌다. */
+	var msView = document.getElementById('ms_view');
+	if (msView) {
+		var msImg = msView.querySelector('img');
+		var msFrom = null;
+
+		function msOpen(btn) {
+			msImg.src = btn.getAttribute('data-src');
+			msImg.alt = btn.querySelector('img') ? btn.querySelector('img').alt : '';
+			msView.hidden = false;
+			document.body.style.overflow = 'hidden';
+			msFrom = btn;
+			var c = msView.querySelector('.ms_close');
+			if (c) { c.focus(); }
+		}
+		function msClose() {
+			msView.hidden = true;
+			msImg.src = '';
+			document.body.style.overflow = '';
+			if (msFrom) { msFrom.focus(); msFrom = null; }
+		}
+
+		document.addEventListener('click', function (e) {
+			var btn = e.target.closest ? e.target.closest('.ms_btn') : null;
+			if (btn) { msOpen(btn); return; }
+			/* 그림 바깥(어두운 바탕)이나 닫기 단추를 누르면 닫는다 */
+			if (!msView.hidden && (e.target === msView || e.target.closest('.ms_close'))) { msClose(); }
+		});
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' && !msView.hidden) { msClose(); }
+		});
+	}
+
 })();

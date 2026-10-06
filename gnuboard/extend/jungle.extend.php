@@ -578,3 +578,96 @@ if (!function_exists('jungle_menu_order_wine')) {
 		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
 	}
 }
+
+/* ==========================================================================
+   시즌 메뉴 : 그림만 올리는 탭
+   설명도 가격도 없이 포스터 한 장씩만 걸립니다. 그래서 메뉴판 표를 쓰지 않고
+   따로 둡니다. 메뉴판 표에 얹으면 이름·가격 칸이 늘 비어 있게 됩니다.
+   ========================================================================== */
+define('G5_JUNGLE_SEASON_TABLE', G5_TABLE_PREFIX.'jungle_season');
+
+if (!function_exists('jungle_season_dir')) {
+	function jungle_season_dir() { return G5_DATA_PATH.'/jungle_season'; }
+	function jungle_season_url() { return G5_DATA_URL.'/jungle_season'; }
+}
+
+if (!function_exists('jungle_season_setup')) {
+	function jungle_season_setup()
+	{
+		static $tried = false;
+		if ($tried) return;
+		$tried = true;
+		try {
+			sql_query(" CREATE TABLE IF NOT EXISTS ".G5_JUNGLE_SEASON_TABLE." (
+			              js_id    int(11)      NOT NULL AUTO_INCREMENT,
+			              js_order int(11)      NOT NULL DEFAULT 0,
+			              js_image varchar(255) NOT NULL DEFAULT '',
+			              js_alt   varchar(255) NOT NULL DEFAULT '',
+			              js_use   tinyint(4)   NOT NULL DEFAULT 1,
+			              PRIMARY KEY (js_id),
+			              KEY js_order (js_order)
+			            ) ", false);
+		} catch (Exception $e) {}
+	}
+}
+
+/**
+ * 시즌 그림을 순서대로 읽습니다.
+ * 파일이 사라진 줄은 건너뜁니다. 깨진 그림이 화면에 남는 것보다 낫습니다.
+ */
+if (!function_exists('jungle_season_rows')) {
+	function jungle_season_rows($only_use = true)
+	{
+		static $cache = array();
+		$ck = $only_use ? 'use' : 'all';
+		if (isset($cache[$ck])) return $cache[$ck];
+
+		$cond = $only_use ? " WHERE js_use = 1 " : " ";
+		$sql  = " SELECT * FROM ".G5_JUNGLE_SEASON_TABLE.$cond." ORDER BY js_order ASC, js_id ASC ";
+
+		$res = sql_query($sql, false);
+		if (!$res) { jungle_season_setup(); $res = sql_query($sql, false); }
+
+		$out = array();
+		if ($res) {
+			while ($row = sql_fetch_array($res)) {
+				if ($only_use) {
+					$f = trim($row['js_image']);
+					if ($f === '' || !is_file(jungle_season_dir().'/'.$f)) continue;
+				}
+				$out[] = $row;
+			}
+		}
+		return $cache[$ck] = $out;
+	}
+}
+
+/**
+ * 관리자가 올린 그림 한 장을 받아 저장하고 파일 이름을 돌려줍니다.
+ *
+ * 확장자는 믿지 않습니다. getimagesize 로 진짜 그림인지 보고, 이름도 서버가
+ * 다시 짓습니다. 올린 이름을 그대로 쓰면 한글·공백·확장자 위조가 그대로
+ * 서버에 남습니다. 올린 것이 없으면 빈 문자열을 돌려줍니다.
+ */
+if (!function_exists('jungle_save_image')) {
+	function jungle_save_image($field, $dir, $prefix, $max_mb = 8)
+	{
+		$up = isset($_FILES[$field]) ? $_FILES[$field] : null;
+		if (!$up || !isset($up['tmp_name']) || $up['error'] !== UPLOAD_ERR_OK) return '';
+		if (!is_uploaded_file($up['tmp_name'])) return '';
+
+		if ($up['size'] > $max_mb * 1024 * 1024) alert('그림은 '.$max_mb.'MB 까지 올릴 수 있습니다.');
+
+		$info = @getimagesize($up['tmp_name']);
+		$ext  = array(IMAGETYPE_JPEG => 'jpg', IMAGETYPE_PNG => 'png', IMAGETYPE_WEBP => 'webp');
+		if (!$info || !isset($ext[$info[2]])) alert('jpg, png, webp 그림만 올릴 수 있습니다.');
+
+		if (!is_dir($dir)) @mkdir($dir, G5_DIR_PERMISSION, true);
+		if (!is_dir($dir)) alert('그림을 저장할 폴더를 만들지 못했습니다.');
+
+		$name = $prefix.'_'.date('YmdHis').'_'.substr(md5(uniqid('', true)), 0, 6).'.'.$ext[$info[2]];
+		if (!@move_uploaded_file($up['tmp_name'], $dir.'/'.$name)) alert('그림을 저장하지 못했습니다.');
+		@chmod($dir.'/'.$name, G5_FILE_PERMISSION);
+		return $name;
+	}
+}

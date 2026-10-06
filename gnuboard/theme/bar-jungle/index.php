@@ -4,7 +4,8 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 $jungle_site = include(G5_THEME_PATH.'/data/site.php');
 $jungle_menu  = jungle_menu_tree();      // 관리자 > 정글 사이트 > 메뉴판 관리
-$jungle_cards = jungle_signature_cards();  // 시그니처 섹션에 띄울 카드
+$jungle_cards = jungle_signature_cards();
+$jungle_season = jungle_season_rows();   // 시즌 메뉴 : 그림만 걸리는 탭  // 시그니처 섹션에 띄울 카드
 
 include_once(G5_PATH.'/head.php');
 ?>
@@ -471,14 +472,38 @@ include_once(G5_PATH.'/head.php');
 				<p class="m_hand fade f_up f_delay06" data-i18n="menu.note">* 계절과 수급에 따라 메뉴는 조금씩 바뀝니다</p>
 			</div>
 			<div class="m_body">
+<?php
+			/* 시즌 탭은 메뉴판 표가 아니라 제 표에서 오므로 따로 앞에 붙인다.
+			   올린 그림이 없으면 탭 자체가 나오지 않는다. */
+			$has_season = count($jungle_season) > 0;
+?>
 				<div class="m_tabs fade f_up f_delay03" role="tablist">
-<?php foreach ($jungle_menu as $ti => $tab) { ?>
-					<button type="button" class="mt_btn<?php echo $ti ? '' : ' on' ?>" role="tab" aria-selected="<?php echo $ti ? 'false' : 'true' ?>" aria-controls="pn_<?php echo $tab['key'] ?>" data-panel="<?php echo $tab['key'] ?>"><?php echo $tab['label'] ?></button>
+<?php if ($has_season) { ?>
+					<button type="button" class="mt_btn on" role="tab" aria-selected="true" aria-controls="pn_season" data-panel="season">SEASON</button>
+<?php } ?>
+<?php foreach ($jungle_menu as $ti => $tab) { $on = (!$has_season && $ti === 0); ?>
+					<button type="button" class="mt_btn<?php echo $on ? ' on' : '' ?>" role="tab" aria-selected="<?php echo $on ? 'true' : 'false' ?>" aria-controls="pn_<?php echo $tab['key'] ?>" data-panel="<?php echo $tab['key'] ?>"><?php echo $tab['label'] ?></button>
 <?php } ?>
 				</div>
 				<div class="m_panels fade f_up f_delay06">
-<?php foreach ($jungle_menu as $ti => $tab) { ?>
-					<div class="mp_panel<?php echo $ti ? '' : ' on' ?>" id="pn_<?php echo $tab['key'] ?>" role="tabpanel">
+<?php if ($has_season) { ?>
+					<div class="mp_panel on" id="pn_season" role="tabpanel">
+						<ul class="ms_list">
+<?php     foreach ($jungle_season as $sv) {
+			$alt = trim($sv['js_alt']) !== '' ? $sv['js_alt'] : '시즌 메뉴';
+			$src = jungle_season_url().'/'.rawurlencode($sv['js_image']);
+?>
+							<li class="ms_item">
+								<button type="button" class="ms_btn" data-src="<?php echo htmlspecialchars($src, ENT_QUOTES, 'UTF-8') ?>" aria-label="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8') ?> 크게 보기">
+									<img src="<?php echo htmlspecialchars($src, ENT_QUOTES, 'UTF-8') ?>" alt="<?php echo htmlspecialchars($alt, ENT_QUOTES, 'UTF-8') ?>" loading="lazy" decoding="async">
+								</button>
+							</li>
+<?php     } ?>
+						</ul>
+					</div>
+<?php } ?>
+<?php foreach ($jungle_menu as $ti => $tab) { $on = (!$has_season && $ti === 0); ?>
+					<div class="mp_panel<?php echo $on ? ' on' : '' ?>" id="pn_<?php echo $tab['key'] ?>" role="tabpanel">
 <?php     $tn = isset($g5['jungle_tab_notice'][$tab['key']]) ? $g5['jungle_tab_notice'][$tab['key']] : null; ?>
 <?php     if ($tn) { ?>
 						<p class="mp_notice" data-tn-ko="<?php echo htmlspecialchars($tn['ko'], ENT_QUOTES, 'UTF-8') ?>" data-tn-en="<?php echo htmlspecialchars($tn['en'], ENT_QUOTES, 'UTF-8') ?>" data-tn-ja="<?php echo htmlspecialchars($tn['ja'], ENT_QUOTES, 'UTF-8') ?>"><?php echo $tn['ko'] ?></p>
@@ -507,6 +532,13 @@ include_once(G5_PATH.'/head.php');
 		</div>
 	</section>
 	<!-- Menu E -->
+
+	<!-- 시즌 그림 크게 보기 S -->
+	<div class="ms_view" id="ms_view" hidden>
+		<button type="button" class="ms_close" aria-label="닫기"></button>
+		<img src="" alt="">
+	</div>
+	<!-- 시즌 그림 크게 보기 E -->
 
 	<!-- Moment S -->
 	<section id="moment" class="sec torn" data-veil data-tone="dark">

@@ -492,6 +492,25 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 .mt_btn.on {background-color:#e8b13a; border-color:#e8b13a; color:#241f18; opacity:1;}
 /* 탭 머리말 : 탭을 열자마자 보이도록 목록 위에 한 줄로 둔다. */
 .mp_notice {display:block; margin-bottom:24px; text-align:center; font-size:14px; letter-spacing:0.02em; color:#e8b13a;}
+/* 시즌 메뉴 : 설명도 가격도 없이 포스터 한 장씩만 건다.
+   포스터는 세로로 길어 글씨가 작다. 눌러서 크게 볼 수 있게 해 둔다. */
+.ms_list {display:grid; grid-template-columns:repeat(3, 1fr); gap:30px;}
+.ms_item {margin:0;}
+.ms_btn {display:block; width:100%; padding:0; border:2px solid #241f18; background-color:#f7efdd; box-shadow:9px 9px 0 rgba(36,31,24,0.9); cursor:zoom-in; transition:transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;}
+.ms_btn img {display:block; width:100%; height:auto;}
+.ms_btn:hover {transform:translate(-5px,-5px); box-shadow:15px 15px 0 rgba(36,31,24,0.9);}
+.ms_btn:focus-visible {outline:3px solid #e8b13a; outline-offset:4px;}
+
+.ms_view {position:fixed; left:0; top:0; width:100%; height:100%; z-index:1200; display:flex; align-items:center; justify-content:center; padding:5vh 5vw; background-color:rgba(10,28,18,0.94);}
+.ms_view[hidden] {display:none;}
+.ms_view img {display:block; max-width:100%; max-height:90vh; width:auto; height:auto; border:2px solid #241f18; box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.ms_close {position:absolute; right:22px; top:22px; width:46px; height:46px; border:2px solid rgba(247,239,221,0.6); border-radius:50%; background:none; cursor:pointer; transition:0.25s;}
+.ms_close::before, .ms_close::after {content:""; position:absolute; left:12px; top:20px; width:18px; height:2px; background-color:#f7efdd;}
+.ms_close::before {transform:rotate(45deg);}
+.ms_close::after {transform:rotate(-45deg);}
+.ms_close:hover {border-color:#e8b13a;}
+.ms_close:hover::before, .ms_close:hover::after {background-color:#e8b13a;}
+
 .mp_panel {display:none;}
 .mp_panel.on {display:block; animation:mp_in 0.5s cubic-bezier(0.16,1,0.3,1);}
 .mp_panel .mg_list {columns:2; column-gap:64px;}
@@ -567,6 +586,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.h_util {gap:12px;}
 	.mt_btn {padding:11px 22px; font-size:15px;}
 	.mp_panel .mg_list {column-gap:44px;}
+	.ms_list {grid-template-columns:repeat(2, 1fr); gap:24px;}
 	#header {height:82px; padding:0 30px;}
 	.h_logo em {font-size:25px;}
 	.hg_list {gap:26px;}
@@ -685,6 +705,9 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.m_tabs {flex-wrap:wrap; justify-content:center; overflow-x:visible; gap:7px; margin-bottom:26px;}
 	.mt_btn {padding:9px 15px; font-size:12.5px; letter-spacing:0.08em;}
 	.mp_panel .mg_list {columns:1;}
+	.ms_list {grid-template-columns:1fr; gap:22px;}
+	.ms_close {right:12px; top:12px; width:40px; height:40px;}
+	.ms_close::before, .ms_close::after {left:10px; top:17px; width:16px;}
 	.v_map {--ratio:100%; margin-top:26px;}
 	.vir_hours b {min-width:64px; font-size:16px;}
 	.vir_hours em {font-size:17px;}
