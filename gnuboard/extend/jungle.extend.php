@@ -122,6 +122,7 @@ if (!function_exists('jungle_menu_tree')) {
 		}
 
 		jungle_menu_fix_1006();
+		jungle_menu_add_soup();
 
 		// 시그니처는 전용 표에서 읽으므로 메뉴판 쪽에서는 뺀다.
 		$sql = " SELECT * FROM ".G5_JUNGLE_MENU_TABLE."
@@ -448,5 +449,52 @@ if (!function_exists('jungle_menu_fix_1006')) {
 		             WHERE jm_tab = 'shot' AND jm_name_ko LIKE '아그와%' ", false);
 
 		@file_put_contents($flag, date('Y-m-d H:i:s')." moved=".$moved."\n");
+	}
+}
+
+/**
+ * 메뉴판 한 번짜리 손질 그 두 번째 (2026-10-06)
+ *
+ * 스낵에 '양송이 컵 수프' 한 줄을 넣습니다. 수정사항 PPT 에 적힌 네 가지 중
+ * 이것만 빠져 있었습니다.
+ * 같은 이름이 이미 있으면 넣지 않으므로 여러 번 돌아도 늘어나지 않습니다.
+ */
+if (!function_exists('jungle_menu_add_soup')) {
+	function jungle_menu_add_soup()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_add_soup';
+		if (is_file($flag)) return;
+
+		$name = '양송이 컵 수프';
+		$dup = sql_fetch(" SELECT COUNT(*) AS cnt FROM ".G5_JUNGLE_MENU_TABLE."
+		                    WHERE jm_name_ko = '".sql_escape_string($name)."' ", false);
+		if (!$dup) return;                       // 표를 못 읽었으면 표시도 남기지 않는다
+
+		if ((int)$dup['cnt'] === 0) {
+			// 목록 맨 뒤에 붙인다. 같은 5,000 원짜리 컵라면 옆자리가 된다.
+			$mx = sql_fetch(" SELECT MAX(jm_order) AS mx FROM ".G5_JUNGLE_MENU_TABLE."
+			                   WHERE jm_tab = 'beer' AND jm_cat = 'SNACKS' ", false);
+			$ord = ($mx && $mx['mx'] !== null) ? (int)$mx['mx'] + 1 : 0;
+
+			$f = array(
+				'jm_tab'     => 'beer',
+				'jm_cat'     => 'SNACKS',
+				'jm_name_ko' => $name,
+				'jm_name_en' => 'Mushroom cup cream soup',
+				'jm_name_ja' => 'マッシュルームカップスープ',
+				'jm_desc_ko' => '속풀이에 좋은 그릴드 양송이 컵 수프',
+				'jm_desc_en' => 'A grilled mushroom cup soup — just the thing after a few drinks.',
+				'jm_desc_ja' => 'お酒のあとにうれしい、グリルドマッシュルームのカップスープ。',
+				'jm_price'   => '5,000',
+			);
+			$set = array();
+			foreach ($f as $col => $val) $set[] = " $col = '".sql_escape_string($val)."' ";
+			$set[] = " jm_order = '".$ord."' ";
+			$set[] = " jm_alc = '0' ";
+			$set[] = " jm_use = '1' ";
+			sql_query(" INSERT INTO ".G5_JUNGLE_MENU_TABLE." SET ".implode(',', $set), false);
+		}
+
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
 	}
 }
