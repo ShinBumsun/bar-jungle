@@ -405,7 +405,6 @@ include_once(G5_PATH.'/head.php');
 				</ul>
 				<button type="button" class="ss_nav ss_next" aria-label="다음 칵테일 보기"><i></i></button>
 			</div>
-			<p class="s_soon fade f_up f_delay15" data-i18n="sig.soon">시그니처 칵테일 10종 전체는 아래 메뉴에서 보실 수 있어요</p>
 		</div>
 	</section>
 	<!-- Signature E -->

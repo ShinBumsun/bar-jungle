@@ -483,7 +483,6 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 /* About Notice E */
 
 /* Signature Soon S */
-.s_soon {margin-top:36px; font-family:"Nanum Pen Script", cursive; font-size:21px; color:#241f18; opacity:0.6;}
 /* Signature Soon E */
 
 /* Menu Tabs S : 항목이 많아 분류별로 전환 */
@@ -680,7 +679,6 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.het_ig {font-size:12px;}
 	.a_notice {padding:24px 20px; box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
 	.an_tit {font-size:17px;}
-	.s_soon {font-size:18px;}
 	/* 가로로 밀어 보는 줄이었는데, 중간쯤 밀면 양 끝 버튼이 반씩 잘려 보였다.
 	   탭이 11개라 어떻게 밀어도 끝은 잘린다. 줄을 바꿔 한눈에 다 보이게 한다.
 	   글자와 여백을 줄여 줄 수가 늘어나는 만큼을 상쇄한다. */
