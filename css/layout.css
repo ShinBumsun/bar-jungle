@@ -552,20 +552,17 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
    --ratio 는 세로/가로 백분율. */
 .v_map {position:relative; width:100%; margin-top:40px; border:2px solid rgba(247,239,221,0.5); overflow:hidden; background-color:#0a2416; --ratio:62.5%;}
 .v_map::before {content:""; display:block; width:100%; padding-top:var(--ratio);}
-.v_map iframe {position:absolute; left:0; top:0; display:block; width:100%; height:100%; border:0; background-color:#0a2416; filter:grayscale(0.3) saturate(0.85) contrast(1.04); z-index:2;}
-
-/* 지도를 못 띄웠을 때
-   인스타그램 / 카카오톡 인앱 브라우저나 추적 차단 설정에서는 구글 지도
-   iframe 이 아예 안 뜨는 경우가 있다. 그때 빈 칸만 남지 않도록 주소를 깔아 둔다. */
-.vm_fall {position:absolute; left:0; top:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; width:100%; height:100%; padding:24px 20px 72px; text-align:center; z-index:1;}
-.vm_fall .vmf_mark {font-family:"Black Han Sans", "Apple SD Gothic Neo", sans-serif; font-size:34px; line-height:1; color:#f7efdd; opacity:0.75;}
-.vm_fall .vmf_addr {font-size:15px; line-height:1.6; color:#f7efdd; opacity:0.9;}
-.vm_fall .vmf_sub {font-size:13px; line-height:1.6; color:#f7efdd; opacity:0.55;}
-.v_map.no_map iframe {display:none;}
+.vm_link {position:absolute; left:0; top:0; display:block; width:100%; height:100%;}
+/* 그림은 16:10 한 장인데 화면에 따라 칸의 비율이 달라진다.
+   cover 로 가운데를 잘라, 어느 비율에서도 핀이 가운데 남는다. */
+.vm_link img {display:block; width:100%; height:100%; object-fit:cover; transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);}
+.vm_link:hover img {transform:scale(1.03);}
+.vm_link:focus-visible {outline:3px solid #e8b13a; outline-offset:-3px;}
+.vm_att {position:absolute; left:10px; bottom:10px; z-index:2; padding:3px 7px; background-color:rgba(247,239,221,0.78); font-size:10px; letter-spacing:0.01em; color:#3c362c; pointer-events:none;}
 .vm_open {position:absolute; right:12px; bottom:12px; z-index:3; display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background-color:#f7efdd; border:2px solid #241f18; font-size:13px; color:#241f18; transition:0.3s;}
 .vm_open i {display:block; width:7px; height:7px; border-top:2px solid #241f18; border-right:2px solid #241f18; transform:rotate(45deg); transition:0.3s;}
-.vm_open:hover {background-color:#e8b13a;}
-.vm_open:hover i {transform:rotate(45deg) translate(2px,-2px);}
+.vm_link:hover .vm_open {background-color:#e8b13a;}
+.vm_link:hover .vm_open i {transform:rotate(45deg) translate(2px,-2px);}
 .vir_hours {display:flex; flex-direction:column; gap:7px; margin-bottom:12px;}
 .vir_hours li {display:flex; align-items:baseline; gap:16px;}
 .vir_hours b {min-width:76px; font-size:17px; font-weight:700; color:#f7efdd;}

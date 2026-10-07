@@ -689,14 +689,19 @@ include_once(G5_PATH.'/head.php');
 			<div class="v_left">
 				<p class="v_eyebrow fade f_up" data-i18n="visit.eyebrow"><span class="font">VISIT</span> 오시는 길</p>
 				<h2 class="v_title title t2 cw font2 fade f_up f_delay03" data-i18n="visit.title">풀숲을 헤치고<br><mark class="cs">들어오세요</mark></h2>
-				<div class="v_map fade f_up f_delay12" id="vmap">
-					<div class="vm_fall">
-						<span class="vmf_mark" aria-hidden="true">林</span>
-						<p class="vmf_addr"><?php echo $jungle_site['addr_ko'] ?></p>
-						<p class="vmf_sub" data-i18n="visit.map_fall">지도가 보이지 않으면 아래 버튼을 눌러 주세요</p>
-					</div>
-					<iframe src="https://www.google.com/maps?q=<?php echo urlencode($jungle_site['map_query']) ?>&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=&amp;output=embed" title="BAR JUNGLE 위치" referrerpolicy="no-referrer-when-downgrade" allow="fullscreen" allowfullscreen></iframe>
-					<a href="https://www.google.com/maps/search/?api=1&amp;query=<?php echo urlencode($jungle_site['map_query']) ?>" class="vm_open" target="_blank" rel="noopener" title="Map_구글 지도에서 열기"><span data-i18n="visit.map">구글 지도에서 열기</span><i></i></a>
+				<div class="v_map fade f_up f_delay12">
+					<?php /* iframe 은 인앱 브라우저나 추적 차단에서 조용히 실패해 빈 칸이 남았다.
+					         지도를 그림 한 장으로 바꾸고, 누르면 구글 지도로 넘어가게 한다.
+					         링크는 하나다. 그림과 버튼을 따로 링크로 걸면 같은 곳으로 가는
+					         멈춤점이 둘이 되어 키보드로 넘길 때 번거롭다. */ ?>
+					<a href="https://www.google.com/maps/search/?api=1&amp;query=<?php echo urlencode($jungle_site['map_query']) ?>" class="vm_link" target="_blank" rel="noopener" title="Map_구글 지도에서 열기">
+						<img src="<?php echo G5_THEME_URL ?>/img/map.jpg?v=<?php echo $jungle_ver ?>" alt="BAR JUNGLE 위치 : <?php echo $jungle_site['addr_ko'] ?>" loading="lazy" decoding="async">
+						<span class="vm_open"><span data-i18n="visit.map">구글 지도에서 열기</span><i></i></span>
+					</a>
+					<?php /* 지도 바탕은 OpenStreetMap 자료다. 쓰려면 출처를 밝혀야 한다.
+					         그림에 박아 두면 화면 비율에 따라 가장자리가 잘려 사라지므로
+					         화면 쪽에 따로 얹는다. */ ?>
+					<span class="vm_att">&copy; OpenStreetMap</span>
 				</div>
 			</div>
 			<div class="v_right">

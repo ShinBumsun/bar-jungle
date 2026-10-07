@@ -48,8 +48,7 @@
 			'visit.hours3': 'Sun',
 			'visit.hours_sub': 'Closed days are announced on Instagram',
 			'visit.reserve_sub': 'Message us ahead and we will walk you through booking.',
-			'visit.map': 'Open in Google Maps',
-			'visit.map_fall': 'If the map does not load, use the button below'
+			'visit.map': 'Open in Google Maps'
 		},
 		ja: {
 			'nav.about': '紹介',
@@ -93,8 +92,7 @@
 			'visit.hours3': '日',
 			'visit.hours_sub': '臨時休業はInstagramでお知らせします',
 			'visit.reserve_sub': '事前にご連絡いただければご予約をご案内します。',
-			'visit.map': 'Googleマップで開く',
-			'visit.map_fall': '地図が表示されない場合は下のボタンをご利用ください'
+			'visit.map': 'Googleマップで開く'
 		}
 	};
 
