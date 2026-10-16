@@ -740,6 +740,7 @@ if (!function_exists('jungle_goods_rows')) {
 		if (!$res) { jungle_goods_setup(); $res = sql_query($sql, false); }
 		if ($res) { jungle_goods_seed(); $res = sql_query($sql, false); }
 		if ($res) { jungle_goods_note_i18n(); $res = sql_query($sql, false); }
+		if ($res) { jungle_goods_desc_trim();  $res = sql_query($sql, false); }
 
 		$out = array();
 		if ($res) {
@@ -788,6 +789,25 @@ if (!function_exists('jungle_goods_note_i18n')) {
 			             WHERE jg_note = '".sql_escape_string($ko)."'
 			               AND jg_note_en = '' ", false);
 		}
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}
+
+/**
+ * 미니간판 설명이 '건전지 포함' 을 한 번 더 적고 있었습니다. 한 줄 설명과
+ * 가격 밑 한 줄이 같은 말을 되풀이해서 덜어 냅니다.
+ */
+if (!function_exists('jungle_goods_desc_trim')) {
+	function jungle_goods_desc_trim()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_goods_desc_trim';
+		if (is_file($flag)) return;
+
+		$r = sql_query(" UPDATE ".G5_JUNGLE_GOODS_TABLE."
+		                    SET jg_desc_en = 'A mini light-up sign',
+		                        jg_desc_ja = '本当に光るミニ看板'
+		                  WHERE jg_desc_ko = '진짜 불이 들어오는 미니 간판' ", false);
+		if ($r === false) return;
 		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
 	}
 }
