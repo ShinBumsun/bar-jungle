@@ -560,6 +560,7 @@
 		var evResult = document.getElementById('ev_result');
 		var evTurn   = 0;      /* 지금까지 돈 각도. 늘 앞으로만 돈다 */
 		var evBusy   = false;
+		var evLastPeg = -1, evFlip = false;
 
 		function evShow(d) {
 			var pic = document.getElementById('evr_pic');
@@ -578,6 +579,28 @@
 			evResult.hidden = false;
 		}
 
+		/* 바늘 튕기기
+		   판이 도는 동안 바늘이 못(전구 자리, 15도마다)에 걸려 탁탁 튄다.
+		   판은 CSS 가 굴리므로, 지금 몇 도인지 매 프레임 읽어서 못을 지날
+		   때마다 바늘을 꺾는다. 각도를 따로 계산하면 둘이 어긋난다. */
+		var evPin = document.querySelector('.ev_pin');
+		var evPeg = 15;
+		function evTickLoop() {
+			if (!evBusy || !evPin) { return; }
+			var m = window.getComputedStyle(evWheel).transform;
+			var mm = /matrix\(([-0-9.e]+),\s*([-0-9.e]+)/.exec(m);
+			if (mm) {
+				var deg = Math.atan2(parseFloat(mm[2]), parseFloat(mm[1])) * 180 / Math.PI;
+				var idx = Math.floor(((deg % 360) + 360) % 360 / evPeg);
+				if (idx !== evLastPeg) {
+					evLastPeg = idx;
+					evFlip = !evFlip;
+					evPin.style.transform = 'rotate(' + (evFlip ? -17 : -3) + 'deg)';
+				}
+			}
+			window.requestAnimationFrame(evTickLoop);
+		}
+
 		function evSpin() {
 			if (evBusy) { return; }
 			evBusy = true;
@@ -593,10 +616,13 @@
 					var mid = (typeof d.mid === 'number') ? d.mid : evMid(d.index);
 					evTurn += 360 * 4 + ((360 - (evTurn % 360)) - mid + 360) % 360;
 					evWheel.style.transform = 'rotate(' + evTurn + 'deg)';
+					evLastPeg = -1;
+					window.requestAnimationFrame(evTickLoop);
 
 					window.setTimeout(function () {
 						evShow(d);
 						evBusy = false;
+						if (evPin) { evPin.style.transform = ''; }   /* 멈추면 바늘도 제자리로 */
 					}, 4700);          /* CSS 의 회전 시간과 맞춘다 */
 				})
 				.catch(function (err) {
