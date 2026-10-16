@@ -86,7 +86,7 @@ include_once(G5_THEME_PATH.'/lib/svg_defs.php');
 <?php } ?>
 
 			<div class="gd_how">
-				<strong class="gdh_tit" data-i18n="goods.how_tit">구매하시려면</strong>
+				<strong class="gdh_tit" data-i18n="goods.how_tit">구매 하시려면</strong>
 				<p class="gdh_txt" data-i18n="goods.how_txt">온라인 주문과 배송은 하지 않습니다.<br>매장에 오셔서 보시고 바로 가져가시면 됩니다.</p>
 				<a href="<?php echo $jungle_site['instagram'] ?>" class="gdh_btn" target="_blank" rel="noopener" title="Instagram_인스타그램 DM 문의"><span data-i18n="goods.how_btn">재고·색상 문의는 인스타 DM</span><i></i></a>
 			</div>
