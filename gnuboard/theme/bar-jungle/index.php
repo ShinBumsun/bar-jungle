@@ -539,24 +539,38 @@ include_once(G5_PATH.'/head.php');
 <?php if (count($jungle_popups)) { ?>
 	<!-- 팝업 S -->
 	<div class="jp_layer" id="jp_layer">
+		<div class="jp_wrap">
+			<?php /* 두 장 이상이면 밀어 볼 수 있게 한다. 한 장이면 화살표가
+			         저절로 꺼진다(넘칠 게 없으면 슬라이더가 비활성으로 둔다). */ ?>
+			<div class="s_slider jp_slider">
+				<button type="button" class="ss_nav ss_prev" aria-label="이전 알림 보기"><i></i></button>
+				<ul class="s_list jp_list" tabindex="0">
 <?php     foreach ($jungle_popups as $jp) {
 		$esc = function ($v) { return htmlspecialchars($v, ENT_QUOTES, 'UTF-8'); };
 		$alt = trim($jp['jp_alt']) !== '' ? $jp['jp_alt'] : '정글 알림';
-		$src = jungle_popup_url().'/'.rawurlencode($jp['jp_image']);
+		$file = jungle_popup_dir().'/'.$jp['jp_image'];
+		/* 파일 이름이 그대로인 채 그림만 바뀔 수 있어 고친 시각을 붙인다 */
+		$src = jungle_popup_url().'/'.rawurlencode($jp['jp_image']).'?'.(@filemtime($file) ?: 0);
 		$url = trim($jp['jp_url']);
 ?>
-		<div class="jp_box" data-jp="<?php echo (int)$jp['jp_id'] ?>">
+					<li class="jp_item" data-jp="<?php echo (int)$jp['jp_id'] ?>">
 <?php         if ($url !== '') { ?>
-			<a class="jp_pic" href="<?php echo $esc($url) ?>" target="_blank" rel="noopener"><img src="<?php echo $esc($src) ?>" alt="<?php echo $esc($alt) ?>"></a>
+						<a class="jp_pic" href="<?php echo $esc($url) ?>" target="_blank" rel="noopener"><img src="<?php echo $esc($src) ?>" alt="<?php echo $esc($alt) ?>"></a>
 <?php         } else { ?>
-			<span class="jp_pic"><img src="<?php echo $esc($src) ?>" alt="<?php echo $esc($alt) ?>"></span>
+						<span class="jp_pic"><img src="<?php echo $esc($src) ?>" alt="<?php echo $esc($alt) ?>"></span>
 <?php         } ?>
+					</li>
+<?php     } ?>
+				</ul>
+				<button type="button" class="ss_nav ss_next" aria-label="다음 알림 보기"><i></i></button>
+			</div>
+			<?php /* 닫기와 '오늘 하루 보지 않기' 는 한 벌이다. 체크하고 닫으면
+			         지금 뜬 알림 전부를 오늘 하루 숨긴다. */ ?>
 			<div class="jp_foot">
 				<label class="jp_today"><input type="checkbox"> <span data-i18n="popup.today">오늘 하루 보지 않기</span></label>
 				<button type="button" class="jp_close" data-i18n="popup.close">닫기</button>
 			</div>
 		</div>
-<?php     } ?>
 	</div>
 	<!-- 팝업 E -->
 <?php } ?>

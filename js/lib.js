@@ -492,57 +492,51 @@
 	/* 팝업
 	   '오늘 하루 보지 않기' 는 이 브라우저에만 남는다. 서버에 둘 일이 아니고,
 	   사람마다 다르게 기억해야 한다. 날짜를 같이 적어 두고 날이 바뀌면
-	   저절로 다시 뜬다. */
+	   저절로 다시 뜬다.
+	   닫기는 한 벌이다. 체크하고 닫으면 지금 뜬 알림을 모두 오늘 하루 숨긴다. */
 	var jpLayer = document.getElementById('jp_layer');
 	if (jpLayer) {
-		var today = new Date();
-		var stamp = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-
-		function jpKey(id) { return 'jungle_popup_' + id; }
-		function jpHiddenToday(id) {
-			try { return localStorage.getItem(jpKey(id)) === stamp; } catch (e) { return false; }
-		}
-		function jpCloseBox(box) {
-			var id = box.getAttribute('data-jp');
-			var chk = box.querySelector('.jp_today input');
-			if (chk && chk.checked) {
-				try { localStorage.setItem(jpKey(id), stamp); } catch (e) {}
-			}
-			box.parentNode.removeChild(box);
-			if (!jpLayer.querySelector('.jp_box')) { jpLayerClose(); }
-		}
-		function jpLayerClose() {
-			jpLayer.hidden = true;
-			document.body.style.overflow = '';
-		}
+		var jpNow = new Date();
+		var jpStamp = jpNow.getFullYear() + '-' + (jpNow.getMonth() + 1) + '-' + jpNow.getDate();
+		var jpKey = function (id) { return 'jungle_popup_' + id; };
 
 		/* 오늘 안 보기로 해 둔 것은 아예 지운다 */
-		Array.prototype.forEach.call(jpLayer.querySelectorAll('.jp_box'), function (box) {
-			if (jpHiddenToday(box.getAttribute('data-jp'))) { box.parentNode.removeChild(box); }
+		Array.prototype.forEach.call(jpLayer.querySelectorAll('.jp_item'), function (it) {
+			var hid = false;
+			try { hid = localStorage.getItem(jpKey(it.getAttribute('data-jp'))) === jpStamp; } catch (e) {}
+			if (hid) { it.parentNode.removeChild(it); }
 		});
 
-		if (!jpLayer.querySelector('.jp_box')) {
+		if (!jpLayer.querySelector('.jp_item')) {
 			jpLayer.parentNode.removeChild(jpLayer);
 		} else {
 			document.body.style.overflow = 'hidden';
-			jpLayer.addEventListener('click', function (e) {
-				var btn = e.target.closest ? e.target.closest('.jp_close') : null;
-				if (btn) { jpCloseBox(btn.closest('.jp_box')); return; }
-				/* 바깥(어두운 바탕)을 누르면 전부 닫는다. 체크해 둔 것은 기억한다. */
-				if (e.target === jpLayer) {
-					Array.prototype.forEach.call(jpLayer.querySelectorAll('.jp_box'), function (b) {
-						var c = b.querySelector('.jp_today input');
-						if (c && c.checked) { try { localStorage.setItem(jpKey(b.getAttribute('data-jp')), stamp); } catch (err) {} }
+			/* 위에서 몇 장을 덜어 냈을 수 있다. 슬라이더는 이미 한 번 재 둔
+			   상태라 화살표가 남아 있을 수 있어, 다시 재도록 알려 준다. */
+			window.dispatchEvent(new Event('resize'));
+
+			var jpClose = function () {
+				var chk = jpLayer.querySelector('.jp_today input');
+				if (chk && chk.checked) {
+					Array.prototype.forEach.call(jpLayer.querySelectorAll('.jp_item'), function (it) {
+						try { localStorage.setItem(jpKey(it.getAttribute('data-jp')), jpStamp); } catch (e) {}
 					});
-					jpLayerClose();
 				}
+				jpLayer.hidden = true;
+				document.body.style.overflow = '';
+			};
+
+			jpLayer.addEventListener('click', function (e) {
+				if (e.target.closest && e.target.closest('.jp_close')) { jpClose(); return; }
+				/* 바깥(어두운 바탕)을 눌러도 닫는다. 체크해 둔 것은 그대로 기억한다. */
+				if (e.target === jpLayer) { jpClose(); }
 			});
-			/* 그림을 눌러 구글폼으로 넘어가면 돌아왔을 때 또 보일 이유가 없다 */
+			/* 그림을 눌러 넘어가면 돌아왔을 때 또 보일 이유가 없다 */
 			Array.prototype.forEach.call(jpLayer.querySelectorAll('a.jp_pic'), function (a) {
-				a.addEventListener('click', function () { jpCloseBox(a.closest('.jp_box')); });
+				a.addEventListener('click', jpClose);
 			});
 			document.addEventListener('keydown', function (e) {
-				if (e.key === 'Escape' && !jpLayer.hidden) { jpLayerClose(); }
+				if (e.key === 'Escape' && !jpLayer.hidden) { jpClose(); }
 			});
 		}
 	}

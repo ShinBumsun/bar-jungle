@@ -465,16 +465,28 @@ html {scroll-snap-type:y proximity;}
 /* ==========================================================================
    팝업 : 메인에 잠깐 띄우는 알림
    ========================================================================== */
-.jp_layer {position:fixed; left:0; top:0; width:100%; height:100%; z-index:1300; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:26px; padding:5vh 5vw; overflow:auto; background-color:rgba(10,28,18,0.86);}
+.jp_layer {position:fixed; left:0; top:0; width:100%; height:100%; z-index:1300; display:flex; align-items:center; justify-content:center; padding:4vh 4vw; overflow:auto; background-color:rgba(10,28,18,0.88);}
 .jp_layer[hidden] {display:none;}
-.jp_box {width:min(86vw, 400px); background-color:#f7efdd; border:2px solid #241f18; box-shadow:12px 12px 0 rgba(36,31,24,0.55);}
+.jp_wrap {width:min(90vw, 540px); background-color:#f7efdd; border:2px solid #241f18; box-shadow:14px 14px 0 rgba(36,31,24,0.55);}
+
+/* 슬라이더 기본값(화면 끝까지 늘리고 좌우 여백을 크게 주는 것)을 되돌린다.
+   팝업 안에서는 한 장이 상자를 꽉 채워야 한다. */
+.jp_slider {position:relative; width:100%; margin-left:0;}
+.jp_list {gap:0; padding:0; scroll-padding-left:0;}
+.jp_item {flex:0 0 100%; width:100%; scroll-snap-align:start;}
 .jp_pic {display:block; line-height:0;}
 .jp_pic img {display:block; width:100%; height:auto;}
 a.jp_pic {cursor:pointer;}
-.jp_foot {display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border-top:2px solid #241f18;}
-.jp_today {display:inline-flex; align-items:center; gap:7px; font-size:13px; color:#241f18; opacity:0.75; cursor:pointer;}
-.jp_today input {width:15px; height:15px; accent-color:#1f4a35; cursor:pointer;}
-.jp_close {padding:9px 18px; background-color:#241f18; border:2px solid #241f18; font-family:"Anton", sans-serif; font-size:13px; letter-spacing:0.06em; color:#f7efdd; cursor:pointer; transition:0.25s;}
+
+/* 화살표는 그림 위에 겹친다. 한 장뿐이면 슬라이더가 알아서 꺼 준다. */
+.jp_slider .ss_nav {top:50%; transform:translateY(-50%); width:42px; height:42px; box-shadow:3px 3px 0 rgba(36,31,24,0.8);}
+.jp_slider .ss_prev {left:12px;}
+.jp_slider .ss_next {right:12px;}
+
+.jp_foot {display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 16px; border-top:2px solid #241f18;}
+.jp_today {display:inline-flex; align-items:center; gap:7px; font-size:14px; color:#241f18; opacity:0.78; cursor:pointer;}
+.jp_today input {width:16px; height:16px; accent-color:#1f4a35; cursor:pointer;}
+.jp_close {padding:10px 20px; background-color:#241f18; border:2px solid #241f18; font-family:"Anton", sans-serif; font-size:14px; letter-spacing:0.06em; color:#f7efdd; cursor:pointer; transition:0.25s;}
 .jp_close:hover {background-color:#e8b13a; color:#241f18;}
 
 /* Footer S */
@@ -811,8 +823,11 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.mp_panel .mg_list {columns:1;}
 	.gd_grid {grid-template-columns:1fr; gap:22px;}
 	#wrap.sub .gd_sec {padding:104px 0 70px;}
-	.jp_layer {gap:18px; padding:4vh 5vw;}
-	.jp_box {width:88vw; box-shadow:8px 8px 0 rgba(36,31,24,0.55);}
+	.jp_layer {padding:3vh 4vw;}
+	.jp_wrap {width:92vw; box-shadow:9px 9px 0 rgba(36,31,24,0.55);}
+	.jp_slider .ss_nav {width:36px; height:36px;}
+	.jp_slider .ss_prev {left:8px;}
+	.jp_slider .ss_next {right:8px;}
 	.gd_hand {margin-bottom:34px; font-size:20px;}
 	.gd_how {margin-top:46px; padding:28px 20px;}
 	.gdh_btn {padding:15px 26px; font-size:15px;}
