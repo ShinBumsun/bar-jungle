@@ -660,8 +660,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.h_util {gap:12px;}
 	.mt_btn {padding:11px 22px; font-size:15px;}
 	.mp_panel .mg_list {column-gap:44px;}
-	.gd_list {grid-template-columns:repeat(2, 1fr); gap:24px;}
-	.gd_sec {padding:120px 0 90px;}
+	.gd_list {grid-template-columns:repeat(3, 1fr); gap:28px;}
 	.ms_item {flex:0 1 calc((100% - 24px) / 2); max-width:420px;}
 	.ms_list {gap:24px;}
 	#header {height:82px; padding:0 30px;}
@@ -725,6 +724,8 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.h_toggle {display:flex;}
 	#header.open .h_toggle i {background-color:#f7efdd !important;}
 	#hero {min-height:600px;}	/* 1024 이하 태블릿까지만 */
+	.gd_list {grid-template-columns:repeat(2, 1fr); gap:24px;}
+	.gd_sec {padding:120px 0 90px;}
 	.he_title {top:16%;}
 	.sec {padding:88px 0;}
 	#about {padding-top:100px;}
