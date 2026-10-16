@@ -19,6 +19,7 @@ include_once(G5_THEME_PATH.'/head.sub.php');
 				<li class="hgl_item"><a href="#about" title="Menu_소개"><span data-i18n="nav.about">소개</span></a></li>
 				<li class="hgl_item"><a href="#signature" title="Menu_시그니처"><span data-i18n="nav.signature">시그니처</span></a></li>
 				<li class="hgl_item"><a href="#menu" title="Menu_메뉴"><span data-i18n="nav.menu">메뉴</span></a></li>
+				<li class="hgl_item"><a href="#goods" title="Menu_굿즈"><span data-i18n="nav.goods">굿즈</span></a></li>
 				<li class="hgl_item"><a href="#moment" title="Menu_모먼트"><span data-i18n="nav.moment">모먼트</span></a></li>
 				<li class="hgl_item"><a href="#visit" title="Menu_오시는 길"><span data-i18n="nav.visit">오시는 길</span></a></li>
 			</ul>
@@ -42,8 +43,9 @@ include_once(G5_THEME_PATH.'/head.sub.php');
 			<li class="dl_item"><a href="#about" title="Depth_소개"><em class="font">02</em><span>소개</span><i></i></a></li>
 			<li class="dl_item"><a href="#signature" title="Depth_시그니처"><em class="font">03</em><span>시그니처</span><i></i></a></li>
 			<li class="dl_item"><a href="#menu" title="Depth_메뉴"><em class="font">04</em><span>메뉴</span><i></i></a></li>
-			<li class="dl_item"><a href="#moment" title="Depth_모먼트"><em class="font">05</em><span>모먼트</span><i></i></a></li>
-			<li class="dl_item"><a href="#visit" title="Depth_오시는 길"><em class="font">06</em><span>오시는 길</span><i></i></a></li>
+			<li class="dl_item"><a href="#goods" title="Depth_굿즈"><em class="font">05</em><span>굿즈</span><i></i></a></li>
+			<li class="dl_item"><a href="#moment" title="Depth_모먼트"><em class="font">06</em><span>모먼트</span><i></i></a></li>
+			<li class="dl_item"><a href="#visit" title="Depth_오시는 길"><em class="font">07</em><span>오시는 길</span><i></i></a></li>
 		</ul>
 	</nav>
 	<!-- Depth Nav E -->

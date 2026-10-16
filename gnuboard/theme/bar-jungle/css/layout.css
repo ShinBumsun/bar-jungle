@@ -88,7 +88,7 @@ html {scroll-snap-type:y proximity;}
 #about.torn::before {background-color:#0d2317;}
 #signature.torn::before {background-color:#f2e9d8;}
 #menu.torn::before {background-color:#e5d5b6;}
-#moment.torn::before {background-color:#26603c;}
+#moment.torn::before {background-color:#1f4a35;}
 #visit.torn::before {background-color:#17422a;}
 #footer.torn::before {background-color:#0d2c1c;}
 /* Torn Paper Edge E */
@@ -411,10 +411,15 @@ html {scroll-snap-type:y proximity;}
    굿즈 페이지 (/goods.php)
    메인과 따로 도는 페이지라 여기 규칙은 메인에 닿지 않는다.
    ========================================================================== */
+/* 섹션 색은 메뉴(#26603c)와 모먼트(#17422a) 사이에 놓아, 아래로 갈수록
+   깊어지는 흐름을 끊지 않는다. 찢긴 종이 경계는 윗 섹션 색을 물고 내려온다. */
+#goods {background-color:#1f4a35; --v1:#174430; --v2:#2a6a41;}
+#goods.torn::before {background-color:#26603c;}
+/* 단독 페이지(/goods.php)는 한 화면 높이로 잡을 이유가 없다 */
 #wrap.sub {background-color:#1f4a35;}
+#wrap.sub .gd_sec {min-height:0; padding:150px 0 110px;}
 .sub_header {position:fixed;}
 .sub_header .hg_list {gap:28px;}
-.gd_sec {background-color:#1f4a35; padding:150px 0 110px;}
 .gd_wrap {position:relative; width:1400px; max-width:88%; margin:0 auto; z-index:3;}
 .gd_eyebrow {display:flex; align-items:center; gap:10px; font-size:15px; letter-spacing:0.06em; color:#f7efdd; opacity:0.6; margin-bottom:22px;}
 .gd_eyebrow .font {font-size:19px; letter-spacing:0.12em; color:#e8b13a; opacity:1;}
@@ -725,7 +730,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	#header.open .h_toggle i {background-color:#f7efdd !important;}
 	#hero {min-height:600px;}	/* 1024 이하 태블릿까지만 */
 	.gd_list {grid-template-columns:repeat(2, 1fr); gap:24px;}
-	.gd_sec {padding:120px 0 90px;}
+	#wrap.sub .gd_sec {padding:120px 0 90px;}
 	.he_title {top:16%;}
 	.sec {padding:88px 0;}
 	#about {padding-top:100px;}
@@ -787,7 +792,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.mt_star {right:-7px; top:-9px; width:22px; height:22px;}
 	.mp_panel .mg_list {columns:1;}
 	.gd_list {grid-template-columns:1fr; gap:22px;}
-	.gd_sec {padding:104px 0 70px;}
+	#wrap.sub .gd_sec {padding:104px 0 70px;}
 	.gd_hand {margin-bottom:34px; font-size:20px;}
 	.gd_how {margin-top:46px; padding:28px 20px;}
 	.gdh_btn {padding:15px 26px; font-size:15px;}

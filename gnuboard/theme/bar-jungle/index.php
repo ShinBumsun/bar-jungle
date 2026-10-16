@@ -5,7 +5,8 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 $jungle_site = include(G5_THEME_PATH.'/data/site.php');
 $jungle_menu  = jungle_menu_tree();      // 관리자 > 정글 사이트 > 메뉴판 관리
 $jungle_cards = jungle_signature_cards();
-$jungle_season = jungle_season_rows();   // 시즌 메뉴 : 그림만 걸리는 탭  // 시그니처 섹션에 띄울 카드
+$jungle_season = jungle_season_rows();   // 시즌 메뉴 : 그림만 걸리는 탭
+$jungle_goods  = jungle_goods_rows();     // 굿즈 : 매장에서 파는 물건  // 시그니처 섹션에 띄울 카드
 
 include_once(G5_PATH.'/head.php');
 ?>
@@ -540,6 +541,77 @@ include_once(G5_PATH.'/head.php');
 		<img src="" alt="">
 	</div>
 	<!-- 시즌 그림 크게 보기 E -->
+
+	<!-- Goods S -->
+	<section id="goods" class="sec torn gd_sec" data-veil data-tone="dark">
+		<!-- 정글 베일 S -->
+		<div class="sv_veil" aria-hidden="true">
+			<div class="svv_side svv_l">
+				<svg class="svl n1" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n2" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n3" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n4" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n5" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n6" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n7" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n8" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n9" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n10" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n11" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n12" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n19" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n20" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n21" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n22" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n13 b" viewBox="-76 -104 152 108"><use href="#lf_palm"></use></svg>
+				<svg class="svl n14 b" viewBox="-50 -137 100 145"><use href="#lf_frond"></use></svg>
+				<svg class="svl n15 b" viewBox="-76 -104 152 108"><use href="#lf_palm"></use></svg>
+				<svg class="svl n16 b" viewBox="-50 -137 100 145"><use href="#lf_frond"></use></svg>
+				<svg class="svl n17 b" viewBox="-76 -104 152 108"><use href="#lf_palm"></use></svg>
+				<svg class="svl n18 b" viewBox="-50 -137 100 145"><use href="#lf_frond"></use></svg>
+			</div>
+			<div class="svv_side svv_r">
+				<svg class="svl n1" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n2" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n3" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n4" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n5" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n6" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n7" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n8" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n9" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n10" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n11" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n12" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n19" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n20" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n21" viewBox="-35 -111 70 115"><use href="#lf_oval"></use></svg>
+				<svg class="svl n22" viewBox="-38 -117 76 121"><use href="#lf_split"></use></svg>
+				<svg class="svl n13 b" viewBox="-76 -104 152 108"><use href="#lf_palm"></use></svg>
+				<svg class="svl n14 b" viewBox="-50 -137 100 145"><use href="#lf_frond"></use></svg>
+				<svg class="svl n15 b" viewBox="-76 -104 152 108"><use href="#lf_palm"></use></svg>
+				<svg class="svl n16 b" viewBox="-50 -137 100 145"><use href="#lf_frond"></use></svg>
+				<svg class="svl n17 b" viewBox="-76 -104 152 108"><use href="#lf_palm"></use></svg>
+				<svg class="svl n18 b" viewBox="-50 -137 100 145"><use href="#lf_frond"></use></svg>
+			</div>
+		</div>
+		<!-- 정글 베일 E -->
+
+		<div class="gd_wrap">
+			<p class="gd_eyebrow fade f_up"><span class="font">GOODS</span> <span data-i18n="goods.eyebrow">정글에서 데려가기</span></p>
+			<h2 class="gd_title title t2 cw font2 fade f_up f_delay03" data-i18n="goods.title">정글 한 조각,<br><mark class="cs">집으로</mark></h2>
+			<p class="gd_hand fade f_up f_delay06" data-i18n="goods.hand">매장에서 직접 보고 사 가실 수 있어요</p>
+
+<?php include(G5_THEME_PATH.'/lib/goods_items.php'); ?>
+
+			<div class="gd_how fade f_up">
+				<strong class="gdh_tit" data-i18n="goods.how_tit">구매 하시려면</strong>
+				<p class="gdh_txt" data-i18n="goods.how_txt">온라인 주문과 배송은 하지 않습니다.<br>매장에 오셔서 보시고 바로 가져가시면 됩니다.</p>
+				<a href="<?php echo $jungle_site['instagram'] ?>" class="gdh_btn" target="_blank" rel="noopener" title="Instagram_인스타그램 DM 문의"><span data-i18n="goods.how_btn">재고·색상 문의는 인스타 DM</span><i></i></a>
+			</div>
+		</div>
+	</section>
+	<!-- Goods E -->
 
 	<!-- Moment S -->
 	<section id="moment" class="sec torn" data-veil data-tone="dark">
