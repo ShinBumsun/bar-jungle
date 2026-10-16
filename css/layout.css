@@ -517,21 +517,18 @@ a.jp_pic {cursor:pointer;}
 /* 바늘은 12시에서 아래를 가리킨다. 멈춘 칸을 읽는 기준이다. */
 .ev_pin {position:absolute; left:50%; top:-20px; width:30px; height:44px; margin-left:-15px; z-index:4; background-color:#e8b13a; border:3px solid #241f18; border-radius:6px 6px 50% 50%; clip-path:polygon(0 0, 100% 0, 100% 52%, 50% 100%, 0 52%);}
 
-/* ── 가챠 뽑기 ── */
-.ev_box {display:inline-flex; flex-direction:column; align-items:center; gap:14px; padding:0; background:none; border:0; cursor:pointer;}
-.evb_art {display:block; width:clamp(150px, 34vw, 190px); height:auto; transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);}
-.ev_box:hover .evb_art {transform:translateY(-5px) scale(1.03);}
-.evb_txt {padding:13px 28px; background-color:#e8b13a; border:3px solid #241f18; border-radius:999px; box-shadow:5px 5px 0 rgba(36,31,24,0.85); font-size:16px; letter-spacing:0.08em; color:#241f18; transition:0.3s;}
-.ev_box:hover .evb_txt {background-color:#f7efdd;}
+/* ── 돌리기 버튼 : 나뭇잎 한 장 ── */
+.ev_box {position:relative; display:inline-block; padding:0; background:none; border:0; cursor:pointer; line-height:0;}
+.evb_leaf {display:block; width:clamp(200px, 46vw, 280px); height:auto; overflow:visible; filter:drop-shadow(6px 7px 0 rgba(36,31,24,0.85)); transition:transform 0.35s cubic-bezier(0.16,1,0.3,1), filter 0.35s ease;}
+.evl_body {fill:#e8b13a; stroke:#241f18; stroke-width:7; stroke-linejoin:round;}
+.evl_vein {fill:none; stroke:#241f18; stroke-width:3; stroke-linecap:round; opacity:0.45;}
+.evb_txt {position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); font-size:clamp(15px, 3.4vw, 19px); letter-spacing:0.06em; color:#241f18; line-height:1; white-space:nowrap; pointer-events:none;}
+.ev_box:hover .evb_leaf {transform:translateY(-5px) rotate(-2deg); filter:drop-shadow(9px 11px 0 rgba(36,31,24,0.85));}
+.ev_box:hover .evl_body {fill:#f7efdd;}
+/* 돌아가는 동안에는 잎이 가만히 가라앉는다. 흔들면 정신이 없다. */
 .ev_box[disabled] {cursor:default;}
-.ev_box[disabled] .evb_txt {opacity:0.55; box-shadow:3px 3px 0 rgba(36,31,24,0.6);}
-/* 돌아가는 동안 기계가 들썩인다 */
-.ev_box.is_spin .evb_art {animation:ev_shake 0.4s ease-in-out infinite;}
-@keyframes ev_shake {
-	0%, 100% {transform:translate(0,0) rotate(0deg);}
-	25%      {transform:translate(-4px,-3px) rotate(-3.5deg);}
-	75%      {transform:translate(4px,-3px) rotate(3.5deg);}
-}
+.ev_box[disabled] .evb_leaf {transform:none; opacity:0.5; filter:drop-shadow(3px 4px 0 rgba(36,31,24,0.6));}
+.ev_box[disabled] .evb_txt {opacity:0.55;}
 
 .ev_hand {margin-top:26px; font-family:"Nanum Pen Script", cursive; font-size:21px; color:#a9c95d;}
 

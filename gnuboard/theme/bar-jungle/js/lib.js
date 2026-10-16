@@ -582,7 +582,6 @@
 			if (evBusy) { return; }
 			evBusy = true;
 			evBox.disabled = true;
-			evBox.classList.add('is_spin');
 
 			fetch('event_draw.php', { credentials: 'same-origin', cache: 'no-store' })
 				.then(function (r) { return r.json(); })
@@ -596,13 +595,11 @@
 					evWheel.style.transform = 'rotate(' + evTurn + 'deg)';
 
 					window.setTimeout(function () {
-						evBox.classList.remove('is_spin');
 						evShow(d);
 						evBusy = false;
 					}, 4700);          /* CSS 의 회전 시간과 맞춘다 */
 				})
 				.catch(function (err) {
-					evBox.classList.remove('is_spin');
 					evBox.disabled = false;
 					evBusy = false;
 					alert(err.message || '뽑기에 실패했습니다.');

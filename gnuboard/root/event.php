@@ -124,22 +124,17 @@ $COL = $g5['jungle_roulette_colors'];
 					<div class="ev_hub" aria-hidden="true"><span>林</span></div>
 				</div>
 
-				<button type="button" class="ev_box" id="ev_box" aria-label="가챠 뽑기">
-					<svg class="evb_art" viewBox="0 0 160 200" aria-hidden="true">
-						<ellipse cx="80" cy="186" rx="56" ry="9" fill="rgba(0,0,0,0.3)"></ellipse>
-						<rect x="26" y="104" width="108" height="76" rx="12" fill="#d9622b" stroke="#241f18" stroke-width="4"></rect>
-						<rect x="26" y="104" width="108" height="14" fill="#241f18"></rect>
-						<circle cx="80" cy="62" r="54" fill="#bfe3ef" stroke="#241f18" stroke-width="4" opacity="0.95"></circle>
-						<g stroke="#241f18" stroke-width="2.5">
-							<circle cx="60" cy="74" r="13" fill="#e8b13a"></circle>
-							<circle cx="92" cy="80" r="13" fill="#2f7346"></circle>
-							<circle cx="78" cy="50" r="13" fill="#c94f5c"></circle>
-							<circle cx="104" cy="54" r="11" fill="#f7efdd"></circle>
-							<circle cx="48" cy="48" r="11" fill="#1c7a87"></circle>
+				<button type="button" class="ev_box" id="ev_box" aria-label="룰렛 돌리기">
+					<?php /* 잎 하나가 통째로 버튼이다. 가운데가 넓어 글씨가 잘 앉는다. */ ?>
+					<svg class="evb_leaf" viewBox="0 0 280 160" aria-hidden="true">
+						<path class="evl_stem" d="M6,80 C18,80 26,80 34,80" stroke="#241f18" stroke-width="7" stroke-linecap="round" fill="none"></path>
+						<path class="evl_body" d="M30,80 C84,10 206,10 262,80 C206,150 84,150 30,80 Z"></path>
+						<g class="evl_vein">
+							<path d="M44,80 L250,80"></path>
+							<path d="M92,80 L74,50 M92,80 L74,110"></path>
+							<path d="M140,80 L120,42 M140,80 L120,118"></path>
+							<path d="M188,80 L170,48 M188,80 L170,112"></path>
 						</g>
-						<circle cx="80" cy="134" r="16" fill="#f7efdd" stroke="#241f18" stroke-width="4"></circle>
-						<path d="M80,124 L80,144 M70,134 L90,134" stroke="#241f18" stroke-width="4" stroke-linecap="round"></path>
-						<rect x="54" y="156" width="52" height="16" rx="5" fill="#241f18"></rect>
 					</svg>
 					<span class="evb_txt font" data-i18n="event.btn">눌러서 돌리기</span>
 				</button>
