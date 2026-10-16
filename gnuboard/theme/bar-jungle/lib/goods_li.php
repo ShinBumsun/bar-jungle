@@ -19,6 +19,15 @@ if (!defined('_GNUBOARD_')) exit;
 			$dv = trim($g['jg_desc_'.$lc]);
 			if ($dv !== '') $attr .= ' data-ds-'.$lc.'="'.$esc($dv).'"';
 		}
+		/* 가격 밑 한 줄과 가격은 언어를 바꿀 때 자리에서 갈아 끼운다.
+		   한국어 원문을 실어 보내야 되돌릴 수 있다. */
+		if ($note !== '') $attr .= ' data-nt-ko="'.$esc($note).'"';
+		foreach (array('en','ja') as $lc) {
+			$nv = isset($g['jg_note_'.$lc]) ? trim($g['jg_note_'.$lc]) : '';
+			if ($nv !== '') $attr .= ' data-nt-'.$lc.'="'.$esc($nv).'"';
+		}
+		$attr .= ' data-pr="'.$esc(trim($g['jg_price'])).'"';
+		if ($was !== '') $attr .= ' data-pw="'.$esc($was).'"';
 ?>
 			<li class="gd_item<?php echo $sold ? ' is_sold' : '' ?>"<?php echo $attr ?>>
 				<div class="gdi_pic">

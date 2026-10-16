@@ -285,6 +285,43 @@
 		}
 	}
 
+	/* 굿즈 카드도 같은 방식. 이름·설명·가격 밑 한 줄은 서버가 세 언어를 실어 보내고,
+	   가격의 '원' 만 여기서 갈아 끼운다. */
+	var goodsItems = document.querySelectorAll('.gd_item');
+
+	function goodsPrice(v, lang) {
+		if (!v) { return ''; }
+		if (lang === 'en') { return v.replace(/\s*원$/, ' KRW'); }
+		if (lang === 'ja') { return v.replace(/\s*원$/, 'ウォン'); }
+		return v;
+	}
+
+	function applyGoodsLang(lang) {
+		for (var i = 0; i < goodsItems.length; i++) {
+			var li = goodsItems[i];
+			var nm = li.querySelector('.gdi_name');
+			if (nm) {
+				nm.textContent = li.getAttribute('data-nm-' + lang) || li.getAttribute('data-nm-ko') || '';
+			}
+			var nt = li.querySelector('.gdi_note');
+			if (nt) {
+				var nv = li.getAttribute('data-nt-' + lang) || li.getAttribute('data-nt-ko') || '';
+				nt.textContent = nv;
+				nt.hidden = (nv === '');
+			}
+			var ds = li.querySelector('.gdi_desc');
+			if (ds) {
+				var dv = li.getAttribute('data-ds-' + lang) || li.getAttribute('data-ds-ko') || '';
+				ds.textContent = dv;
+				ds.hidden = (dv === '');
+			}
+			var pb = li.querySelector('.gdi_price b');
+			if (pb) { pb.textContent = goodsPrice(li.getAttribute('data-pr'), lang); }
+			var ps = li.querySelector('.gdi_price s');
+			if (ps) { ps.textContent = goodsPrice(li.getAttribute('data-pw'), lang); }
+		}
+	}
+
 	var DICT = window.JUNGLE_I18N || {};
 	var langBtns = document.querySelectorAll('.hl_btn');
 	var i18nEls = document.querySelectorAll('[data-i18n]');
@@ -311,6 +348,7 @@
 			langBtns[i].classList.toggle('on', langBtns[i].getAttribute('data-lang') === lang);
 		}
 		applyMenuLang(lang);
+		applyGoodsLang(lang);
 		try { localStorage.setItem('jungle_lang', lang); } catch (e) {}
 		/* 문구 길이가 달라지면 높이도 달라진다 */
 		if (window.jungleRemeasure) { window.jungleRemeasure(0); }

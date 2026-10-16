@@ -39,6 +39,8 @@ $f = array(
 	'jg_price'     => trim($_POST['jg_price']),
 	'jg_price_was' => trim($_POST['jg_price_was']),
 	'jg_note'      => trim($_POST['jg_note']),
+	'jg_note_en'   => trim($_POST['jg_note_en']),
+	'jg_note_ja'   => trim($_POST['jg_note_ja']),
 	'jg_badge'     => $badge,
 );
 $set = array();

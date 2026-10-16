@@ -705,6 +705,8 @@ if (!function_exists('jungle_goods_setup')) {
 			              jg_price     varchar(50)  NOT NULL DEFAULT '',
 			              jg_price_was varchar(50)  NOT NULL DEFAULT '',
 			              jg_note      varchar(255) NOT NULL DEFAULT '',
+			              jg_note_en   varchar(255) NOT NULL DEFAULT '',
+			              jg_note_ja   varchar(255) NOT NULL DEFAULT '',
 			              jg_badge     varchar(20)  NOT NULL DEFAULT '',
 			              jg_use       tinyint(4)   NOT NULL DEFAULT 1,
 			              PRIMARY KEY (jg_id),
@@ -737,6 +739,7 @@ if (!function_exists('jungle_goods_rows')) {
 		$res = sql_query($sql, false);
 		if (!$res) { jungle_goods_setup(); $res = sql_query($sql, false); }
 		if ($res) { jungle_goods_seed(); $res = sql_query($sql, false); }
+		if ($res) { jungle_goods_note_i18n(); $res = sql_query($sql, false); }
 
 		$out = array();
 		if ($res) {
@@ -757,6 +760,38 @@ if (!function_exists('jungle_goods_rows')) {
  * 사진은 FTP 로 먼저 올려 두고 줄만 만듭니다. 빈 화면부터 보시지 않도록
  * 둔 장치이고, 이후에는 관리자에서 고치시면 됩니다.
  */
+/**
+ * 가격 밑 한 줄도 세 언어로. 표를 먼저 만든 뒤에 덧댄 칸이라 따로 옮깁니다.
+ */
+if (!function_exists('jungle_goods_note_i18n')) {
+	function jungle_goods_note_i18n()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_goods_note_i18n';
+		if (is_file($flag)) return;
+
+		/* 이미 있으면 그냥 실패한다. 실패해도 멈추지 않는 질의다. */
+		sql_query(" ALTER TABLE ".G5_JUNGLE_GOODS_TABLE." ADD jg_note_en varchar(255) NOT NULL DEFAULT '' AFTER jg_note ", false);
+		sql_query(" ALTER TABLE ".G5_JUNGLE_GOODS_TABLE." ADD jg_note_ja varchar(255) NOT NULL DEFAULT '' AFTER jg_note_en ", false);
+
+		$chk = sql_fetch(" SELECT jg_note_ja FROM ".G5_JUNGLE_GOODS_TABLE." LIMIT 1 ", false);
+		if ($chk === false) return;              // 칸이 안 생겼으면 표시도 남기지 않는다
+
+		$tr = array(
+			'2장 16,000원' => array('Two for 16,000 KRW', '2枚 16,000ウォン'),
+			'건전지 포함'   => array('Batteries included', '電池付き'),
+			'2개 한 묶음'   => array('Set of two',         '2枚セット'),
+		);
+		foreach ($tr as $ko => $v) {
+			sql_query(" UPDATE ".G5_JUNGLE_GOODS_TABLE."
+			               SET jg_note_en = '".sql_escape_string($v[0])."',
+			                   jg_note_ja = '".sql_escape_string($v[1])."'
+			             WHERE jg_note = '".sql_escape_string($ko)."'
+			               AND jg_note_en = '' ", false);
+		}
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}
+
 if (!function_exists('jungle_goods_seed')) {
 	function jungle_goods_seed()
 	{

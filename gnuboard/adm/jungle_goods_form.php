@@ -10,12 +10,12 @@ $jg_id = isset($_GET['jg_id']) ? (int)$_GET['jg_id'] : 0;
 
 $jg = array('jg_id'=>0,'jg_order'=>0,'jg_image'=>'','jg_name_ko'=>'','jg_name_en'=>'','jg_name_ja'=>'',
 	'jg_desc_ko'=>'','jg_desc_en'=>'','jg_desc_ja'=>'','jg_price'=>'','jg_price_was'=>'',
-	'jg_note'=>'','jg_badge'=>'','jg_use'=>1);
+	'jg_note'=>'','jg_note_en'=>'','jg_note_ja'=>'','jg_badge'=>'','jg_use'=>1);
 
 if ($w === 'u') {
 	$row = sql_fetch(" SELECT * FROM ".G5_JUNGLE_GOODS_TABLE." WHERE jg_id = '$jg_id' ", false);
 	if (!$row || !$row['jg_id']) alert('존재하지 않는 굿즈입니다.', './jungle_goods.php');
-	$jg = $row;
+	$jg = array_merge($jg, $row);   // 나중에 덧댄 칸이 아직 없을 수도 있다
 }
 
 $g5['title'] = '굿즈 '.($w === 'u' ? '수정' : '등록');
@@ -77,6 +77,19 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		<td>
 			<input type="text" name="jg_note" value="<?php echo get_text($jg['jg_note']) ?>" id="jg_note" class="frm_input" size="50">
 			<span class="frm_info">수량이나 구성처럼 짧게 덧붙일 말. 예: 2장 16,000원 · 건전지 포함</span>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="jg_note_en">가격 밑 한 줄 (영문)</label></th>
+		<td>
+			<input type="text" name="jg_note_en" value="<?php echo get_text($jg['jg_note_en']) ?>" id="jg_note_en" class="frm_input" size="50">
+			<span class="frm_info">비우면 한글이 그대로 나옵니다. 예: Two for 16,000 KRW</span>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="jg_note_ja">가격 밑 한 줄 (일문)</label></th>
+		<td>
+			<input type="text" name="jg_note_ja" value="<?php echo get_text($jg['jg_note_ja']) ?>" id="jg_note_ja" class="frm_input" size="50">
 		</td>
 	</tr>
 	<tr>
