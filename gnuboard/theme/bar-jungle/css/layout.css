@@ -471,9 +471,11 @@ html {scroll-snap-type:y proximity;}
 
 /* 슬라이더 기본값(화면 끝까지 늘리고 좌우 여백을 크게 주는 것)을 되돌린다.
    팝업 안에서는 한 장이 상자를 꽉 채워야 한다. */
-.jp_slider {position:relative; width:100%; margin-left:0;}
-.jp_list {gap:0; padding:0; scroll-padding-left:0;}
-.jp_item {flex:0 0 100%; width:100%; scroll-snap-align:start;}
+/* 클래스를 둘 겹쳐 쓴다. .s_list 쪽은 화면 폭별로 gap 을 다시 주는 규칙이
+   뒤에 더 있어서, 클래스 하나짜리로는 덮이지 않는다. */
+.jp_wrap .jp_slider {position:relative; width:100%; margin-left:0;}
+.jp_slider .jp_list {gap:0; padding:0; scroll-padding-left:0;}
+.jp_slider .jp_item {flex:0 0 100%; width:100%; scroll-snap-align:start;}
 .jp_pic {display:block; line-height:0;}
 .jp_pic img {display:block; width:100%; height:auto;}
 a.jp_pic {cursor:pointer;}

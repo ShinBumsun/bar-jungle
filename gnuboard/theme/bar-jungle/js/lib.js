@@ -433,6 +433,15 @@
 		window.addEventListener('resize', function () {
 			if (!tick) { window.requestAnimationFrame(sync); tick = true; }
 		}, { passive: true });
+
+		/* 그림이 아직 안 받아진 동안에는 가로 폭이 덜 잡힌다. 그 상태로 재면
+		   넘칠 게 없다고 보고 화살표를 꺼 버린 뒤 그대로 굳는다.
+		   그림이 올 때마다, 그리고 다 온 뒤에 한 번 더 잰다. */
+		root.jungleSync = sync;
+		window.addEventListener('load', sync);
+		Array.prototype.forEach.call(list.querySelectorAll('img'), function (im) {
+			if (!im.complete) { im.addEventListener('load', sync); }
+		});
 		sync();
 	}
 
@@ -512,8 +521,9 @@
 		} else {
 			document.body.style.overflow = 'hidden';
 			/* 위에서 몇 장을 덜어 냈을 수 있다. 슬라이더는 이미 한 번 재 둔
-			   상태라 화살표가 남아 있을 수 있어, 다시 재도록 알려 준다. */
-			window.dispatchEvent(new Event('resize'));
+			   상태라 화살표가 남아 있을 수 있어, 바로 다시 재게 한다. */
+			var jpSlider = jpLayer.querySelector('.s_slider');
+			if (jpSlider && jpSlider.jungleSync) { jpSlider.jungleSync(); }
 
 			var jpClose = function () {
 				var chk = jpLayer.querySelector('.jp_today input');
