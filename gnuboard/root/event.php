@@ -127,17 +127,20 @@ $COL = $g5['jungle_roulette_colors'];
 				<button type="button" class="ev_box" id="ev_box" aria-label="룰렛 돌리기">
 					<?php /* 잎 하나가 통째로 버튼이다. 가운데가 넓어 글씨가 잘 앉는다. */ ?>
 					<svg class="evb_leaf" viewBox="0 0 280 160" aria-hidden="true">
+						<?php /* 잎맥이 잎 밖으로 나가지 않게 잎 모양으로 잘라 낸다.
+						         곡선 좌표를 눈대중으로 맞추는 것보다 확실하다. */ ?>
+						<defs><clipPath id="evl_clip"><path d="M30,80 C84,10 206,10 262,80 C206,150 84,150 30,80 Z"></path></clipPath></defs>
 						<path class="evl_stem" d="M6,80 C18,80 26,80 34,80" stroke="#241f18" stroke-width="7" stroke-linecap="round" fill="none"></path>
 						<path class="evl_body" d="M30,80 C84,10 206,10 262,80 C206,150 84,150 30,80 Z"></path>
 						<?php /* 잎맥은 밑동에서 부챗살처럼 뻗는다. 가운데를 가로지르는
 						         줄을 두면 글씨 위로 지나가 읽기 어렵다. */ ?>
-						<g class="evl_vein">
-							<path d="M42,80 C110,72 180,46 236,30"></path>
-							<path d="M42,80 C110,88 180,114 236,130"></path>
-							<path d="M42,80 C104,76 164,60 214,46"></path>
-							<path d="M42,80 C104,84 164,100 214,114"></path>
-							<path d="M42,80 C96,78 142,70 186,60"></path>
-							<path d="M42,80 C96,82 142,90 186,100"></path>
+						<g class="evl_vein" clip-path="url(#evl_clip)">
+							<path d="M40,80 C120,66 200,36 268,16"></path>
+							<path d="M40,80 C120,94 200,124 268,144"></path>
+							<path d="M40,80 C116,72 186,52 248,34"></path>
+							<path d="M40,80 C116,88 186,108 248,126"></path>
+							<path d="M40,80 C110,76 172,64 228,52"></path>
+							<path d="M40,80 C110,84 172,96 228,108"></path>
 						</g>
 					</svg>
 					<span class="evb_txt font" data-i18n="event.btn">눌러서 돌리기</span>
