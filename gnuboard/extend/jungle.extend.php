@@ -799,3 +799,89 @@ if (!function_exists('jungle_goods_seed')) {
 		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
 	}
 }
+
+/* ==========================================================================
+   팝업 : 메인 화면에 잠깐 띄우는 알림 한 장
+   제목도 설명도 없습니다. 그림 한 장과 눌렀을 때 갈 주소, 그리고 띄울
+   기간만 있으면 됩니다.
+   ========================================================================== */
+define('G5_JUNGLE_POPUP_TABLE', G5_TABLE_PREFIX.'jungle_popup');
+
+if (!function_exists('jungle_popup_dir')) {
+	function jungle_popup_dir() { return G5_DATA_PATH.'/jungle_popup'; }
+	function jungle_popup_url() { return G5_DATA_URL.'/jungle_popup'; }
+}
+
+if (!function_exists('jungle_popup_setup')) {
+	function jungle_popup_setup()
+	{
+		static $tried = false;
+		if ($tried) return;
+		$tried = true;
+		try {
+			/* 기간은 'YYYY-MM-DD' 글자로 둡니다. DATE 로 두면 '없음' 을 넣을 때
+			   서버 설정에 따라 0000-00-00 이 거부됩니다. 글자끼리 비교해도
+			   ISO 날짜는 앞에서부터 커지므로 대소 비교가 그대로 맞습니다. */
+			sql_query(" CREATE TABLE IF NOT EXISTS ".G5_JUNGLE_POPUP_TABLE." (
+			              jp_id    int(11)      NOT NULL AUTO_INCREMENT,
+			              jp_order int(11)      NOT NULL DEFAULT 0,
+			              jp_image varchar(255) NOT NULL DEFAULT '',
+			              jp_alt   varchar(255) NOT NULL DEFAULT '',
+			              jp_url   varchar(500) NOT NULL DEFAULT '',
+			              jp_begin varchar(10)  NOT NULL DEFAULT '',
+			              jp_end   varchar(10)  NOT NULL DEFAULT '',
+			              jp_use   tinyint(4)   NOT NULL DEFAULT 1,
+			              PRIMARY KEY (jp_id),
+			              KEY jp_order (jp_order)
+			            ) ", false);
+		} catch (Exception $e) {}
+	}
+}
+
+/**
+ * 지금 띄울 팝업을 읽습니다.
+ * $only_live 가 참이면 노출이 켜져 있고 오늘이 기간 안인 것만 돌려줍니다.
+ * 기간을 비워 두면 그쪽은 제한이 없는 것으로 봅니다.
+ */
+if (!function_exists('jungle_popup_rows')) {
+	function jungle_popup_rows($only_live = true)
+	{
+		static $cache = array();
+		$ck = $only_live ? 'live' : 'all';
+		if (isset($cache[$ck])) return $cache[$ck];
+
+		$sql = " SELECT * FROM ".G5_JUNGLE_POPUP_TABLE." ORDER BY jp_order ASC, jp_id ASC ";
+		$res = sql_query($sql, false);
+		if (!$res) { jungle_popup_setup(); $res = sql_query($sql, false); }
+
+		$today = date('Y-m-d');
+		$out = array();
+		if ($res) {
+			while ($row = sql_fetch_array($res)) {
+				if ($only_live) {
+					if (!$row['jp_use']) continue;
+					$f = trim($row['jp_image']);
+					if ($f === '' || !is_file(jungle_popup_dir().'/'.$f)) continue;
+					$b = trim($row['jp_begin']); $e = trim($row['jp_end']);
+					if ($b !== '' && $today < $b) continue;
+					if ($e !== '' && $today > $e) continue;
+				}
+				$out[] = $row;
+			}
+		}
+		return $cache[$ck] = $out;
+	}
+}
+
+/** 관리자 목록에 보여 줄 상태 한 마디 */
+if (!function_exists('jungle_popup_state')) {
+	function jungle_popup_state($row)
+	{
+		if (!$row['jp_use']) return array('꺼짐', '#999');
+		$today = date('Y-m-d');
+		$b = trim($row['jp_begin']); $e = trim($row['jp_end']);
+		if ($b !== '' && $today < $b) return array('예정', '#2a6ab0');
+		if ($e !== '' && $today > $e) return array('종료', '#c33');
+		return array('진행 중', '#2f7346');
+	}
+}

@@ -6,7 +6,8 @@ $jungle_site = include(G5_THEME_PATH.'/data/site.php');
 $jungle_menu  = jungle_menu_tree();      // 관리자 > 정글 사이트 > 메뉴판 관리
 $jungle_cards = jungle_signature_cards();
 $jungle_season = jungle_season_rows();   // 시즌 메뉴 : 그림만 걸리는 탭
-$jungle_goods  = jungle_goods_rows();     // 굿즈 : 매장에서 파는 물건  // 시그니처 섹션에 띄울 카드
+$jungle_goods  = jungle_goods_rows();     // 굿즈 : 매장에서 파는 물건
+$jungle_popups = jungle_popup_rows();     // 팝업 : 기간 안에 든 알림만  // 시그니처 섹션에 띄울 카드
 
 include_once(G5_PATH.'/head.php');
 ?>
@@ -534,6 +535,31 @@ include_once(G5_PATH.'/head.php');
 		</div>
 	</section>
 	<!-- Menu E -->
+
+<?php if (count($jungle_popups)) { ?>
+	<!-- 팝업 S -->
+	<div class="jp_layer" id="jp_layer">
+<?php     foreach ($jungle_popups as $jp) {
+		$esc = function ($v) { return htmlspecialchars($v, ENT_QUOTES, 'UTF-8'); };
+		$alt = trim($jp['jp_alt']) !== '' ? $jp['jp_alt'] : '정글 알림';
+		$src = jungle_popup_url().'/'.rawurlencode($jp['jp_image']);
+		$url = trim($jp['jp_url']);
+?>
+		<div class="jp_box" data-jp="<?php echo (int)$jp['jp_id'] ?>">
+<?php         if ($url !== '') { ?>
+			<a class="jp_pic" href="<?php echo $esc($url) ?>" target="_blank" rel="noopener"><img src="<?php echo $esc($src) ?>" alt="<?php echo $esc($alt) ?>"></a>
+<?php         } else { ?>
+			<span class="jp_pic"><img src="<?php echo $esc($src) ?>" alt="<?php echo $esc($alt) ?>"></span>
+<?php         } ?>
+			<div class="jp_foot">
+				<label class="jp_today"><input type="checkbox"> <span data-i18n="popup.today">오늘 하루 보지 않기</span></label>
+				<button type="button" class="jp_close" data-i18n="popup.close">닫기</button>
+			</div>
+		</div>
+<?php     } ?>
+	</div>
+	<!-- 팝업 E -->
+<?php } ?>
 
 	<!-- 시즌 그림 크게 보기 S -->
 	<div class="ms_view" id="ms_view" hidden>

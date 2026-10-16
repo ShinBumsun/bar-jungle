@@ -462,6 +462,21 @@ html {scroll-snap-type:y proximity;}
 .gdh_btn:hover {background-color:transparent; color:#e8b13a;}
 .gdh_btn:hover i {border-color:#e8b13a; transform:rotate(45deg) translate(4px,-4px);}
 
+/* ==========================================================================
+   팝업 : 메인에 잠깐 띄우는 알림
+   ========================================================================== */
+.jp_layer {position:fixed; left:0; top:0; width:100%; height:100%; z-index:1300; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:26px; padding:5vh 5vw; overflow:auto; background-color:rgba(10,28,18,0.86);}
+.jp_layer[hidden] {display:none;}
+.jp_box {width:min(86vw, 400px); background-color:#f7efdd; border:2px solid #241f18; box-shadow:12px 12px 0 rgba(36,31,24,0.55);}
+.jp_pic {display:block; line-height:0;}
+.jp_pic img {display:block; width:100%; height:auto;}
+a.jp_pic {cursor:pointer;}
+.jp_foot {display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border-top:2px solid #241f18;}
+.jp_today {display:inline-flex; align-items:center; gap:7px; font-size:13px; color:#241f18; opacity:0.75; cursor:pointer;}
+.jp_today input {width:15px; height:15px; accent-color:#1f4a35; cursor:pointer;}
+.jp_close {padding:9px 18px; background-color:#241f18; border:2px solid #241f18; font-family:"Anton", sans-serif; font-size:13px; letter-spacing:0.06em; color:#f7efdd; cursor:pointer; transition:0.25s;}
+.jp_close:hover {background-color:#e8b13a; color:#241f18;}
+
 /* Footer S */
 #footer {position:relative; padding:96px 0 130px; background-color:#241f18; overflow:hidden; scroll-snap-align:start;}
 .f_wrap {position:relative; z-index:3; width:1400px; max-width:88%; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:30px;}
@@ -796,6 +811,8 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.mp_panel .mg_list {columns:1;}
 	.gd_grid {grid-template-columns:1fr; gap:22px;}
 	#wrap.sub .gd_sec {padding:104px 0 70px;}
+	.jp_layer {gap:18px; padding:4vh 5vw;}
+	.jp_box {width:88vw; box-shadow:8px 8px 0 rgba(36,31,24,0.55);}
 	.gd_hand {margin-bottom:34px; font-size:20px;}
 	.gd_how {margin-top:46px; padding:28px 20px;}
 	.gdh_btn {padding:15px 26px; font-size:15px;}
