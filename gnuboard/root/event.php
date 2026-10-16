@@ -91,15 +91,6 @@ $COL = $g5['jungle_roulette_colors'];
 		list($x2, $y2) = $deg2xy($g[1], $R);
 		printf("\t\t\t\t\t\t\t".'<path d="M200,200 L%.2f,%.2f A%d,%d 0 %d 1 %.2f,%.2f Z" fill="%s" stroke="#241f18" stroke-width="2.5"></path>'."\n",
 		       $x1, $y1, $R, $R, $span > 180 ? 1 : 0, $x2, $y2, $col);
-
-		/* 결 : 넓은 칸이 한 덩어리로 보이지 않게 안쪽에 옅은 빗살을 둔다.
-		   넓이는 그대로라 확률은 달라지지 않는다. */
-		for ($a = $g[0] + 18; $a < $g[1] - 8; $a += 18) {
-			list($sx, $sy) = $deg2xy($a, 46);
-			list($ex, $ey) = $deg2xy($a, $R - 4);
-			printf("\t\t\t\t\t\t\t".'<line x1="%.2f" y1="%.2f" x2="%.2f" y2="%.2f" stroke="#241f18" stroke-width="1" opacity="0.16"></line>'."\n",
-			       $sx, $sy, $ex, $ey);
-		}
 	}
 
 	/* 바깥 테와 전구 */
@@ -111,20 +102,16 @@ $COL = $g5['jungle_roulette_colors'];
 	}
 
 	/* 이름은 중심에서 바깥으로 눕힌다. 얇은 칸에서도 잘리지 않는다.
-	   아주 넓은 칸은 여러 번 적어 빙 둘러 읽히게 한다. */
+	   칸마다 한 번씩만 적어 판을 깨끗하게 둔다. */
 	foreach ($slots as $k => $sl) {
-		$span = $seg[$k][1] - $seg[$k][0];
-		$reps = max(1, min(4, (int)floor($span / 95)));
 		$nm   = $sl['jr_name'];
 		$fs   = (mb_strlen($nm, 'UTF-8') > 9) ? 15 : 17;
-		for ($t = 0; $t < $reps; $t++) {
-			$mid  = $seg[$k][0] + $span * ($t + 0.5) / $reps;
-			$flip = ($mid > 180);
-			$lx   = 200 + 116;
-			$tr   = 'rotate('.round($mid - 90, 3).' 200 200)';
-			if ($flip) $tr .= ' rotate(180 '.$lx.' 200)';
-			echo "\t\t\t\t\t\t\t".'<text class="ev_wt" x="'.$lx.'" y="200" transform="'.$tr.'" font-size="'.$fs.'">'.$esc($nm).'</text>'."\n";
-		}
+		$mid  = $seg[$k][2];
+		$flip = ($mid > 180);
+		$lx   = 200 + 116;
+		$tr   = 'rotate('.round($mid - 90, 3).' 200 200)';
+		if ($flip) $tr .= ' rotate(180 '.$lx.' 200)';
+		echo "\t\t\t\t\t\t\t".'<text class="ev_wt" x="'.$lx.'" y="200" transform="'.$tr.'" font-size="'.$fs.'">'.$esc($nm).'</text>'."\n";
 	}
 ?>
 						</svg>
