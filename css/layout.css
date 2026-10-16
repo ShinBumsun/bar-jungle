@@ -427,7 +427,10 @@ html {scroll-snap-type:y proximity;}
 .gd_hand {font-family:"Nanum Pen Script", cursive; font-size:23px; color:#a9c95d; margin-bottom:54px;}
 .gd_empty {font-size:17px; color:#f7efdd; opacity:0.6;}
 
-.gd_list {display:grid; grid-template-columns:repeat(4, 1fr); gap:34px;}
+/* 격자(단독 페이지)와 가로 슬라이드(메인)를 같은 카드로 쓴다. */
+.gd_grid {display:grid; grid-template-columns:repeat(4, 1fr); gap:34px;}
+/* 슬라이드일 때는 .s_list 가 가로 배치를 맡고, 여기서는 카드 폭만 정한다. */
+.gd_slider .gd_item {flex:0 0 auto; width:clamp(230px, 22vw, 300px); scroll-snap-align:start;}
 .gd_item {background-color:#f7efdd; border:2px solid #241f18; box-shadow:10px 10px 0 rgba(36,31,24,0.9); overflow:hidden; transition:transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease;}
 .gd_item:hover {transform:translate(-6px,-6px); box-shadow:17px 17px 0 rgba(36,31,24,0.9);}
 
@@ -665,7 +668,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.h_util {gap:12px;}
 	.mt_btn {padding:11px 22px; font-size:15px;}
 	.mp_panel .mg_list {column-gap:44px;}
-	.gd_list {grid-template-columns:repeat(3, 1fr); gap:28px;}
+	.gd_grid {grid-template-columns:repeat(3, 1fr); gap:28px;}
 	.ms_item {flex:0 1 calc((100% - 24px) / 2); max-width:420px;}
 	.ms_list {gap:24px;}
 	#header {height:82px; padding:0 30px;}
@@ -729,7 +732,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.h_toggle {display:flex;}
 	#header.open .h_toggle i {background-color:#f7efdd !important;}
 	#hero {min-height:600px;}	/* 1024 이하 태블릿까지만 */
-	.gd_list {grid-template-columns:repeat(2, 1fr); gap:24px;}
+	.gd_grid {grid-template-columns:repeat(2, 1fr); gap:24px;}
 	#wrap.sub .gd_sec {padding:120px 0 90px;}
 	.he_title {top:16%;}
 	.sec {padding:88px 0;}
@@ -791,7 +794,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.mt_btn {padding:9px 15px; font-size:12.5px; letter-spacing:0.08em;}
 	.mt_star {right:-7px; top:-9px; width:22px; height:22px;}
 	.mp_panel .mg_list {columns:1;}
-	.gd_list {grid-template-columns:1fr; gap:22px;}
+	.gd_grid {grid-template-columns:1fr; gap:22px;}
 	#wrap.sub .gd_sec {padding:104px 0 70px;}
 	.gd_hand {margin-bottom:34px; font-size:20px;}
 	.gd_how {margin-top:46px; padding:28px 20px;}

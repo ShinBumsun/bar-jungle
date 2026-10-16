@@ -6,47 +6,23 @@
  * 부르기 전에 $jungle_goods 를 채워 두세요.
  */
 if (!defined('_GNUBOARD_')) exit;
+
+/* 메인에서는 가로 슬라이드, 단독 페이지에서는 격자로 늘어놓습니다.
+   부르는 쪽에서 $jungle_goods_slider 를 켜 주세요. */
+$gs = !empty($jungle_goods_slider);
 ?>
 <?php if (!count($jungle_goods)) { ?>
 		<p class="gd_empty" data-i18n="goods.empty">준비 중입니다. 곧 보여 드릴게요.</p>
+<?php } else if ($gs) { ?>
+		<div class="s_slider gd_slider">
+			<button type="button" class="ss_nav ss_prev" aria-label="이전 굿즈 보기"><i></i></button>
+			<ul class="s_list gd_list" tabindex="0">
+<?php     include(G5_THEME_PATH.'/lib/goods_li.php'); ?>
+			</ul>
+			<button type="button" class="ss_nav ss_next" aria-label="다음 굿즈 보기"><i></i></button>
+		</div>
 <?php } else { ?>
-		<ul class="gd_list">
-<?php     foreach ($jungle_goods as $g) {
-		$esc   = function ($v) { return htmlspecialchars($v, ENT_QUOTES, 'UTF-8'); };
-		$badge = trim($g['jg_badge']);
-		$sold  = ($badge === 'soldout');
-		$was   = trim($g['jg_price_was']);
-		$note  = trim($g['jg_note']);
-		$BADGE = array('new' => 'NEW', 'sale' => 'SALE', 'soldout' => 'SOLD OUT');
-		$attr  = ' data-nm-ko="'.$esc($g['jg_name_ko']).'"';
-		if (trim($g['jg_name_en']) !== '') $attr .= ' data-nm-en="'.$esc($g['jg_name_en']).'"';
-		if (trim($g['jg_name_ja']) !== '') $attr .= ' data-nm-ja="'.$esc($g['jg_name_ja']).'"';
-		foreach (array('ko','en','ja') as $lc) {
-			$dv = trim($g['jg_desc_'.$lc]);
-			if ($dv !== '') $attr .= ' data-ds-'.$lc.'="'.$esc($dv).'"';
-		}
-?>
-			<li class="gd_item<?php echo $sold ? ' is_sold' : '' ?>"<?php echo $attr ?>>
-				<div class="gdi_pic">
-					<img src="<?php echo $esc(jungle_goods_url().'/'.rawurlencode($g['jg_image'])) ?>" alt="<?php echo $esc($g['jg_name_ko']) ?>" loading="lazy" decoding="async">
-<?php         if ($badge !== '' && isset($BADGE[$badge])) { ?>
-					<span class="gdi_badge b_<?php echo $esc($badge) ?>"><?php echo $BADGE[$badge] ?></span>
-<?php         } ?>
-				</div>
-				<div class="gdi_txt">
-					<strong class="gdi_name"><?php echo $esc($g['jg_name_ko']) ?></strong>
-					<p class="gdi_price">
-<?php         if ($was !== '') { ?><s><?php echo $esc($was) ?></s> <?php } ?>
-						<b class="font"><?php echo $esc($g['jg_price']) ?></b>
-					</p>
-<?php         if ($note !== '') { ?>
-					<p class="gdi_note"><?php echo $esc($note) ?></p>
-<?php         } ?>
-<?php         if (trim($g['jg_desc_ko']) !== '') { ?>
-					<p class="gdi_desc"><?php echo $esc($g['jg_desc_ko']) ?></p>
-<?php         } ?>
-				</div>
-			</li>
-<?php     } ?>
+		<ul class="gd_list gd_grid">
+<?php     include(G5_THEME_PATH.'/lib/goods_li.php'); ?>
 		</ul>
 <?php } ?>

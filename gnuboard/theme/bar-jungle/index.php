@@ -602,7 +602,7 @@ include_once(G5_PATH.'/head.php');
 			<h2 class="gd_title title t2 cw font2 fade f_up f_delay03" data-i18n="goods.title">정글 한 조각,<br><mark class="cs">집으로</mark></h2>
 			<p class="gd_hand fade f_up f_delay06" data-i18n="goods.hand">매장에서 직접 보고 사 가실 수 있어요</p>
 
-<?php include(G5_THEME_PATH.'/lib/goods_items.php'); ?>
+<?php $jungle_goods_slider = true; include(G5_THEME_PATH.'/lib/goods_items.php'); ?>
 
 			<div class="gd_how fade f_up">
 				<strong class="gdh_tit" data-i18n="goods.how_tit">구매 하시려면</strong>
