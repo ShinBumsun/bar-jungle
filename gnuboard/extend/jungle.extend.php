@@ -917,3 +917,150 @@ if (!function_exists('jungle_popup_seed')) {
 		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
 	}
 }
+
+/* ==========================================================================
+   룰렛 : 이벤트 페이지(/event.php)에서 돌리는 뽑기
+   뽑는 일은 반드시 서버에서 합니다. 확률을 화면 쪽 코드에 두면 누구나
+   개발자도구로 열어 원하는 것을 고를 수 있습니다.
+   ========================================================================== */
+define('G5_JUNGLE_ROULETTE_TABLE', G5_TABLE_PREFIX.'jungle_roulette');
+
+if (!function_exists('jungle_roulette_dir')) {
+	function jungle_roulette_dir() { return G5_DATA_PATH.'/jungle_roulette'; }
+	function jungle_roulette_url() { return G5_DATA_URL.'/jungle_roulette'; }
+}
+
+/* 칸 색은 사이트 색에서 돌려 씁니다. 관리자가 고르게 하면 칸마다 색을
+   정해야 해서 손이 갑니다. */
+$g5['jungle_roulette_colors'] = array('#2f7346', '#e8b13a', '#d9622b', '#1c7a87', '#c94f5c', '#17422a');
+
+if (!function_exists('jungle_roulette_setup')) {
+	function jungle_roulette_setup()
+	{
+		static $tried = false;
+		if ($tried) return;
+		$tried = true;
+		try {
+			sql_query(" CREATE TABLE IF NOT EXISTS ".G5_JUNGLE_ROULETTE_TABLE." (
+			              jr_id    int(11)      NOT NULL AUTO_INCREMENT,
+			              jr_order int(11)      NOT NULL DEFAULT 0,
+			              jr_name  varchar(100) NOT NULL DEFAULT '',
+			              jr_rate  int(11)      NOT NULL DEFAULT 0,
+			              jr_image varchar(255) NOT NULL DEFAULT '',
+			              jr_msg   varchar(255) NOT NULL DEFAULT '',
+			              jr_use   tinyint(4)   NOT NULL DEFAULT 1,
+			              PRIMARY KEY (jr_id),
+			              KEY jr_order (jr_order)
+			            ) ", false);
+		} catch (Exception $e) {}
+	}
+}
+
+/** 룰렛 칸을 순서대로 읽습니다. */
+if (!function_exists('jungle_roulette_rows')) {
+	function jungle_roulette_rows($only_use = true)
+	{
+		static $cache = array();
+		$ck = $only_use ? 'use' : 'all';
+		if (isset($cache[$ck])) return $cache[$ck];
+
+		$cond = $only_use ? " WHERE jr_use = 1 AND jr_rate > 0 " : " ";
+		$sql  = " SELECT * FROM ".G5_JUNGLE_ROULETTE_TABLE.$cond." ORDER BY jr_order ASC, jr_id ASC ";
+		$res = sql_query($sql, false);
+		if (!$res) { jungle_roulette_setup(); $res = sql_query($sql, false); }
+		if ($res) { jungle_roulette_seed(); $res = sql_query($sql, false); }
+
+		$out = array();
+		if ($res) { while ($row = sql_fetch_array($res)) $out[] = $row; }
+		return $cache[$ck] = $out;
+	}
+}
+
+/**
+ * 한 번 뽑습니다. 뽑힌 칸의 jr_id 를 돌려주고, 뽑을 게 없으면 0 입니다.
+ * 확률은 적어 둔 값을 전체 합으로 나눈 몫입니다. 합이 100 이 아니어도 됩니다.
+ * random_int 는 암호용 난수라 다음 값을 미리 알아내기 어렵습니다.
+ */
+if (!function_exists('jungle_roulette_draw')) {
+	function jungle_roulette_draw()
+	{
+		$rows = jungle_roulette_rows(true);
+		$total = 0;
+		foreach ($rows as $r) $total += max(0, (int)$r['jr_rate']);
+		if ($total <= 0) return 0;
+
+		try { $pick = random_int(1, $total); }
+		catch (Exception $e) { $pick = mt_rand(1, $total); }
+
+		$acc = 0;
+		foreach ($rows as $r) {
+			$acc += max(0, (int)$r['jr_rate']);
+			if ($pick <= $acc) return (int)$r['jr_id'];
+		}
+		return (int)$rows[count($rows) - 1]['jr_id'];
+	}
+}
+
+/**
+ * 처음 한 번, 보기용으로 네 칸을 넣어 둡니다.
+ * 그림은 굿즈에 올려 둔 것을 그대로 가져다 씁니다.
+ */
+if (!function_exists('jungle_roulette_seed')) {
+	function jungle_roulette_seed()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_roulette_seeded';
+		if (is_file($flag)) return;
+
+		$cnt = sql_fetch(" SELECT COUNT(*) AS cnt FROM ".G5_JUNGLE_ROULETTE_TABLE, false);
+		if (!$cnt) return;
+
+		if ((int)$cnt['cnt'] === 0) {
+			$dir = jungle_roulette_dir();
+			if (!is_dir($dir)) @mkdir($dir, G5_DIR_PERMISSION, true);
+			$seed = array(
+				array(10, '정글 코스터 2개', 15, 'coaster.jpg',   '몬스테라 코스터 2개 당첨! 직원에게 보여 주세요.'),
+				array(20, 'SEOUL 키링',      10, 'keyring.jpg',   '레인보우 키링 당첨! 직원에게 보여 주세요.'),
+				array(30, '정글 룸스프레이',  5, 'roomspray.jpg', '룸스프레이 당첨! 오늘 운이 좋으시네요.'),
+				array(40, '다음 기회에!',    70, '',              '아쉽게도 꽝! 한 잔 더 하시면 또 기회가 와요.'),
+			);
+			foreach ($seed as $g) {
+				$img = $g[3];
+				if ($img !== '') {
+					$src = jungle_goods_dir().'/'.$img;
+					if (is_file($src) && !is_file($dir.'/'.$img)) @copy($src, $dir.'/'.$img);
+					if (!is_file($dir.'/'.$img)) $img = '';
+				}
+				sql_query(" INSERT INTO ".G5_JUNGLE_ROULETTE_TABLE." SET
+				              jr_order = '".(int)$g[0]."',
+				              jr_name  = '".sql_escape_string($g[1])."',
+				              jr_rate  = '".(int)$g[2]."',
+				              jr_image = '".sql_escape_string($img)."',
+				              jr_msg   = '".sql_escape_string($g[4])."',
+				              jr_use   = 1 ", false);
+			}
+		}
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}
+
+/**
+ * 룰렛 칸의 각도. 12시에서 시계 방향으로 잽니다(conic-gradient 와 같은 기준).
+ * 화면과 뽑기 쪽이 각자 계산하면 조금씩 어긋나 엉뚱한 칸에서 멈춥니다.
+ * 한 곳에서만 계산해 둘 다 이것을 씁니다.
+ * 돌려주는 값 : 칸마다 array(시작, 끝, 가운데)
+ */
+if (!function_exists('jungle_roulette_segments')) {
+	function jungle_roulette_segments($slots)
+	{
+		$total = 0;
+		foreach ($slots as $s) $total += max(0, (int)$s['jr_rate']);
+
+		$seg = array(); $acc = 0.0;
+		foreach ($slots as $s) {
+			$a = $total > 0 ? max(0, (int)$s['jr_rate']) * 360.0 / $total : 0;
+			$seg[] = array($acc, $acc + $a, $acc + $a / 2);
+			$acc += $a;
+		}
+		return $seg;
+	}
+}

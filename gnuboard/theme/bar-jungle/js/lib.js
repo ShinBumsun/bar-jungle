@@ -551,4 +551,87 @@
 		}
 	}
 
+	/* 이벤트 룰렛 (/event.php)
+	   뽑는 일은 서버가 한다. 여기서는 받은 결과에 맞춰 돌리기만 한다.
+	   확률을 화면 쪽에 두면 개발자도구로 열어 원하는 것을 고를 수 있다. */
+	var evBox = document.getElementById('ev_box');
+	if (evBox) {
+		var evWheel  = document.getElementById('ev_wheel');
+		var evResult = document.getElementById('ev_result');
+		var evTurn   = 0;      /* 지금까지 돈 각도. 늘 앞으로만 돈다 */
+		var evBusy   = false;
+
+		function evShow(d) {
+			var pic = document.getElementById('evr_pic');
+			pic.innerHTML = '';
+			if (d.image) {
+				var im = document.createElement('img');
+				im.src = d.image; im.alt = d.name || '';
+				pic.appendChild(im); pic.className = 'evr_pic';
+			} else {
+				pic.className = 'evr_pic no_img';
+				pic.textContent = '林';
+			}
+			/* 관리자가 적은 글이므로 태그로 해석되지 않게 DOM 으로 넣는다 */
+			document.getElementById('evr_name').textContent = d.name || '';
+			document.getElementById('evr_msg').textContent = d.msg || '';
+			evResult.hidden = false;
+		}
+
+		function evSpin() {
+			if (evBusy) { return; }
+			evBusy = true;
+			evBox.disabled = true;
+			evBox.classList.add('is_spin');
+
+			fetch('event_draw.php', { credentials: 'same-origin', cache: 'no-store' })
+				.then(function (r) { return r.json(); })
+				.then(function (d) {
+					if (!d || !d.ok) { throw new Error(d && d.msg ? d.msg : '뽑기에 실패했습니다.'); }
+
+					/* 바늘은 12시에 고정이다. 칸 가운데가 12시로 오도록 돌린다.
+					   네 바퀴를 더 돌려 돌아가는 맛을 낸다. */
+					var mid = (typeof d.mid === 'number') ? d.mid : evMid(d.index);
+					evTurn += 360 * 4 + ((360 - (evTurn % 360)) - mid + 360) % 360;
+					evWheel.style.transform = 'rotate(' + evTurn + 'deg)';
+
+					window.setTimeout(function () {
+						evBox.classList.remove('is_spin');
+						evShow(d);
+						evBusy = false;
+					}, 4700);          /* CSS 의 회전 시간과 맞춘다 */
+				})
+				.catch(function (err) {
+					evBox.classList.remove('is_spin');
+					evBox.disabled = false;
+					evBusy = false;
+					alert(err.message || '뽑기에 실패했습니다.');
+				});
+		}
+
+		/* 칸 가운데 각도. 화면에 그려 둔 칸에서 그대로 읽는다. */
+		function evMid(i) {
+			var labs = evWheel.querySelectorAll('.ev_lab');
+			if (!labs[i]) { return 0; }
+			var m = /rotate\(([-0-9.]+)deg\)/.exec(labs[i].style.transform);
+			return m ? parseFloat(m[1]) : 0;
+		}
+
+		evBox.addEventListener('click', evSpin);
+
+		var evAgain = document.getElementById('evr_again');
+		if (evAgain) {
+			evAgain.addEventListener('click', function () {
+				evResult.hidden = true;
+				evBox.disabled = false;
+			});
+		}
+		evResult.addEventListener('click', function (e) {
+			if (e.target === evResult) { evResult.hidden = true; evBox.disabled = false; }
+		});
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' && !evResult.hidden) { evResult.hidden = true; evBox.disabled = false; }
+		});
+	}
+
 })();
