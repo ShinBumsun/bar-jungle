@@ -129,11 +129,15 @@ $COL = $g5['jungle_roulette_colors'];
 					<svg class="evb_leaf" viewBox="0 0 280 160" aria-hidden="true">
 						<path class="evl_stem" d="M6,80 C18,80 26,80 34,80" stroke="#241f18" stroke-width="7" stroke-linecap="round" fill="none"></path>
 						<path class="evl_body" d="M30,80 C84,10 206,10 262,80 C206,150 84,150 30,80 Z"></path>
+						<?php /* 잎맥은 밑동에서 부챗살처럼 뻗는다. 가운데를 가로지르는
+						         줄을 두면 글씨 위로 지나가 읽기 어렵다. */ ?>
 						<g class="evl_vein">
-							<path d="M44,80 L250,80"></path>
-							<path d="M92,80 L74,50 M92,80 L74,110"></path>
-							<path d="M140,80 L120,42 M140,80 L120,118"></path>
-							<path d="M188,80 L170,48 M188,80 L170,112"></path>
+							<path d="M42,80 C110,72 180,46 236,30"></path>
+							<path d="M42,80 C110,88 180,114 236,130"></path>
+							<path d="M42,80 C104,76 164,60 214,46"></path>
+							<path d="M42,80 C104,84 164,100 214,114"></path>
+							<path d="M42,80 C96,78 142,70 186,60"></path>
+							<path d="M42,80 C96,82 142,90 186,100"></path>
 						</g>
 					</svg>
 					<span class="evb_txt font" data-i18n="event.btn">눌러서 돌리기</span>

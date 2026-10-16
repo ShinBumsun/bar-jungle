@@ -521,8 +521,8 @@ a.jp_pic {cursor:pointer;}
 .ev_box {position:relative; display:inline-block; padding:0; background:none; border:0; cursor:pointer; line-height:0;}
 .evb_leaf {display:block; width:clamp(200px, 46vw, 280px); height:auto; overflow:visible; filter:drop-shadow(6px 7px 0 rgba(36,31,24,0.85)); transition:transform 0.35s cubic-bezier(0.16,1,0.3,1), filter 0.35s ease;}
 .evl_body {fill:#e8b13a; stroke:#241f18; stroke-width:7; stroke-linejoin:round;}
-.evl_vein {fill:none; stroke:#241f18; stroke-width:3; stroke-linecap:round; opacity:0.45;}
-.evb_txt {position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); font-size:clamp(15px, 3.4vw, 19px); letter-spacing:0.06em; color:#241f18; line-height:1; white-space:nowrap; pointer-events:none;}
+.evl_vein {fill:none; stroke:#241f18; stroke-width:2.6; stroke-linecap:round; opacity:0.32;}
+.evb_txt {position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); font-size:clamp(16px, 3.6vw, 21px); letter-spacing:0.06em; color:#241f18; line-height:1; white-space:nowrap; pointer-events:none;}
 .ev_box:hover .evb_leaf {transform:translateY(-5px) rotate(-2deg); filter:drop-shadow(9px 11px 0 rgba(36,31,24,0.85));}
 .ev_box:hover .evl_body {fill:#f7efdd;}
 /* 돌아가는 동안에는 잎이 가만히 가라앉는다. 흔들면 정신이 없다. */
