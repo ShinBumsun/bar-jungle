@@ -1044,10 +1044,15 @@ if (!function_exists('jungle_roulette_seed')) {
 }
 
 /**
- * 룰렛 칸의 각도. 12시에서 시계 방향으로 잽니다(conic-gradient 와 같은 기준).
- * 화면과 뽑기 쪽이 각자 계산하면 조금씩 어긋나 엉뚱한 칸에서 멈춥니다.
- * 한 곳에서만 계산해 둘 다 이것을 씁니다.
+ * 룰렛 칸의 각도. 12시에서 시계 방향으로 잽니다(= 화면 기준).
+ *
+ * 넓이는 확률 그대로 둡니다. 조각을 쪼개 섞으면 보기에는 좋지만 반올림
+ * 때문에 넓이와 실제 확률이 몇 %p 씩 어긋납니다. 경품이 걸린 판에서
+ * 보이는 것과 실제가 다르면 안 됩니다. 큰 칸이 밋밋한 것은 화면 쪽에서
+ * 결(빗금)과 이름 반복으로 풉니다.
+ *
  * 돌려주는 값 : 칸마다 array(시작, 끝, 가운데)
+ * 화면과 뽑기가 반드시 같은 것을 써야 엉뚱한 칸에서 멈추지 않습니다.
  */
 if (!function_exists('jungle_roulette_segments')) {
 	function jungle_roulette_segments($slots)
@@ -1062,5 +1067,23 @@ if (!function_exists('jungle_roulette_segments')) {
 			$acc += $a;
 		}
 		return $seg;
+	}
+}
+
+/**
+ * 멈출 각도. 칸 안에서 아무 데나 고릅니다. 늘 한가운데에 서면
+ * 매번 똑같이 멈추는 것처럼 보입니다. 가장자리는 조금 피합니다.
+ */
+if (!function_exists('jungle_roulette_stop_angle')) {
+	function jungle_roulette_stop_angle($seg, $i)
+	{
+		if (!isset($seg[$i])) return 0;
+		list($a, $b) = $seg[$i];
+		$pad = ($b - $a) * 0.18;
+		$lo = $a + $pad; $hi = $b - $pad;
+		if ($hi <= $lo) return ($a + $b) / 2;
+		try { $r = random_int(0, 10000) / 10000; }
+		catch (Exception $e) { $r = mt_rand(0, 10000) / 10000; }
+		return $lo + ($hi - $lo) * $r;
 	}
 }

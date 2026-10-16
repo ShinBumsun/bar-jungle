@@ -511,7 +511,7 @@ a.jp_pic {cursor:pointer;}
 .ev_wheel {position:absolute; left:0; top:0; width:100%; height:100%; filter:drop-shadow(0 16px 30px rgba(0,0,0,0.45)); transition:transform 4.6s cubic-bezier(0.12,0.72,0.12,1);}
 .ev_wheel svg {display:block; width:100%; height:100%; overflow:visible;}
 /* 칸 색이 제각각이라 글씨에 어두운 테두리를 둘러 어디서나 읽히게 한다 */
-.ev_wt {fill:#f7efdd; font-family:"Apple SD Gothic Neo", "Noto Sans KR", sans-serif; font-weight:700; text-anchor:middle; dominant-baseline:central; paint-order:stroke; stroke:#241f18; stroke-width:3.4px; stroke-linejoin:round;}
+.ev_wt {fill:#f7efdd; font-family:"Apple SD Gothic Neo", "Noto Sans KR", sans-serif; font-weight:700; text-anchor:middle; dominant-baseline:central; paint-order:stroke; stroke:#241f18; stroke-width:3.2px; stroke-linejoin:round;}
 .ev_hub {position:absolute; left:50%; top:50%; width:74px; height:74px; margin:-37px 0 0 -37px; border-radius:50%; background-color:#f7efdd; border:5px solid #241f18; box-shadow:0 4px 12px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; z-index:3;}
 .ev_hub span {font-family:"Black Han Sans", sans-serif; font-size:30px; line-height:1; color:#1f4a35;}
 /* 바늘은 12시에서 아래를 가리킨다. 멈춘 칸을 읽는 기준이다. */
@@ -519,7 +519,7 @@ a.jp_pic {cursor:pointer;}
 
 /* ── 가챠 뽑기 ── */
 .ev_box {display:inline-flex; flex-direction:column; align-items:center; gap:14px; padding:0; background:none; border:0; cursor:pointer;}
-.evb_art {display:block; width:clamp(120px, 26vw, 150px); height:auto; transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);}
+.evb_art {display:block; width:clamp(150px, 34vw, 190px); height:auto; transition:transform 0.3s cubic-bezier(0.16,1,0.3,1);}
 .ev_box:hover .evb_art {transform:translateY(-5px) scale(1.03);}
 .evb_txt {padding:13px 28px; background-color:#e8b13a; border:3px solid #241f18; border-radius:999px; box-shadow:5px 5px 0 rgba(36,31,24,0.85); font-size:16px; letter-spacing:0.08em; color:#241f18; transition:0.3s;}
 .ev_box:hover .evb_txt {background-color:#f7efdd;}

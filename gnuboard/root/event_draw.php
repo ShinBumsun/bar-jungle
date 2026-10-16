@@ -33,8 +33,8 @@ $seg = jungle_roulette_segments($rows);
 
 echo json_encode(array(
 	'ok'    => true,
-	'index' => $idx,                        // 몇 번째 칸인지
-	'mid'   => round($seg[$idx][2], 3),     // 그 칸의 가운데 각도(12시 기준). 여기에 맞춰 멈춘다
+	'index' => $idx,                                                   // 몇 번째 칸인지
+	'mid'   => round(jungle_roulette_stop_angle($seg, $idx), 3),       // 멈출 각도(12시 기준)
 	'name'  => $hit['jr_name'],
 	'msg'   => $hit['jr_msg'],
 	'image' => $src,
