@@ -853,6 +853,7 @@ if (!function_exists('jungle_popup_rows')) {
 		$sql = " SELECT * FROM ".G5_JUNGLE_POPUP_TABLE." ORDER BY jp_order ASC, jp_id ASC ";
 		$res = sql_query($sql, false);
 		if (!$res) { jungle_popup_setup(); $res = sql_query($sql, false); }
+		if ($res) { jungle_popup_seed(); $res = sql_query($sql, false); }
 
 		$today = date('Y-m-d');
 		$out = array();
@@ -883,5 +884,36 @@ if (!function_exists('jungle_popup_state')) {
 		if ($b !== '' && $today < $b) return array('예정', '#2a6ab0');
 		if ($e !== '' && $today > $e) return array('종료', '#c33');
 		return array('진행 중', '#2f7346');
+	}
+}
+
+/**
+ * 처음 한 번, 예시 팝업 한 장을 넣어 둡니다.
+ *
+ * 3주년 티셔츠 그림만 걸고 주소는 비워 둡니다. 구글폼 주소가 나오면
+ * 관리자에서 채우시면 됩니다. 기간은 '넣는 날 하루' 입니다. 날짜를 코드에
+ * 박아 두면 나중에 돌 때 이미 지난 팝업이 들어가 버립니다.
+ */
+if (!function_exists('jungle_popup_seed')) {
+	function jungle_popup_seed()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_popup_seeded';
+		if (is_file($flag)) return;
+
+		$cnt = sql_fetch(" SELECT COUNT(*) AS cnt FROM ".G5_JUNGLE_POPUP_TABLE, false);
+		if (!$cnt) return;                       // 표를 못 읽었으면 표시도 남기지 않는다
+
+		if ((int)$cnt['cnt'] === 0 && is_file(jungle_popup_dir().'/tee_3rd.jpg')) {
+			$today = date('Y-m-d');
+			sql_query(" INSERT INTO ".G5_JUNGLE_POPUP_TABLE." SET
+			              jp_image = 'tee_3rd.jpg',
+			              jp_alt   = '정글 3주년 트리플 타이거 티셔츠 안내',
+			              jp_url   = '',
+			              jp_begin = '".sql_escape_string($today)."',
+			              jp_end   = '".sql_escape_string($today)."',
+			              jp_order = 0,
+			              jp_use   = 1 ", false);
+		}
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
 	}
 }
