@@ -51,33 +51,99 @@ $COL = $g5['jungle_roulette_colors'];
 			<div class="ev_stage">
 				<div class="ev_wheelbox">
 					<i class="ev_pin" aria-hidden="true"></i>
-					<div class="ev_wheel" id="ev_wheel" style="background:conic-gradient(<?php
-						$parts = array();
-						foreach ($seg as $k => $g) $parts[] = $COL[$k % count($COL)].' '.round($g[0], 3).'deg '.round($g[1], 3).'deg';
-						echo implode(', ', $parts);
-					?>)">
-<?php     foreach ($slots as $k => $s) { ?>
-						<?php /* 칸 각도는 12시 기준인데 이 막대는 3시에서 시작한다. 90도를 뺀다. */ ?>
-						<span class="ev_lab" style="transform:rotate(<?php echo round($seg[$k][2] - 90, 3) ?>deg)"><b><?php echo $esc($s['jr_name']) ?></b></span>
-<?php     } ?>
+					<div class="ev_wheel" id="ev_wheel">
+						<svg viewBox="0 0 400 400" aria-hidden="true">
+							<circle cx="200" cy="200" r="196" fill="#241f18"></circle>
+<?php
+	/* 칸은 부채꼴로 직접 그린다. conic-gradient 는 칸마다 글씨를 앉히기가
+	   어렵고, 얇은 칸에서 글씨가 테두리를 넘는다. */
+	$R = 184;
+	$deg2xy = function ($a, $r) {           // 12시에서 시계 방향 각도 → 좌표
+		$t = deg2rad($a - 90);
+		return array(200 + $r * cos($t), 200 + $r * sin($t));
+	};
+	foreach ($seg as $k => $g) {
+		$col  = $COL[$k % count($COL)];
+		$span = $g[1] - $g[0];
+		list($x1, $y1) = $deg2xy($g[0], $R);
+		list($x2, $y2) = $deg2xy($g[1], $R);
+		$large = $span > 180 ? 1 : 0;
+		if ($span >= 359.99) {
+			echo "							".'<circle cx="200" cy="200" r="'.$R.'" fill="'.$col.'"></circle>'."
+";
+		} else {
+			printf("							".'<path d="M200,200 L%.2f,%.2f A%d,%d 0 %d 1 %.2f,%.2f Z" fill="%s" stroke="#241f18" stroke-width="2"></path>'."
+",
+			       $x1, $y1, $R, $R, $large, $x2, $y2, $col);
+		}
+	}
+	/* 테두리 전구 */
+	for ($b = 0; $b < 24; $b++) {
+		list($bx, $by) = $deg2xy($b * 15, 191);
+		printf("							".'<circle cx="%.2f" cy="%.2f" r="4.2" fill="%s"></circle>'."
+",
+		       $bx, $by, $b % 2 ? '#f7efdd' : '#e8b13a');
+	}
+	/* 글씨는 중심에서 바깥으로 눕힌다. 얇은 칸에서도 잘리지 않는다. */
+	foreach ($slots as $k => $sl) {
+		$mid = $seg[$k][2];
+		$flip = ($mid > 180);             // 왼쪽 반원에서는 뒤집어야 바로 읽힌다
+		$lx = 200 + 118;
+		$tr = 'rotate('.round($mid - 90, 3).' 200 200)';
+		if ($flip) $tr .= ' rotate(180 '.$lx.' 200)';
+		$nm = $sl['jr_name'];
+		$fs = (mb_strlen($nm, 'UTF-8') > 9) ? 14 : 16;
+		echo "							".'<text class="ev_wt" x="'.$lx.'" y="200" transform="'.$tr.'" font-size="'.$fs.'">'.$esc($nm).'</text>'."
+";
+	}
+?>
+						</svg>
 					</div>
-					<div class="ev_hub" aria-hidden="true"></div>
+					<div class="ev_hub" aria-hidden="true"><span>林</span></div>
 				</div>
 
-				<button type="button" class="ev_box" id="ev_box" aria-label="가챠 상자 열기">
-					<span class="evb_lid" aria-hidden="true"></span>
-					<span class="evb_body" aria-hidden="true">
-						<svg viewBox="0 0 200 200" aria-hidden="true"><use href="#ck1"></use></svg>
-					</span>
+				<button type="button" class="ev_box" id="ev_box" aria-label="가챠 뽑기">
+					<svg class="evb_art" viewBox="0 0 160 200" aria-hidden="true">
+						<ellipse cx="80" cy="186" rx="56" ry="9" fill="rgba(0,0,0,0.3)"></ellipse>
+						<rect x="26" y="104" width="108" height="76" rx="12" fill="#d9622b" stroke="#241f18" stroke-width="4"></rect>
+						<rect x="26" y="104" width="108" height="14" fill="#241f18"></rect>
+						<circle cx="80" cy="62" r="54" fill="#bfe3ef" stroke="#241f18" stroke-width="4" opacity="0.95"></circle>
+						<g stroke="#241f18" stroke-width="2.5">
+							<circle cx="60" cy="74" r="13" fill="#e8b13a"></circle>
+							<circle cx="92" cy="80" r="13" fill="#2f7346"></circle>
+							<circle cx="78" cy="50" r="13" fill="#c94f5c"></circle>
+							<circle cx="104" cy="54" r="11" fill="#f7efdd"></circle>
+							<circle cx="48" cy="48" r="11" fill="#1c7a87"></circle>
+						</g>
+						<circle cx="80" cy="134" r="16" fill="#f7efdd" stroke="#241f18" stroke-width="4"></circle>
+						<path d="M80,124 L80,144 M70,134 L90,134" stroke="#241f18" stroke-width="4" stroke-linecap="round"></path>
+						<rect x="54" y="156" width="52" height="16" rx="5" fill="#241f18"></rect>
+					</svg>
 					<span class="evb_txt font" data-i18n="event.btn">눌러서 돌리기</span>
 				</button>
 			</div>
 
 			<p class="ev_hand" data-i18n="event.hand">당첨되면 이 화면을 직원에게 보여 주세요</p>
 
+			<div class="ev_prizes">
+				<p class="evp_tit font" data-i18n="event.prizes">TODAY&rsquo;S PRIZES</p>
+				<ul class="evp_list">
+<?php     foreach ($slots as $k => $sl) {
+			$pi = trim($sl['jr_image']);
+			$ps = ($pi !== '' && is_file(jungle_roulette_dir().'/'.$pi)) ? jungle_roulette_url().'/'.rawurlencode($pi) : '';
+?>
+					<li class="evp_item">
+						<span class="evp_pic"<?php echo $ps === '' ? ' data-mark="林"' : '' ?>><?php if ($ps !== '') { ?><img src="<?php echo $esc($ps) ?>" alt="" loading="lazy"><?php } ?></span>
+						<span class="evp_nm"><?php echo $esc($sl['jr_name']) ?></span>
+					</li>
+<?php     } ?>
+				</ul>
+			</div>
+
 			<!-- 결과 -->
 			<div class="ev_result" id="ev_result" hidden>
 				<div class="evr_box">
+					<span class="evr_ribbon font" data-i18n="event.congrats">CONGRATS</span>
 					<div class="evr_pic" id="evr_pic"></div>
 					<strong class="evr_name" id="evr_name"></strong>
 					<p class="evr_msg" id="evr_msg"></p>
