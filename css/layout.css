@@ -515,8 +515,12 @@ a.jp_pic {cursor:pointer;}
 .ev_hub {position:absolute; left:50%; top:50%; width:74px; height:74px; margin:-37px 0 0 -37px; border-radius:50%; background-color:#f7efdd; border:5px solid #241f18; box-shadow:0 4px 12px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; z-index:3;}
 .ev_hub span {font-family:"Black Han Sans", sans-serif; font-size:30px; line-height:1; color:#1f4a35;}
 /* 바늘은 12시에서 아래를 가리킨다. 멈춘 칸을 읽는 기준이다. */
-/* 꼭대기에서 매달린 듯 꺾이게 위쪽을 축으로 잡는다. 못을 지날 때마다 튄다. */
-.ev_pin {position:absolute; left:50%; top:-20px; width:30px; height:44px; margin-left:-15px; z-index:4; background-color:#e8b13a; border:3px solid #241f18; border-radius:6px 6px 50% 50%; clip-path:polygon(0 0, 100% 0, 100% 52%, 50% 100%, 0 52%); transform-origin:50% 12%; transition:transform 0.07s ease-out;}
+/* 바늘. 꼭대기 꼭지를 축으로 꺾이게 해서 못을 지날 때마다 튄다. */
+.ev_pin {position:absolute; left:50%; top:-26px; width:44px; height:62px; margin-left:-22px; z-index:4; overflow:visible; transform-origin:50% 15%; transition:transform 0.07s ease-out;}
+.evp_shadow {fill:rgba(36,31,24,0.45);}
+.evp_leaf {fill:#e8b13a; stroke:#241f18; stroke-width:3.4; stroke-linejoin:round;}
+.evp_rib {fill:none; stroke:#241f18; stroke-width:1.8; stroke-linecap:round; opacity:0.38;}
+.evp_cap {fill:#f7efdd; stroke:#241f18; stroke-width:3.4;}
 
 /* ── 돌리기 버튼 : 나뭇잎 한 장 ── */
 .ev_box {position:relative; display:inline-block; padding:0; background:none; border:0; cursor:pointer; line-height:0;}

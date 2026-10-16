@@ -50,7 +50,15 @@ $COL = $g5['jungle_roulette_colors'];
 <?php } else { ?>
 			<div class="ev_stage">
 				<div class="ev_wheelbox">
-					<i class="ev_pin" aria-hidden="true"></i>
+					<?php /* 바늘도 잎 모양으로. 아래 버튼과 결을 맞추고, 끝이 뾰족해
+					         어느 칸에 섰는지 분명히 보인다. */ ?>
+					<svg class="ev_pin" viewBox="0 0 44 62" aria-hidden="true">
+						<path class="evp_shadow" d="M22,60 C7,43 5,22 22,7 C39,22 37,43 22,60 Z"></path>
+						<path class="evp_leaf" d="M22,58 C8,42 6,22 22,6 C38,22 36,42 22,58 Z"></path>
+						<path class="evp_rib" d="M22,13 L22,50"></path>
+						<path class="evp_rib" d="M22,26 L14,20 M22,26 L30,20 M22,38 L15,32 M22,38 L29,32"></path>
+						<circle class="evp_cap" cx="22" cy="9" r="7"></circle>
+					</svg>
 					<div class="ev_wheel" id="ev_wheel">
 						<svg viewBox="0 0 400 400" aria-hidden="true">
 							<circle cx="200" cy="200" r="196" fill="#241f18"></circle>
