@@ -671,3 +671,131 @@ if (!function_exists('jungle_save_image')) {
 		return $name;
 	}
 }
+
+/* ==========================================================================
+   굿즈 : 매장에서 파는 물건을 소개하는 별도 페이지(/goods.php)
+   영카트의 상품 표를 쓰지 않습니다. 영카트 상품 등록 화면은 배송비·재고·
+   옵션·원산지까지 수십 칸이라, 매장에서만 파는 물건 몇 개에는 과합니다.
+   메뉴판·시그니처·시즌과 같은 모양의 간단한 표를 따로 둡니다.
+   ========================================================================== */
+define('G5_JUNGLE_GOODS_TABLE', G5_TABLE_PREFIX.'jungle_goods');
+
+if (!function_exists('jungle_goods_dir')) {
+	function jungle_goods_dir() { return G5_DATA_PATH.'/jungle_goods'; }
+	function jungle_goods_url() { return G5_DATA_URL.'/jungle_goods'; }
+}
+
+if (!function_exists('jungle_goods_setup')) {
+	function jungle_goods_setup()
+	{
+		static $tried = false;
+		if ($tried) return;
+		$tried = true;
+		try {
+			sql_query(" CREATE TABLE IF NOT EXISTS ".G5_JUNGLE_GOODS_TABLE." (
+			              jg_id        int(11)      NOT NULL AUTO_INCREMENT,
+			              jg_order     int(11)      NOT NULL DEFAULT 0,
+			              jg_image     varchar(255) NOT NULL DEFAULT '',
+			              jg_name_ko   varchar(255) NOT NULL DEFAULT '',
+			              jg_name_en   varchar(255) NOT NULL DEFAULT '',
+			              jg_name_ja   varchar(255) NOT NULL DEFAULT '',
+			              jg_desc_ko   varchar(255) NOT NULL DEFAULT '',
+			              jg_desc_en   varchar(255) NOT NULL DEFAULT '',
+			              jg_desc_ja   varchar(255) NOT NULL DEFAULT '',
+			              jg_price     varchar(50)  NOT NULL DEFAULT '',
+			              jg_price_was varchar(50)  NOT NULL DEFAULT '',
+			              jg_note      varchar(255) NOT NULL DEFAULT '',
+			              jg_badge     varchar(20)  NOT NULL DEFAULT '',
+			              jg_use       tinyint(4)   NOT NULL DEFAULT 1,
+			              PRIMARY KEY (jg_id),
+			              KEY jg_order (jg_order)
+			            ) ", false);
+		} catch (Exception $e) {}
+	}
+}
+
+$g5['jungle_goods_badge'] = array(
+	''        => '없음',
+	'new'     => 'NEW',
+	'sale'    => '할인',
+	'soldout' => '품절',
+);
+
+/**
+ * 굿즈를 순서대로 읽습니다.
+ * 사진이 사라진 줄은 화면에서 건너뜁니다.
+ */
+if (!function_exists('jungle_goods_rows')) {
+	function jungle_goods_rows($only_use = true)
+	{
+		static $cache = array();
+		$ck = $only_use ? 'use' : 'all';
+		if (isset($cache[$ck])) return $cache[$ck];
+
+		$cond = $only_use ? " WHERE jg_use = 1 " : " ";
+		$sql  = " SELECT * FROM ".G5_JUNGLE_GOODS_TABLE.$cond." ORDER BY jg_order ASC, jg_id ASC ";
+		$res = sql_query($sql, false);
+		if (!$res) { jungle_goods_setup(); $res = sql_query($sql, false); }
+		if ($res) { jungle_goods_seed(); $res = sql_query($sql, false); }
+
+		$out = array();
+		if ($res) {
+			while ($row = sql_fetch_array($res)) {
+				if ($only_use) {
+					$f = trim($row['jg_image']);
+					if ($f === '' || !is_file(jungle_goods_dir().'/'.$f)) continue;
+				}
+				$out[] = $row;
+			}
+		}
+		return $cache[$ck] = $out;
+	}
+}
+
+/**
+ * 처음 한 번, 인스타에 올리신 굿즈 다섯 가지를 넣어 둡니다.
+ * 사진은 FTP 로 먼저 올려 두고 줄만 만듭니다. 빈 화면부터 보시지 않도록
+ * 둔 장치이고, 이후에는 관리자에서 고치시면 됩니다.
+ */
+if (!function_exists('jungle_goods_seed')) {
+	function jungle_goods_seed()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_goods_seeded';
+		if (is_file($flag)) return;
+
+		$cnt = sql_fetch(" SELECT COUNT(*) AS cnt FROM ".G5_JUNGLE_GOODS_TABLE, false);
+		if (!$cnt) return;                       // 표를 못 읽었으면 표시도 남기지 않는다
+
+		if ((int)$cnt['cnt'] === 0) {
+			$seed = array(
+				array('bandana.jpg', 10, '정글 손수건 반다나', 'Jungle Bandana', 'ジャングル バンダナ',
+				      '10,000원', '', '2장 16,000원', 'new',
+				      '4가지 색상 (검, 흰, 파, 녹)', 'Four colours: black, white, blue, green', '4色（黒・白・青・緑）'),
+				array('minisign.jpg', 20, '정글 미니간판', 'Jungle Mini Sign', 'ジャングル ミニ看板',
+				      '10,000원', '12,000', '건전지 포함', 'sale',
+				      '진짜 불이 들어오는 미니 간판', 'A mini light-up sign, batteries included', '本当に光るミニ看板（電池付き）'),
+				array('roomspray.jpg', 30, '정글 룸스프레이', 'Jungle Room Spray', 'ジャングル ルームスプレー',
+				      '15,000원', '20,000', '', 'sale',
+				      '정글에서 직접 조향한 향', 'Blended in-house at Jungle', 'ジャングルで調香したオリジナルの香り'),
+				array('keyring.jpg', 40, 'SEOUL 레인보우 키링·마그넷', 'SEOUL Rainbow Keyring & Magnet', 'SEOUL レインボー キーリング・マグネット',
+				      '7,000원', '', '', '',
+				      '남산타워·광화문 등 여러 모양', 'Several designs including N Seoul Tower', '南山タワーなど、いくつかの絵柄'),
+				array('coaster.jpg', 50, '정글 코스터 2개', 'Jungle Coasters, set of 2', 'ジャングル コースター 2枚',
+				      '5,000원', '6,000', '2개 한 묶음', 'sale',
+				      '몬스테라 모양, 미끄러지지 않아요', 'Monstera shaped, non-slip', 'モンステラの形、すべりにくい'),
+			);
+			foreach ($seed as $g) {
+				if (!is_file(jungle_goods_dir().'/'.$g[0])) continue;
+				$col = array('jg_image'=>$g[0], 'jg_name_ko'=>$g[2], 'jg_name_en'=>$g[3], 'jg_name_ja'=>$g[4],
+				             'jg_price'=>$g[5], 'jg_price_was'=>$g[6], 'jg_note'=>$g[7], 'jg_badge'=>$g[8],
+				             'jg_desc_ko'=>$g[9], 'jg_desc_en'=>$g[10], 'jg_desc_ja'=>$g[11]);
+				$set = array();
+				foreach ($col as $k => $v) $set[] = " $k = '".sql_escape_string($v)."' ";
+				$set[] = " jg_order = '".(int)$g[1]."' ";
+				$set[] = " jg_use = '1' ";
+				sql_query(" INSERT INTO ".G5_JUNGLE_GOODS_TABLE." SET ".implode(',', $set), false);
+			}
+		}
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}

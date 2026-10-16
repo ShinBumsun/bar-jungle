@@ -20,6 +20,7 @@ MAP = [
     ('gnuboard/theme/bar-jungle', '/www/theme/bar-jungle'),
     ('gnuboard/adm',              '/www/adm'),
     ('gnuboard/extend',           '/www/extend'),
+    ('gnuboard/root',             '/www'),          # goods.php 처럼 최상위에 두는 파일
 ]
 MANIFEST = '/www/data/.deploy-manifest.json'
 SKIP_NAMES = {'.DS_Store', 'Thumbs.db'}

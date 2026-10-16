@@ -6,4 +6,5 @@ $menu['menu950'] = array(
 	array('950100', '메뉴판 관리', G5_ADMIN_URL.'/jungle_menu.php', 'jungle_menu'),
 	array('950200', '시그니처 관리', G5_ADMIN_URL.'/jungle_sig.php', 'jungle_sig'),
 	array('950300', '시즌 메뉴 관리', G5_ADMIN_URL.'/jungle_season.php', 'jungle_season'),
+	array('950400', '굿즈 관리', G5_ADMIN_URL.'/jungle_goods.php', 'jungle_goods'),
 );

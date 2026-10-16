@@ -407,6 +407,53 @@ html {scroll-snap-type:y proximity;}
 .vir_txt p:last-child, .vir_txt address + p {margin-top:8px; color:#f7efdd; opacity:0.6;}
 /* Visit E */
 
+/* ==========================================================================
+   굿즈 페이지 (/goods.php)
+   메인과 따로 도는 페이지라 여기 규칙은 메인에 닿지 않는다.
+   ========================================================================== */
+#wrap.sub {background-color:#1f4a35;}
+.sub_header {position:fixed;}
+.sub_header .hg_list {gap:28px;}
+.gd_sec {background-color:#1f4a35; padding:150px 0 110px;}
+.gd_wrap {position:relative; width:1400px; max-width:88%; margin:0 auto; z-index:3;}
+.gd_eyebrow {display:flex; align-items:center; gap:10px; font-size:15px; letter-spacing:0.06em; color:#f7efdd; opacity:0.6; margin-bottom:22px;}
+.gd_eyebrow .font {font-size:19px; letter-spacing:0.12em; color:#e8b13a; opacity:1;}
+.gd_title {margin-bottom:18px;}
+.gd_hand {font-family:"Nanum Pen Script", cursive; font-size:23px; color:#a9c95d; margin-bottom:54px;}
+.gd_empty {font-size:17px; color:#f7efdd; opacity:0.6;}
+
+.gd_list {display:grid; grid-template-columns:repeat(4, 1fr); gap:34px;}
+.gd_item {background-color:#f7efdd; border:2px solid #241f18; box-shadow:10px 10px 0 rgba(36,31,24,0.9); overflow:hidden; transition:transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s ease;}
+.gd_item:hover {transform:translate(-6px,-6px); box-shadow:17px 17px 0 rgba(36,31,24,0.9);}
+
+/* 홍보 포스터는 세로로 길다. 정사각으로 자르면 위쪽 글자가 어정쩡하게 잘린다.
+   3:4 로 잡아 포스터가 거의 그대로 들어가게 한다.
+   aspect-ratio 는 구형 기기에서 무시되므로 padding 비율을 쓴다. */
+.gdi_pic {position:relative; width:100%; border-bottom:2px solid #241f18; overflow:hidden; background-color:#17422a;}
+.gdi_pic::before {content:""; display:block; width:100%; padding-top:133.33%;}
+.gdi_pic img {position:absolute; left:0; top:0; width:100%; height:100%; object-fit:cover; display:block;}
+.gdi_badge {position:absolute; left:0; top:14px; padding:6px 14px; border:2px solid #241f18; border-left:0; font-family:"Anton", sans-serif; font-size:13px; letter-spacing:0.1em; color:#241f18; background-color:#e8b13a;}
+.gdi_badge.b_sale {background-color:#d9622b; color:#f7efdd;}
+.gdi_badge.b_soldout {background-color:#241f18; color:#f7efdd;}
+.gd_item.is_sold .gdi_pic img {filter:grayscale(0.85); opacity:0.5;}
+
+.gdi_txt {padding:20px 20px 24px;}
+.gdi_name {display:block; font-size:18px; font-weight:700; line-height:1.4; color:#241f18;}
+.gdi_price {margin-top:10px; display:flex; align-items:baseline; gap:8px;}
+.gdi_price s {font-size:14px; color:#241f18; opacity:0.42;}
+.gdi_price b {font-size:21px; letter-spacing:0.03em; color:#1f4a35;}
+.gdi_note {margin-top:7px; font-size:13px; color:#d9622b;}
+.gdi_desc {margin-top:9px; font-size:13px; line-height:1.6; color:#241f18; opacity:0.6;}
+
+/* 어떻게 사는지 */
+.gd_how {margin-top:68px; padding:38px 40px; background-color:rgba(247,239,221,0.08); border:2px dashed rgba(247,239,221,0.4); text-align:center;}
+.gdh_tit {display:block; font-size:19px; font-weight:700; color:#e8b13a; margin-bottom:12px;}
+.gdh_txt {font-size:16px; line-height:1.75; color:#f7efdd; opacity:0.8;}
+.gdh_btn {display:inline-flex; align-items:center; gap:12px; margin-top:26px; padding:18px 34px; background-color:#e8b13a; border:2px solid #e8b13a; border-radius:999px; font-size:16px; font-weight:700; color:#241f18; transition:0.35s;}
+.gdh_btn i {display:block; width:9px; height:9px; border-top:2px solid #241f18; border-right:2px solid #241f18; transform:rotate(45deg); transition:0.35s;}
+.gdh_btn:hover {background-color:transparent; color:#e8b13a;}
+.gdh_btn:hover i {border-color:#e8b13a; transform:rotate(45deg) translate(4px,-4px);}
+
 /* Footer S */
 #footer {position:relative; padding:96px 0 130px; background-color:#241f18; overflow:hidden; scroll-snap-align:start;}
 .f_wrap {position:relative; z-index:3; width:1400px; max-width:88%; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:30px;}
@@ -613,6 +660,8 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.h_util {gap:12px;}
 	.mt_btn {padding:11px 22px; font-size:15px;}
 	.mp_panel .mg_list {column-gap:44px;}
+	.gd_list {grid-template-columns:repeat(2, 1fr); gap:24px;}
+	.gd_sec {padding:120px 0 90px;}
 	.ms_item {flex:0 1 calc((100% - 24px) / 2); max-width:420px;}
 	.ms_list {gap:24px;}
 	#header {height:82px; padding:0 30px;}
@@ -736,6 +785,12 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	.mt_btn {padding:9px 15px; font-size:12.5px; letter-spacing:0.08em;}
 	.mt_star {right:-7px; top:-9px; width:22px; height:22px;}
 	.mp_panel .mg_list {columns:1;}
+	.gd_list {grid-template-columns:1fr; gap:22px;}
+	.gd_sec {padding:104px 0 70px;}
+	.gd_hand {margin-bottom:34px; font-size:20px;}
+	.gd_how {margin-top:46px; padding:28px 20px;}
+	.gdh_btn {padding:15px 26px; font-size:15px;}
+	.sub_header .hg_list {gap:18px;}
 	.ms_list {gap:22px;}
 	.ms_item, .ms_item:only-child {flex:0 1 100%; max-width:100%;}
 	.ms_btn {padding:10px 10px 12px; box-shadow:7px 7px 0 rgba(36,31,24,0.9);}
