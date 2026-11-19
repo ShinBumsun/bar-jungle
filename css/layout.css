@@ -384,6 +384,8 @@ html {scroll-snap-type:y proximity;}
 .g_more {display:inline-flex; align-items:center; gap:12px; margin-top:44px; padding:19px 34px; border:2px solid #241f18; border-radius:999px; font-size:16px; color:#241f18; background-color:#f7efdd; transition:0.35s;}
 .g_more .font {font-size:18px; letter-spacing:0.08em; color:#1f4a35; transition:0.35s;}
 .g_more i {display:block; width:9px; height:9px; border-top:2px solid #241f18; border-right:2px solid #241f18; transform:rotate(45deg); transition:0.35s;}
+/* 좁은 화면에서 두 줄이 될 때 낱말 가운데가 끊기지 않게, 줄 간격도 넉넉히 */
+.g_more span {word-break:keep-all; line-height:1.5;}
 .g_more {border-color:rgba(247,239,221,0.45); background-color:transparent; color:#f7efdd;}
 .g_more .font {color:#e8b13a;}
 .g_more i {border-top-color:#f7efdd; border-right-color:#f7efdd;}
