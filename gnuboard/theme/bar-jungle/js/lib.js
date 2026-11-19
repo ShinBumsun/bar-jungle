@@ -295,6 +295,7 @@
 		if (!v) { return ''; }
 		if (lang === 'en') { return v.replace(/\s*원$/, ' KRW'); }
 		if (lang === 'ja') { return v.replace(/\s*원$/, 'ウォン'); }
+		if (lang === 'zh') { return v.replace(/\s*원$/, ' 韓元'); }
 		return v;
 	}
 
