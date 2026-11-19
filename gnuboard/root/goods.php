@@ -31,6 +31,7 @@ include_once(G5_THEME_PATH.'/lib/svg_defs.php');
 				<button type="button" class="hl_btn on" data-lang="ko" title="Language_한국어">KOR</button>
 				<button type="button" class="hl_btn" data-lang="en" title="Language_English">ENG</button>
 				<button type="button" class="hl_btn" data-lang="ja" title="Language_日本語">JPN</button>
+				<button type="button" class="hl_btn" data-lang="zh" title="Language_繁體中文">TWN</button>
 			</div>
 		</div>
 	</header>

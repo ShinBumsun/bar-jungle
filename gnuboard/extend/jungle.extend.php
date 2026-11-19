@@ -40,6 +40,7 @@ $g5['jungle_tab_notice'] = array(
 		'ko' => '모든 샷 하이볼로 주문시 +2,000원',
 		'en' => 'Any shot ordered as a highball, +2,000',
 		'ja' => 'すべてのショットをハイボールでご注文の場合 +2,000',
+		'zh' => '所有 SHOT 改做 Highball，加 +2,000',
 	),
 );
 
@@ -58,22 +59,27 @@ $g5['jungle_cat_i18n'] = array(
 	'SHOT COCKTAIL · 2샷 주문 시 할인' => array(
 		'en' => 'SHOT COCKTAIL · Discount when you order 2',
 		'ja' => 'SHOT COCKTAIL · 2ショット注文で割引',
+		'zh' => 'SHOT COCKTAIL · 點 2 杯享優惠',
 	),
 	'정글 추천 위스키 · Chapter 1 입문' => array(
 		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 1 Beginner',
 		'ja' => 'ジャングルおすすめウイスキー · Chapter 1 入門',
+		'zh' => '叢林精選威士忌 · Chapter 1 入門',
 	),
 	'정글 추천 위스키 · Chapter 2 오크향 가득한 버번' => array(
 		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 2 Bourbon, rich with oak',
 		'ja' => 'ジャングルおすすめウイスキー · Chapter 2 オークの香り豊かなバーボン',
+		'zh' => '叢林精選威士忌 · Chapter 2 橡木香濃郁的波本',
 	),
 	'정글 추천 위스키 · Chapter 3 스모키한 피트' => array(
 		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 3 Smoky peat',
 		'ja' => 'ジャングルおすすめウイスキー · Chapter 3 スモーキーなピート',
+		'zh' => '叢林精選威士忌 · Chapter 3 煙燻泥煤',
 	),
 	'정글 추천 위스키 · Chapter 4 50도 이상 하이 프루프' => array(
 		'en' => 'JUNGLE\'S WHISKY PICKS · Chapter 4 High proof, 50% ABV and up',
 		'ja' => 'ジャングルおすすめウイスキー · Chapter 4 50度以上のハイプルーフ',
+		'zh' => '叢林精選威士忌 · Chapter 4 50 度以上高酒精度',
 	),
 );
 
@@ -117,6 +123,7 @@ if (!function_exists('jungle_signature_cards')) {
 if (!function_exists('jungle_menu_tree')) {
 	function jungle_menu_tree()
 	{
+		jungle_zh_columns();
 		global $g5;
 
 		$tabs = $g5['jungle_tabs'];
@@ -741,6 +748,7 @@ if (!function_exists('jungle_goods_rows')) {
 		if ($res) { jungle_goods_seed(); $res = sql_query($sql, false); }
 		if ($res) { jungle_goods_note_i18n(); $res = sql_query($sql, false); }
 		if ($res) { jungle_goods_desc_trim();  $res = sql_query($sql, false); }
+		jungle_zh_columns();
 
 		$out = array();
 		if ($res) {
@@ -764,6 +772,36 @@ if (!function_exists('jungle_goods_rows')) {
 /**
  * 가격 밑 한 줄도 세 언어로. 표를 먼저 만든 뒤에 덧댄 칸이라 따로 옮깁니다.
  */
+/**
+ * 대만어(번체) 칸. 표를 만든 뒤에 덧댄 것이라 따로 옮깁니다.
+ * 이미 있으면 ALTER 가 실패하는데, 멈추지 않는 질의라 그냥 지나갑니다.
+ */
+if (!function_exists('jungle_zh_columns')) {
+	function jungle_zh_columns()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_zh_columns';
+		if (is_file($flag)) return;
+
+		$add = array(
+			G5_JUNGLE_MENU_TABLE  => array('jm_name_zh' => 'jm_name_ja', 'jm_desc_zh' => 'jm_desc_ja'),
+			G5_JUNGLE_SIG_TABLE   => array('jm_name_zh' => 'jm_name_ja', 'jm_desc_zh' => 'jm_desc_ja'),
+			G5_JUNGLE_GOODS_TABLE => array('jg_name_zh' => 'jg_name_ja', 'jg_desc_zh' => 'jg_desc_ja',
+			                               'jg_note_zh' => 'jg_note_ja'),
+		);
+		$ok = true;
+		foreach ($add as $tbl => $cols) {
+			foreach ($cols as $col => $after) {
+				$type = (strpos($col, '_desc_') !== false) ? 'text' : "varchar(255) NOT NULL DEFAULT ''";
+				sql_query(" ALTER TABLE $tbl ADD $col $type AFTER $after ", false);
+			}
+			/* 줄이 하나도 없어도 참이어야 하므로 값이 아니라 질의가 서는지만 본다 */
+			$k = array_keys($cols);
+			if (sql_query(" SELECT ".implode(',', $k)." FROM $tbl WHERE 1=0 ", false) === false) $ok = false;
+		}
+		if ($ok) @file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}
+
 if (!function_exists('jungle_goods_note_i18n')) {
 	function jungle_goods_note_i18n()
 	{

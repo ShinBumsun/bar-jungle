@@ -43,21 +43,25 @@ if (!function_exists('jungle_menu_item')) {
 		$ko  = isset($it['jm_name_ko']) ? $it['jm_name_ko'] : '';
 		$en  = isset($it['jm_name_en']) ? $it['jm_name_en'] : '';
 		$ja  = isset($it['jm_name_ja']) ? $it['jm_name_ja'] : '';
+		$zh  = isset($it['jm_name_zh']) ? $it['jm_name_zh'] : '';
 		$vol = isset($it['jm_vol']) ? $it['jm_vol'] : '';
 		$d_ko = isset($it['jm_desc_ko']) ? $it['jm_desc_ko'] : '';
 		$d_en = isset($it['jm_desc_en']) ? $it['jm_desc_en'] : '';
 		$d_ja = isset($it['jm_desc_ja']) ? $it['jm_desc_ja'] : '';
+		$d_zh = isset($it['jm_desc_zh']) ? $it['jm_desc_zh'] : '';
 
 		$name = $ko !== '' ? $ko : $en;
 
 		$attr = ' data-jm="'.(int)$it['jm_id'].'"';
 		$attr .= ' data-nm-ko="'.$esc($name).'"';
 		if ($ja !== '') $attr .= ' data-nm-ja="'.$esc($ja).'"';
+		if ($zh !== '') $attr .= ' data-nm-zh="'.$esc($zh).'"';
 		if ($en !== '') $attr .= ' data-nm-en="'.$esc($en).'"';
 		if ($vol !== '') $attr .= ' data-nm-vol="'.$esc($vol).'"';
 		if ($d_ko !== '') $attr .= ' data-ds-ko="'.$esc($d_ko).'"';
 		if ($d_en !== '') $attr .= ' data-ds-en="'.$esc($d_en).'"';
 		if ($d_ja !== '') $attr .= ' data-ds-ja="'.$esc($d_ja).'"';
+		if ($d_zh !== '') $attr .= ' data-ds-zh="'.$esc($d_zh).'"';
 
 		$html  = '<li class="mgl_item"'.$attr.'>'."\n";
 		$html .= "\t".'<div class="mgli_row">'."\n";
@@ -93,7 +97,9 @@ if (!function_exists('jungle_card_item')) {
 		$esc = function ($v) { return htmlspecialchars($v, ENT_QUOTES, 'UTF-8'); };
 
 		$ko = $c['jm_name_ko']; $en = $c['jm_name_en']; $ja = $c['jm_name_ja'];
+		$zh = isset($c['jm_name_zh']) ? $c['jm_name_zh'] : '';
 		$d_ko = $c['jm_desc_ko']; $d_en = $c['jm_desc_en']; $d_ja = $c['jm_desc_ja'];
+		$d_zh = isset($c['jm_desc_zh']) ? $c['jm_desc_zh'] : '';
 		$icon  = $c['jm_card_icon'] ? $c['jm_card_icon'] : 'ck1';
 		$color = $c['jm_card_color'] ? $c['jm_card_color'] : 'c1';
 		$delay = array('', ' f_delay03', ' f_delay06', ' f_delay09', ' f_delay12');
@@ -102,10 +108,12 @@ if (!function_exists('jungle_card_item')) {
 		$attr = ' data-jm="'.(int)$c['jm_id'].'" data-card="1"';
 		$attr .= ' data-nm-ko="'.$esc($ko).'"';
 		if ($ja !== '')   $attr .= ' data-nm-ja="'.$esc($ja).'"';
+		if ($zh !== '')   $attr .= ' data-nm-zh="'.$esc($zh).'"';
 		if ($en !== '')   $attr .= ' data-nm-en="'.$esc($en).'"';
 		if ($d_ko !== '') $attr .= ' data-ds-ko="'.$esc($d_ko).'"';
 		if ($d_en !== '') $attr .= ' data-ds-en="'.$esc($d_en).'"';
 		if ($d_ja !== '') $attr .= ' data-ds-ja="'.$esc($d_ja).'"';
+		if ($d_zh !== '') $attr .= ' data-ds-zh="'.$esc($d_zh).'"';
 
 		$img = isset($c['jm_image']) ? trim($c['jm_image']) : '';
 		if ($img !== '' && is_file(jungle_sig_dir().'/'.$img)) {

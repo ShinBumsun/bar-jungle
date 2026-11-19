@@ -18,6 +18,9 @@
 .font {font-family:"Anton", "Apple SD Gothic Neo", sans-serif; font-weight:400; letter-spacing:0.02em;}
 .font2 {font-family:"Black Han Sans", "Apple SD Gothic Neo", sans-serif; font-weight:400;}
 html[lang="ja"] .font2 {font-family:"Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif;}
+/* 한글 서체에는 대만에서 쓰는 한자가 거의 없어 네모(두부)로 떨어진다 */
+html[lang="zh"] .font2 {font-family:"Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; font-weight:900;}
+html[lang="zh"] body, html[lang="zh"] input, html[lang="zh"] button, html[lang="zh"] select, html[lang="zh"] textarea {font-family:"Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Apple SD Gothic Neo", sans-serif;}
 .font3 {font-family:"Nanum Pen Script", cursive; font-weight:400;}
 
 .cm {color:#1f4a35 !important;}
@@ -818,7 +821,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 	#header.fix .h_logo img {height:30px;}
 	.h_util {gap:10px;}
 	.h_lang {padding:3px;}
-	.hl_btn {padding:6px 9px; font-size:10px; letter-spacing:0.06em;}
+	.hl_btn {padding:6px 7px; font-size:10px; letter-spacing:0.04em;}
 	.het_logo img {width:min(52vw, calc(var(--vh) * 44));}
 	.a_notice {margin-top:40px;}
 	.v_map {--ratio:75%;}
@@ -967,7 +970,7 @@ html[lang="ko"] .an_tit, html[lang="ko"] .an_txt {word-break:keep-all;}
 @media all and (max-width:480px) {
 	.h_logo img {height:25px;}
 	.het_logo img {width:min(74vw, calc(var(--vh) * 46));}
-	.hl_btn {padding:5px 7px;}
+	.hl_btn {padding:5px 5px; letter-spacing:0;}
 	#header {padding:0 18px;}
 	.h_logo span {font-size:14px;}
 	.h_logo em {font-size:22px;}

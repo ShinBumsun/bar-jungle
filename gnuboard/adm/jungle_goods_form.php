@@ -10,7 +10,8 @@ $jg_id = isset($_GET['jg_id']) ? (int)$_GET['jg_id'] : 0;
 
 $jg = array('jg_id'=>0,'jg_order'=>0,'jg_image'=>'','jg_name_ko'=>'','jg_name_en'=>'','jg_name_ja'=>'',
 	'jg_desc_ko'=>'','jg_desc_en'=>'','jg_desc_ja'=>'','jg_price'=>'','jg_price_was'=>'',
-	'jg_note'=>'','jg_note_en'=>'','jg_note_ja'=>'','jg_badge'=>'','jg_use'=>1);
+	'jg_note'=>'','jg_note_en'=>'','jg_note_ja'=>'','jg_note_zh'=>'',
+	'jg_name_zh'=>'','jg_desc_zh'=>'','jg_badge'=>'','jg_use'=>1);
 
 if ($w === 'u') {
 	$row = sql_fetch(" SELECT * FROM ".G5_JUNGLE_GOODS_TABLE." WHERE jg_id = '$jg_id' ", false);
@@ -59,6 +60,10 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		<td><input type="text" name="jg_name_ja" value="<?php echo get_text($jg['jg_name_ja']) ?>" id="jg_name_ja" class="frm_input" size="50"></td>
 	</tr>
 	<tr>
+		<th scope="row"><label for="jg_name_zh">대만어 이름</label></th>
+		<td><input type="text" name="jg_name_zh" value="<?php echo get_text($jg['jg_name_zh']) ?>" id="jg_name_zh" class="frm_input" size="50"></td>
+	</tr>
+	<tr>
 		<th scope="row"><label for="jg_price">가격 <strong class="sound_only">필수</strong></label></th>
 		<td>
 			<input type="text" name="jg_price" value="<?php echo get_text($jg['jg_price']) ?>" id="jg_price" required class="frm_input required" size="20">
@@ -93,6 +98,10 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		</td>
 	</tr>
 	<tr>
+		<th scope="row"><label for="jg_note_zh">가격 밑 한 줄 (대만어)</label></th>
+		<td><input type="text" name="jg_note_zh" value="<?php echo get_text($jg['jg_note_zh']) ?>" id="jg_note_zh" class="frm_input" size="50"></td>
+	</tr>
+	<tr>
 		<th scope="row"><label for="jg_badge">뱃지</label></th>
 		<td>
 			<select name="jg_badge" id="jg_badge">
@@ -114,6 +123,10 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 	<tr>
 		<th scope="row"><label for="jg_desc_ja">일본어 설명</label></th>
 		<td><input type="text" name="jg_desc_ja" value="<?php echo get_text($jg['jg_desc_ja']) ?>" id="jg_desc_ja" class="frm_input" size="60"></td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="jg_desc_zh">대만어 설명</label></th>
+		<td><input type="text" name="jg_desc_zh" value="<?php echo get_text($jg['jg_desc_zh']) ?>" id="jg_desc_zh" class="frm_input" size="60"></td>
 	</tr>
 	<tr>
 		<th scope="row"><label for="jg_order">순서</label></th>

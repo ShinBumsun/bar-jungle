@@ -8,15 +8,15 @@ $w     = isset($_GET['w']) ? $_GET['w'] : '';
 $jm_id = isset($_GET['jm_id']) ? (int)$_GET['jm_id'] : 0;
 
 $jm = array('jm_id'=>0,'jm_tab'=>'bottle','jm_cat'=>'','jm_order'=>0,
-	'jm_name_ko'=>'','jm_name_en'=>'','jm_name_ja'=>'',
-	'jm_desc_ko'=>'','jm_desc_en'=>'','jm_desc_ja'=>'',
+	'jm_name_ko'=>'','jm_name_en'=>'','jm_name_ja'=>'','jm_name_zh'=>'',
+	'jm_desc_ko'=>'','jm_desc_en'=>'','jm_desc_ja'=>'','jm_desc_zh'=>'',
 	'jm_price'=>'','jm_alc'=>0,'jm_vol'=>'','jm_note'=>'','jm_meter'=>'','jm_use'=>1,
 	'jm_card'=>0,'jm_card_icon'=>'ck1','jm_card_color'=>'c1');
 
 if ($w === 'u') {
 	$row = sql_fetch(" SELECT * FROM ".G5_JUNGLE_MENU_TABLE." WHERE jm_id = '$jm_id' ");
 	if (!$row['jm_id']) alert('존재하지 않는 항목입니다.', './jungle_menu.php');
-	$jm = $row;
+	$jm = array_merge($jm, $row);   // 나중에 덧댄 칸이 아직 없을 수도 있다
 }
 
 $g5['title'] = '메뉴 항목 '.($w === 'u' ? '수정' : '등록');
@@ -70,6 +70,13 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		</td>
 	</tr>
 	<tr>
+		<th scope="row"><label for="jm_name_zh">대만어명</label></th>
+		<td>
+			<input type="text" name="jm_name_zh" value="<?php echo get_text($jm['jm_name_zh']) ?>" id="jm_name_zh" class="frm_input" size="50">
+			<span class="frm_info">비우면 한글명이 그대로 나옵니다. 영문명은 옆에 함께 붙습니다.</span>
+		</td>
+	</tr>
+	<tr>
 		<th scope="row"><label for="jm_desc_ko">한국어 설명</label></th>
 		<td><textarea name="jm_desc_ko" id="jm_desc_ko" class="frm_input" rows="3"><?php echo get_text($jm['jm_desc_ko']) ?></textarea></td>
 	</tr>
@@ -85,6 +92,12 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 		<td>
 			<textarea name="jm_desc_ja" id="jm_desc_ja" class="frm_input" rows="3"><?php echo get_text($jm['jm_desc_ja']) ?></textarea>
 			<span class="frm_info">비우면 일본어 화면에서 설명 줄이 나오지 않습니다.</span>
+		</td>
+	</tr>
+	<tr>
+		<th scope="row"><label for="jm_desc_zh">대만어 설명</label></th>
+		<td>
+			<textarea name="jm_desc_zh" id="jm_desc_zh" class="frm_input" rows="3"><?php echo get_text($jm['jm_desc_zh']) ?></textarea>
 		</td>
 	</tr>
 	<tr>

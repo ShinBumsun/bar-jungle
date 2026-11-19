@@ -250,8 +250,10 @@
 			var li = menuItems[i];
 			var nameEl = li.querySelector('.mgli_name');
 			if (nameEl) {
-				var ja = li.getAttribute('data-nm-ja');
-				var primary = (lang === 'ja' && ja) ? ja : (li.getAttribute('data-nm-ko') || '');
+				/* 영문명은 아래에서 따로 붙으므로, 큰 글씨는 한국어 아니면 그 언어의 이름.
+				   번역이 없으면 한국어를 두고 영문명이 옆에서 받쳐 준다. */
+				var alt = (lang === 'ko' || lang === 'en') ? null : li.getAttribute('data-nm-' + lang);
+				var primary = alt || li.getAttribute('data-nm-ko') || '';
 				var en = li.getAttribute('data-nm-en');
 				var vol = li.getAttribute('data-nm-vol');
 				/* 관리자가 넣은 글자가 태그로 해석되지 않도록 DOM 으로 다시 짠다 */
@@ -273,8 +275,8 @@
 			/* 시그니처 카드는 영문명이 크게, 그 아래 한글명(일본어일 땐 일본어명)이 붙는다 */
 			var sub = li.querySelector('.sli_name span');
 			if (sub) {
-				var ja2 = li.getAttribute('data-nm-ja');
-				sub.textContent = (lang === 'ja' && ja2) ? ja2 : (li.getAttribute('data-nm-ko') || '');
+				var alt2 = (lang === 'ko' || lang === 'en') ? null : li.getAttribute('data-nm-' + lang);
+				sub.textContent = alt2 || li.getAttribute('data-nm-ko') || '';
 			}
 			var d = li.querySelector('.mgli_desc') || li.querySelector('.sli_note');
 			if (d) {
@@ -336,12 +338,17 @@
 			i18nEls[i].innerHTML = (lang === 'ko' || !dict[key]) ? koHtml[i] : dict[key];
 		}
 		document.documentElement.setAttribute('lang', lang);
-		/* 일본어 제목용 서체는 용량이 커서, 일본어를 고를 때만 불러온다 */
-		if (lang === 'ja' && !document.getElementById('ja_font')) {
+		/* 제목용 서체는 용량이 커서, 그 언어를 고를 때만 불러온다.
+		   한글 서체에는 일본어 가나도, 대만에서 쓰는 한자도 들어 있지 않다. */
+		var FONT = {
+			ja: 'https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap',
+			zh: 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&display=swap'
+		};
+		if (FONT[lang] && !document.getElementById(lang + '_font')) {
 			var fl = document.createElement('link');
-			fl.id = 'ja_font';
+			fl.id = lang + '_font';
 			fl.rel = 'stylesheet';
-			fl.href = 'https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap';
+			fl.href = FONT[lang];
 			document.head.appendChild(fl);
 		}
 		for (i = 0; i < langBtns.length; i++) {
@@ -361,7 +368,10 @@
 		try { saved = localStorage.getItem('jungle_lang'); } catch (e) {}
 		if (!saved) {
 			var nav = (navigator.language || 'ko').toLowerCase();
-			saved = nav.indexOf('ja') === 0 ? 'ja' : (nav.indexOf('ko') === 0 ? 'ko' : 'en');
+			saved = nav.indexOf('ja') === 0 ? 'ja'
+			      : nav.indexOf('ko') === 0 ? 'ko'
+			      : /^zh\b/.test(nav) ? 'zh'      /* 간체든 번체든 번체 하나만 둔다 */
+			      : 'en';
 		}
 		if (saved !== 'ko') { setLang(saved); }
 	})();

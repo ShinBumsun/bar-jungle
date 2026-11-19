@@ -33,14 +33,17 @@ $f = array(
 	'jg_name_ko'   => $name,
 	'jg_name_en'   => trim($_POST['jg_name_en']),
 	'jg_name_ja'   => trim($_POST['jg_name_ja']),
+	'jg_name_zh'   => isset($_POST['jg_name_zh']) ? trim($_POST['jg_name_zh']) : '',
 	'jg_desc_ko'   => trim($_POST['jg_desc_ko']),
 	'jg_desc_en'   => trim($_POST['jg_desc_en']),
 	'jg_desc_ja'   => trim($_POST['jg_desc_ja']),
+	'jg_desc_zh'   => isset($_POST['jg_desc_zh']) ? trim($_POST['jg_desc_zh']) : '',
 	'jg_price'     => trim($_POST['jg_price']),
 	'jg_price_was' => trim($_POST['jg_price_was']),
 	'jg_note'      => trim($_POST['jg_note']),
 	'jg_note_en'   => trim($_POST['jg_note_en']),
 	'jg_note_ja'   => trim($_POST['jg_note_ja']),
+	'jg_note_zh'   => isset($_POST['jg_note_zh']) ? trim($_POST['jg_note_zh']) : '',
 	'jg_badge'     => $badge,
 );
 $set = array();
