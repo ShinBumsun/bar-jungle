@@ -286,4 +286,32 @@ if (!function_exists('jungle_zh_seed')) {
 	}
 }
 
+/**
+ * 키링 줄은 관리자에서 이름이 바뀌어 있어(SEOUL -> URPRISM) 위에서 놓쳤습니다.
+ * 이름이 또 바뀌어도 걸리도록 이번에는 가운데 토막으로만 찾습니다.
+ */
+if (!function_exists('jungle_zh_seed_keyring')) {
+	function jungle_zh_seed_keyring()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_zh_seed_keyring';
+		if (is_file($flag)) return;
+
+		if (sql_query(" SELECT jg_name_zh FROM ".G5_JUNGLE_GOODS_TABLE." WHERE 1=0 ", false) === false) return;
+
+		$row = sql_fetch(" SELECT jg_id, jg_name_ko FROM ".G5_JUNGLE_GOODS_TABLE."
+		                    WHERE jg_name_ko LIKE '%레인보우 키링%' LIMIT 1 ", false);
+		if ($row && !empty($row['jg_id'])) {
+			$nm = preg_replace('/레인보우 키링.*$/u', '', $row['jg_name_ko']);
+			$nm = trim($nm).' 彩虹鑰匙圈・磁鐵';
+			sql_query(" UPDATE ".G5_JUNGLE_GOODS_TABLE."
+			               SET jg_name_zh = '".sql_escape_string(trim($nm))."',
+			                   jg_desc_zh = '南山塔、光化門等多種造型'
+			             WHERE jg_id = '".(int)$row['jg_id']."'
+			               AND (jg_name_zh = '' OR jg_name_zh IS NULL) ", false);
+		}
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}
+
 jungle_zh_seed();
+jungle_zh_seed_keyring();
