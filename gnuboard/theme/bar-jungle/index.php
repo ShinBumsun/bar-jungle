@@ -509,7 +509,12 @@ include_once(G5_PATH.'/head.php');
 					<div class="mp_panel<?php echo $on ? ' on' : '' ?>" id="pn_<?php echo $tab['key'] ?>" role="tabpanel">
 <?php     $tn = isset($g5['jungle_tab_notice'][$tab['key']]) ? $g5['jungle_tab_notice'][$tab['key']] : null; ?>
 <?php     if ($tn) { ?>
-						<p class="mp_notice" data-tn-ko="<?php echo htmlspecialchars($tn['ko'], ENT_QUOTES, 'UTF-8') ?>" data-tn-en="<?php echo htmlspecialchars($tn['en'], ENT_QUOTES, 'UTF-8') ?>" data-tn-ja="<?php echo htmlspecialchars($tn['ja'], ENT_QUOTES, 'UTF-8') ?>"><?php echo $tn['ko'] ?></p>
+<?php					$tn_attr = '';
+					foreach (array('ko','en','ja','zh') as $tn_lc) {
+						if (isset($tn[$tn_lc]) && $tn[$tn_lc] !== '')
+							$tn_attr .= ' data-tn-'.$tn_lc.'="'.htmlspecialchars($tn[$tn_lc], ENT_QUOTES, 'UTF-8').'"';
+					} ?>
+						<p class="mp_notice"<?php echo $tn_attr ?>><?php echo $tn['ko'] ?></p>
 <?php     } ?>
 <?php     $multi = count($tab['groups']) > 1 && trim($tab['groups'][0]['cat']) !== ''; ?>
 <?php     foreach ($tab['groups'] as $g) { ?>
@@ -518,8 +523,11 @@ include_once(G5_PATH.'/head.php');
 			$ct = isset($g5['jungle_cat_i18n'][$g['cat']]) ? $g5['jungle_cat_i18n'][$g['cat']] : null;
 			$ct_attr = '';
 			if ($ct) {
-				$ct_attr  = ' data-ct-en="'.htmlspecialchars($ct['en'], ENT_QUOTES, 'UTF-8').'"';
-				$ct_attr .= ' data-ct-ja="'.htmlspecialchars($ct['ja'], ENT_QUOTES, 'UTF-8').'"';
+				$ct_attr = '';
+				foreach (array('en','ja','zh') as $ct_lc) {
+					if (isset($ct[$ct_lc]) && $ct[$ct_lc] !== '')
+						$ct_attr .= ' data-ct-'.$ct_lc.'="'.htmlspecialchars($ct[$ct_lc], ENT_QUOTES, 'UTF-8').'"';
+				}
 			}
 ?>
 						<h4 class="mp_sub font" data-ct-ko="<?php echo htmlspecialchars($g['cat'], ENT_QUOTES, 'UTF-8') ?>"<?php echo $ct_attr ?>><?php echo $g['cat'] ?></h4>
