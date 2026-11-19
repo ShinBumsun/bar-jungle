@@ -313,5 +313,25 @@ if (!function_exists('jungle_zh_seed_keyring')) {
 	}
 }
 
+/**
+ * 한국어 한 줄이 지워진 줄에는 번역만 남아 있습니다. 그대로 두면 나중에
+ * 다른 한국어를 적었을 때 엉뚱한 번역이 따라 나오므로 같이 비웁니다.
+ */
+if (!function_exists('jungle_zh_note_clean')) {
+	function jungle_zh_note_clean()
+	{
+		$flag = G5_DATA_PATH.'/.jungle_zh_note_clean';
+		if (is_file($flag)) return;
+
+		if (sql_query(" SELECT jg_note_zh FROM ".G5_JUNGLE_GOODS_TABLE." WHERE 1=0 ", false) === false) return;
+
+		sql_query(" UPDATE ".G5_JUNGLE_GOODS_TABLE."
+		               SET jg_note_en = '', jg_note_ja = '', jg_note_zh = ''
+		             WHERE jg_note = '' OR jg_note IS NULL ", false);
+		@file_put_contents($flag, date('Y-m-d H:i:s')."\n");
+	}
+}
+
 jungle_zh_seed();
 jungle_zh_seed_keyring();
+jungle_zh_note_clean();
